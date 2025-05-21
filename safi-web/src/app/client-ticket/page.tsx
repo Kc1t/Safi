@@ -52,7 +52,6 @@ export function ClientTicket() {
       analyst: "Analista N1",
     },
   ])
-
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim()) return
