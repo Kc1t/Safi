@@ -17,7 +17,7 @@ interface Message {
   resolved?: boolean
 }
 
-export function ClientTicket() {
+function ClientTicket() {
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -128,3 +128,5 @@ export function ClientTicket() {
     </div>
   )
 }
+
+export default ClientTicket
