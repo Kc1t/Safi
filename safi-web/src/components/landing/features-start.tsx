@@ -3,7 +3,7 @@ import { TrendingUp, BarChart3, Users } from "lucide-react"
 export default function FeaturesStart() {
     return (
         <section className="mt-12">
-            <div className="py-16 px-4container mx-auto max-w-6xl border-t">
+            <div className="py-16 px-4 container mx-auto max-w-6xl border-t">
                 <div className="w-full mx-auto px-4">
                     <div className="grid md:grid-cols-3 gap-4">
                         {/* SEO Enhancement Card */}
