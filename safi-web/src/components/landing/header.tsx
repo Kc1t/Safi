@@ -42,17 +42,6 @@ const Header = () => {
         },
     }
 
-    const floatVariants = {
-        animate: {
-            y: [-10, 10, -10],
-            transition: {
-                duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-            },
-        },
-    }
-
     return (
         <div className="h-full relative">
             {/* Animated Background */}
@@ -74,11 +63,11 @@ const Header = () => {
                     >
                         {/* Top Link */}
                         <motion.div
-                            className="flex items-center text-sm text-gray-600 hover:text-gray-900 font-semibold border px-2 md:px-6 py-2 rounded-lg transition-colors cursor-pointer"
+                            className="flex items-center text-sm text-[#DF1463] hover:text-[#DF1463] font-semibold border px-2 md:px-6 py-2 rounded-lg transition-colors cursor-pointer"
                             variants={itemVariants}
                             whileHover={{
                                 scale: 1.05,
-                                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                                boxShadow: "0 4px 18px rgba(0,0,0,0.1)",
                             }}
                             whileTap={{ scale: 0.98 }}
                         >
@@ -126,6 +115,8 @@ const Header = () => {
                                     src={AiInspect}
                                     alt="Demo do sistema de suporte técnico inteligente"
                                     className="z-[99] w-auto h-[60px] md:h-[100px] lg:h-[140px]"
+                                    priority
+                                    draggable="false"
                                 />
                                 <div className="relative overflow-hidden rounded-lg shadow-2xl border w-full">
                                     <Image

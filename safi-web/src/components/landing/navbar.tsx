@@ -83,12 +83,11 @@ export default function Navbar() {
                                     </SheetTrigger>
                                     <SheetContent side="right" className="w-[300px] sm:w-[400px] px-4">
                                         <div className="flex flex-col space-y-6 mt-6">
-                                            <div className="flex items-center space-x-2 pb-4 border-b">
-                                                <span className="text-2xl font-bold text-gray-900">SAFI</span>
-                                                <div className="w-6 h-6 bg-gray-900 rounded-full flex items-center justify-center">
-                                                    <div className="w-3 h-3 bg-white rounded-full"></div>
+                                            <Link href="/" className="flex items-center space-x-2">
+                                                <div className="flex items-center">
+                                                    <Image src={NavLogo} alt="Logo" className="h-auto w-22" />
                                                 </div>
-                                            </div>
+                                            </Link>
 
                                             <nav className="flex flex-col space-y-4">
                                                 {navigationItems.map((item) => (
