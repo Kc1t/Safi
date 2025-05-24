@@ -20,37 +20,37 @@ interface Message {
 function ClientTicket() {
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      sender: "user",
-      content:
-        'Estou enfrentando um problema com o sistema de geração de relatórios da nossa aplicação. Sempre que tento gerar um relatório em PDF usando o filtro de datas personalizado, o sistema retorna um erro genérico de "Falha na geração do documento". Já revisei os parâmetros e mesmo usando dados padrão, o erro persiste. Isso começou a acontecer depois da última atualização. Preciso de uma solução urgente, pois impacta diretamente a operação do tema de compliance.',
-      timestamp: new Date(2025, 4, 10, 14, 30),
-    },
-    {
-      id: "2",
-      sender: "support",
-      content:
-        "Entendi. Isso geralmente ocorre quando há inconsistência entre os parâmetros enviados para o gerador de PDF e o formato esperado pelo backend. Tente limpar o cache do navegador e redefinir os filtros para os valores padrão. Em seguida, gere novamente o relatório. Se possível, use o intervalo de datas padrão da aplicação para validar se o erro persiste.",
-      timestamp: new Date(2025, 4, 10, 14, 45),
-      analyst: "Analista N0",
-    },
-    {
-      id: "3",
-      sender: "support",
-      content:
-        "Compreendido. Vou escalar esse caso para um analista N1 para análise mais aprofundada, já que os passos iniciais não solucionaram. Um momento.",
-      timestamp: new Date(2025, 4, 10, 15, 10),
-      analyst: "Analista N0",
-    },
-    {
-      id: "4",
-      sender: "support",
-      content:
-        "Olá, quem fala é o Felipe, analista N1. Agradeço por relatar o problema com detalhes. Fizemos uma varredura nos logs do serviço de geração de relatórios e identificamos que a falha está relacionada a um conflito entre o novo formato de datas implementado na atualização e a configuração regional do seu perfil. Já aplicamos um ajuste temporário no backend que força o formato esperado. Por favor, tente gerar o relatório novamente agora. Me avise se o erro persistir.",
-      timestamp: new Date(2025, 4, 10, 15, 30),
-      analyst: "Analista N1",
-    },
+    // {
+    //   id: "1",
+    //   sender: "user",
+    //   content:
+    //     'Estou enfrentando um problema com o sistema de geração de relatórios da nossa aplicação. Sempre que tento gerar um relatório em PDF usando o filtro de datas personalizado, o sistema retorna um erro genérico de "Falha na geração do documento". Já revisei os parâmetros e mesmo usando dados padrão, o erro persiste. Isso começou a acontecer depois da última atualização. Preciso de uma solução urgente, pois impacta diretamente a operação do tema de compliance.',
+    //   timestamp: new Date(2025, 4, 10, 14, 30),
+    // },
+    // {
+    //   id: "2",
+    //   sender: "support",
+    //   content:
+    //     "Entendi. Isso geralmente ocorre quando há inconsistência entre os parâmetros enviados para o gerador de PDF e o formato esperado pelo backend. Tente limpar o cache do navegador e redefinir os filtros para os valores padrão. Em seguida, gere novamente o relatório. Se possível, use o intervalo de datas padrão da aplicação para validar se o erro persiste.",
+    //   timestamp: new Date(2025, 4, 10, 14, 45),
+    //   analyst: "Analista N0",
+    // },
+    // {
+    //   id: "3",
+    //   sender: "support",
+    //   content:
+    //     "Compreendido. Vou escalar esse caso para um analista N1 para análise mais aprofundada, já que os passos iniciais não solucionaram. Um momento.",
+    //   timestamp: new Date(2025, 4, 10, 15, 10),
+    //   analyst: "Analista N0",
+    // },
+    // {
+    //   id: "4",
+    //   sender: "support",
+    //   content:
+    //     "Olá, quem fala é o Felipe, analista N1. Agradeço por relatar o problema com detalhes. Fizemos uma varredura nos logs do serviço de geração de relatórios e identificamos que a falha está relacionada a um conflito entre o novo formato de datas implementado na atualização e a configuração regional do seu perfil. Já aplicamos um ajuste temporário no backend que força o formato esperado. Por favor, tente gerar o relatório novamente agora. Me avise se o erro persistir.",
+    //   timestamp: new Date(2025, 4, 10, 15, 30),
+    //   analyst: "Analista N1",
+    // },
   ])
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault()
