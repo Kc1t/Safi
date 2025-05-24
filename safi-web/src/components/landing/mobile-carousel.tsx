@@ -77,8 +77,8 @@ export default function MobileCarousel() {
             </CarouselContent>
 
             {/* Navigation buttons - melhor posicionamento para mobile */}
-            <CarouselPrevious className="left-2 sm:left-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg" />
-            <CarouselNext className="right-2 sm:right-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg" />
+            <CarouselPrevious className="left-2 sm:left-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg cursor-pointer" />
+            <CarouselNext className="right-2 sm:right-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg cursor-pointer" />
           </Carousel>
 
           {/* Indicadores de posição */}
@@ -86,9 +86,8 @@ export default function MobileCarousel() {
             {images.map((_, index) => (
               <button
                 key={index}
-                className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full transition-all duration-300 ${
-                  index === current ? "bg-pink-500 scale-110" : "bg-gray-300 hover:bg-gray-400"
-                }`}
+                className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full transition-all duration-300 ${index === current ? "bg-pink-500 scale-110" : "bg-gray-300 hover:bg-gray-400"
+                  }`}
                 onClick={() => api?.scrollTo(index)}
                 aria-label={`Ir para slide ${index + 1}`}
               />
