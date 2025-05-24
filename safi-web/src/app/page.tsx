@@ -1,3 +1,4 @@
+import DestktopFeature from "@/components/landing/desktop-feature";
 import FeaturesStart from "@/components/landing/features-start";
 import Header from "@/components/landing/header";
 import Navbar from "@/components/landing/navbar";
@@ -9,7 +10,7 @@ export default function Home() {
       <Navbar />
       <Header />
       <FeaturesStart />
-      <div>aaa</div>
+      <DestktopFeature />
     </div>
   );
 }

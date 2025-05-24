@@ -81,7 +81,7 @@ export default function Navbar() {
                                             <span className="sr-only">Toggle menu</span>
                                         </Button>
                                     </SheetTrigger>
-                                    <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+                                    <SheetContent side="right" className="w-[300px] sm:w-[400px] px-4">
                                         <div className="flex flex-col space-y-6 mt-6">
                                             <div className="flex items-center space-x-2 pb-4 border-b">
                                                 <span className="text-2xl font-bold text-gray-900">SAFI</span>
