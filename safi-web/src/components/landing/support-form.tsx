@@ -47,7 +47,7 @@ export default function SupportForm() {
                                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
                                     Pronto para testar?
                                     Explore agora mesmo  <br />
-                                    <span className="text-[#DF1463]">os recursos do SAFI.</span>
+                                    <span className="text-[#DF1463]">os recursos da SAFI.</span>
                                     <br />
                                 </h1>
                             </div>
