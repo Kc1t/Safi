@@ -41,14 +41,13 @@ export default function MobileCarousel() {
         {/* Text content */}
         <div className="flex-1 space-y-4 sm:space-y-6 text-center lg:text-left">
           <div className="space-y-2">
-            <p className="text-xs sm:text-sm font-semibold text-pink-500 uppercase tracking-widest">Features</p>
+            <p className="text-xs sm:text-sm font-semibold text-pink-500 uppercase tracking-widest">Funcionalidades</p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">
-              Uifry Premium
+              Experiência Multiplataforma
             </h2>
           </div>
           <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-lg mx-auto lg:mx-0">
-            Estamos administrando seu chamado da melhor maneira possível, com um sistema de atendimento automatizado e
-            inteligente, desenhado para farmácias modernas.
+            Tenha acesso ao sistema onde estiver. Um app leve e responsivo, disponível em versão mobile, com navegação otimizada e recursos completos de abertura, consulta e acompanhamento de chamados em poucos toques.
           </p>
         </div>
 
@@ -65,15 +64,18 @@ export default function MobileCarousel() {
           >
             <CarouselContent className="-ml-2 sm:-ml-4">
               {images.map((src, index) => (
-                <CarouselItem key={index} className="pl-2 sm:pl-4 basis-1/2 md:my-8 md:basis-1/2 lg:basis-1/2 h-[300px] md:h-[600px] lg:h-[570px]">
-                  <div className="border rounded-xl overflow-hidden hover:shadow-xl cursor-pointer transition-shadow duration-300 relative h-full">
-                    <Image
-                      src={src}
-                      alt={`Mockup ${index + 1}`}
-                      fill
-                      sizes="(max-width: 768px) 200px, 300px"
-                      className="object-cover"
-                    />
+                <CarouselItem key={index} className="pl-2 sm:pl-4 basis-1/2 md:basis-1/2 lg:basis-1/2">
+                  <div className="flex items-center justify-center p-2 sm:p-1 h-[280px] sm:h-[350px] md:h-[450px] lg:h-[500px]">
+                    <div className="relative w-full h-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px]">
+                      <Image
+                        src={src || "/placeholder.svg"}
+                        alt={`Mockup ${index + 1}`}
+                        fill
+                        sizes="(max-width: 640px) 200px, (max-width: 768px) 250px, 300px"
+                        className="object-contain border rounded-md"
+                        priority={index === 0}
+                      />
+                    </div>
                   </div>
                 </CarouselItem>
               ))}

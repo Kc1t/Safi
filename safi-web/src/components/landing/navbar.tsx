@@ -24,11 +24,9 @@ export default function Navbar() {
     }, [])
 
     const navigationItems = [
-        { name: "Product", href: "#product" },
-        { name: "About", href: "#about" },
-        { name: "Pricing", href: "#pricing" },
-        { name: "Contact", href: "#contact" },
-        { name: "Blog", href: "#blog" },
+        { name: "Funcionalidades", href: "#features" },
+        { name: "Pilares", href: "#pillars" },
+        { name: "Abrir Chamado", href: "#support" },
     ]
 
     return (
@@ -43,11 +41,11 @@ export default function Navbar() {
                     <div className="px-6 lg:px-8">
                         <div className="flex items-center justify-between">
                             {/* Logo */}
-                            <Link href="/" className="flex items-center space-x-2">
+                            <a href="#hero" className="flex items-center space-x-2">
                                 <div className="flex items-center">
                                     <Image src={NavLogo} alt="Logo" className="h-auto w-22" />
                                 </div>
-                            </Link>
+                            </a>
 
                             {/* Desktop Navigation */}
                             <div className="hidden md:flex items-center space-x-8">
@@ -65,13 +63,15 @@ export default function Navbar() {
 
                             {/* CTA Button and Mobile Menu */}
                             <div className="flex items-center">
-                                <Button
-                                    className={`hidden sm:inline-flex transition-all duration-300 rounded-full bg-transparent border text-black hover:bg-black/5 cursor-pointer ${isScrolled ? "scale-100" : "scale-100"
-                                        }`}
-                                    variant="default"
-                                >
-                                    Abrir Chamado
-                                </Button>
+                                <a href="#support">
+                                    <Button
+                                        className={`hidden sm:inline-flex transition-all duration-300 rounded-full bg-transparent border text-black hover:bg-black/5 cursor-pointer ${isScrolled ? "scale-100" : "scale-100"
+                                            }`}
+                                        variant="default"
+                                    >
+                                        Abrir Chamado
+                                    </Button>
+                                </a>
 
                                 {/* Mobile Menu Button */}
                                 <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>

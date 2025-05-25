@@ -43,7 +43,7 @@ const Header = () => {
     }
 
     return (
-        <div className="h-full relative">
+        <div className="h-full relative" id="hero">
             {/* Animated Background */}
             <Image
                 src={GridBg}

@@ -37,7 +37,7 @@ export default function SupportForm() {
     ]
 
     return (
-        <div className="min-h-screen container mx-auto max-w-6xl flex items-center justify-center p-4">
+        <div className="min-h-screen container mx-auto max-w-6xl flex items-center justify-center p-4" id="support">
             <div className="w-full bg-[#F7F8FA] rounded-2xl border overflow-hidden">
                 <div className="grid lg:grid-cols-2 min-h-[600px]">
                     {/* Left Side - Text Content */}

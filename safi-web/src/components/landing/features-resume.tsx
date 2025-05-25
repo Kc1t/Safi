@@ -13,7 +13,7 @@ import SecPillar from "@/assets/pillars/sec-pillar.png"
 
 export default function FeaturesResume() {
     return (
-        <section className="w-full bg-white text-center border py-24 relative">
+        <section className="w-full bg-white text-center border py-24 relative" id="pillars">
             <Image
                 src={GridBg}
                 alt="Imagem de fundo"

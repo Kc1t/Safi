@@ -9,7 +9,7 @@ export default function MobileFeature() {
                 {/* Right side - Content */}
                 <div className="space-y-6">
                     <div className="space-y-4">
-                        <p className="text-xs sm:text-sm font-semibold text-pink-500 uppercase tracking-widest">Features</p>
+                        <p className="text-xs sm:text-sm font-semibold text-pink-500 uppercase tracking-widest">Funcionalidades</p>
                         <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">Uifry Premium</h2>
                     </div>
 
