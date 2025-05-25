@@ -45,10 +45,10 @@ export default function SupportForm() {
                         <div className="space-y-8">
                             <div>
                                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-                                    Vamos conversar <br />
-                                    sobre algo <span className="text-[#DF1463]">incrível</span>
+                                    Pronto para testar?
+                                    Explore agora mesmo  <br />
+                                    <span className="text-[#DF1463]">os recursos do SAFI.</span>
                                     <br />
-                                    juntos
                                 </h1>
                             </div>
 
@@ -140,15 +140,15 @@ export default function SupportForm() {
                                     id="terms"
                                     checked={formData.agreeToTerms}
                                     onCheckedChange={(checked) => setFormData({ ...formData, agreeToTerms: checked as boolean })}
-                                    className="rounded-full border-2 border-pink-300 data-[state=checked]:bg-[#DF1463] data-[state=checked]:border-[#DF1463]"
+                                    className="rounded-full border-2 border-pink-300 data-[state=checked]:bg-[#DF1463] data-[state=checked]:border-[#DF1463] cursor-pointer"
                                     required
                                 />
                                 <Label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer">
-                                    Concordo com os termos e condições
+                                    Concordo com o tratamento dos meus dados pessoais para a finalidade de atendimento do chamado técnico, conforme a Política de Privacidade da empresa.
                                 </Label>
                             </div>
 
-                            <div className="pt-6">
+                            <div className="pt-6 flex items-end justify-end w-full">
                                 <Button
                                     type="submit"
                                     className="bg-[#DF1463] hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium w-full lg:w-auto"

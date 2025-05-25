@@ -12,7 +12,12 @@ import {
 } from "@/components/ui/carousel"
 import { useEffect } from "react"
 
-const images = ["/images/mockup1.png", "/images/mockup2.png", "/images/mockup3.png"]
+import Image1 from "@/assets/screens/mobile-preview-1.png"
+import Image2 from "@/assets/screens/mobile-preview-2.png"
+import Image3 from "@/assets/screens/mobile-preview-3.png"
+
+// Troque o array para usar as imagens importadas
+const images = [Image1, Image2, Image3]
 
 export default function MobileCarousel() {
   const [api, setApi] = useState<CarouselApi>()
@@ -60,17 +65,15 @@ export default function MobileCarousel() {
           >
             <CarouselContent className="-ml-2 sm:-ml-4">
               {images.map((src, index) => (
-                <CarouselItem key={index} className="pl-2 sm:pl-4 md:basis-1/2 lg:basis-1/2">
-                  <div className="p-1 sm:p-2">
-                    <div className="border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                      <Image
-                        src={src || "/placeholder.svg"}
-                        alt={`Mockup ${index + 1}`}
-                        width={0}
-                        height={0}
-                        className="w-[200px] h-[500px] object-contain"
-                      />
-                    </div>
+                <CarouselItem key={index} className="pl-2 sm:pl-4 basis-1/2 md:my-8 md:basis-1/2 lg:basis-1/2 h-[300px] md:h-[600px] lg:h-[570px]">
+                  <div className="border rounded-xl overflow-hidden hover:shadow-xl cursor-pointer transition-shadow duration-300 relative h-full">
+                    <Image
+                      src={src}
+                      alt={`Mockup ${index + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 200px, 300px"
+                      className="object-cover"
+                    />
                   </div>
                 </CarouselItem>
               ))}

@@ -10,38 +10,37 @@ export default function Footer() {
                     <div className="md:col-span-1">
                         <h3 className="text-xl font-bold text-gray-900 mb-4">SAFI</h3>
                         <p className="text-gray-600 text-sm leading-relaxed">
-                            Yet bed any for travelling assistance indulgence unpleasing. Not thoughts all exercise blessing.
-                            Indulgence way everything.
+                            © 2025 SAFI - Plataforma de Testes. Este site é uma versão experimental para demonstração de funcionalidades do Sistema de Apoio Farmacêutico Inteligente.
                         </p>
                     </div>
 
                     {/* About section */}
                     <div>
-                        <h4 className="font-semibold text-gray-900 mb-4">About</h4>
+                        <h4 className="font-semibold text-gray-900 mb-4">Sobre</h4>
                         <ul className="space-y-3">
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Home
+                                    Início
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Features
+                                    Funcionalidades
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    FAQs
+                                    Perguntas Frequentes
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Reviews
+                                    Avaliações
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Stories
+                                    Histórias
                                 </a>
                             </li>
                         </ul>
@@ -49,26 +48,26 @@ export default function Footer() {
 
                     {/* Privacy section */}
                     <div>
-                        <h4 className="font-semibold text-gray-900 mb-4">Privacy</h4>
+                        <h4 className="font-semibold text-gray-900 mb-4">Privacidade</h4>
                         <ul className="space-y-3">
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Privacy
+                                    Privacidade
                                 </a>
                             </li>
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Policy
+                                    Política
                                 </a>
                             </li>
-                            <li>
+                            {/* <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Payment
+                                    Pagamento
                                 </a>
-                            </li>
+                            </li> */}
                             <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Terms
+                                    Termos
                                 </a>
                             </li>
                         </ul>
@@ -76,14 +75,14 @@ export default function Footer() {
 
                     {/* Contact section */}
                     <div>
-                        <h4 className="font-semibold text-gray-900 mb-4">Contact Us</h4>
+                        <h4 className="font-semibold text-gray-900 mb-4">Contato</h4>
                         <div className="space-y-3 mb-4">
-                            <p className="text-gray-600 text-sm">+01 234 567 8910</p>
-                            <p className="text-gray-600 text-sm">hello@duxo.ai</p>
+                            <p className="text-gray-600 text-sm">(Em Breve)</p>
+                            <p className="text-gray-600 text-sm">safi@gmail.com</p>
                         </div>
 
                         {/* Social media icons */}
-                        <div className="flex space-x-3">
+                        {/* <div className="flex space-x-3">
                             <a
                                 href="#"
                                 className="w-8 h-8 bg-pink-500 rounded flex items-center justify-center hover:bg-pink-600 transition-colors"
@@ -108,21 +107,21 @@ export default function Footer() {
                             >
                                 <Twitter className="w-4 h-4 text-white" />
                             </a>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
                 {/* Bottom section */}
                 <div className="border-t pt-6 flex flex-col md:flex-row justify-between items-center">
                     <p className="text-gray-500 text-sm mb-4 md:mb-0">
-                        © Copyright 2021 <span className="font-semibold">Duxo</span> All rights reserved.
+                        © Safi 2025 Todos os direitos reservados.
                     </p>
                     <div className="flex space-x-6">
                         <a href="#" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">
-                            Contact Us
+                            Contato
                         </a>
                         <a href="#" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">
-                            Terms
+                            Termos
                         </a>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Safi | Sistema de Suporte para Farmácias",
+  title: "Safi | Sistema De Apoio Farmacêutico",
   description: "Safi é a plataforma ideal para gestão e suporte operacional de farmácias, com eficiência, segurança e agilidade.",
   keywords: [
     "farmácia",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://safi-ai.me",
     siteName: "Safi",
-    title: "Safi | Sistema de Suporte para Farmácias",
+    title: "Safi | Sistema De Apoio Farmacêutico",
     description: "Safi é a plataforma ideal para gestão e suporte operacional de farmácias, com eficiência, segurança e agilidade.",
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@safibr",
     creator: "@safibr",
-    title: "Safi | Sistema de Suporte para Farmácias",
+    title: "Safi | Sistema De Apoio Farmacêutico",
     description: "Safi é a plataforma ideal para gestão e suporte operacional de farmácias, com eficiência, segurança e agilidade.",
     images: [
       "https://sua-cdn.com/safi/cover.png",
