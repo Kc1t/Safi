@@ -1,4 +1,5 @@
 import { Instagram, Linkedin, Facebook, Twitter } from "lucide-react"
+import Link from "next/link"
 
 export default function Footer() {
     return (
@@ -46,14 +47,14 @@ export default function Footer() {
                         <h4 className="font-semibold text-gray-900 mb-4">Privacidade</h4>
                         <ul className="space-y-3">
                             <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
+                                <Link href="/privacy-policy" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
                                     Privacidade
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
+                                <Link href="/privacy-policy" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
                                     Política
-                                </a>
+                                </Link>
                             </li>
                             {/* <li>
                                 <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
@@ -61,9 +62,9 @@ export default function Footer() {
                                 </a>
                             </li> */}
                             <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
+                                <Link href="/terms" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
                                     Termos
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

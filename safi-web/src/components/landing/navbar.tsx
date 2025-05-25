@@ -32,9 +32,9 @@ export default function Navbar() {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 pt-4">
             <div
-                className={`max-w-7xl mx-auto transition-all duration-300 ease-in-out rounded-full relative p-1 ${isScrolled
-                    ? "bg-white/95 backdrop-blur-md shadow-sm border border-gray-200/50"
-                    : "bg-white shadow-sm border border-gray-200/30"
+                className={` mx-auto transition-all duration-300 ease-in-out rounded-full relative p-1 ${isScrolled
+                    ? "bg-white/95 backdrop-blur-md shadow-sm border border-gray-200/50 max-w-7xl"
+                    : "bg-white shadow-sm border border-gray-200/30 max-w-6xl"
                     }`}
             >
                 <div className="w-full h-full border border-[#E9EBF1] rounded-full p-3">

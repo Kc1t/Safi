@@ -13,9 +13,9 @@ export const metadata: Metadata = {
     "tecnologia para farmácias",
     "Safi",
   ],
-  authors: [{ name: "Equipe Safi", url: "https://safi-ai.me" }],
-  creator: "Equipe Safi",
-  publisher: "Equipe Safi",
+  authors: [{ name: "Kauã Miguel", url: "https://kc1t.com" }],
+  creator: "Kauã Miguel",
+  publisher: "Kauã Miguel",
   metadataBase: new URL("https://safi-ai.me"),
   openGraph: {
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: "Safi é a plataforma ideal para gestão e suporte operacional de farmácias, com eficiência, segurança e agilidade.",
     images: [
       {
-        url: "https://sua-cdn.com/safi/cover.png",
+        url: "/cover.png",
         width: 1200,
         height: 630,
         alt: "Safi - Sistema para Farmácias",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: "Safi | Sistema De Apoio Farmacêutico",
     description: "Safi é a plataforma ideal para gestão e suporte operacional de farmácias, com eficiência, segurança e agilidade.",
     images: [
-      "https://sua-cdn.com/safi/cover.png",
+      "/cover.png",
     ],
   },
   robots: {
