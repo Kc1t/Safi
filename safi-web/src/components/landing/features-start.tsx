@@ -1,4 +1,4 @@
-import { TrendingUp, BarChart3, Users } from "lucide-react"
+import { TrendingUp, BarChart3, Users, BrainCog, SlidersHorizontal, SmartphoneNfc } from "lucide-react"
 
 export default function FeaturesStart() {
     return (
@@ -9,30 +9,30 @@ export default function FeaturesStart() {
                         {/* SEO Enhancement Card */}
                         <div className="text-center space-y-4 flex gap-4">
                             <div className="w-11 h-11 min-h-11 min-w-11 md:w-15 md:h-15 md:min-h-15 md:min-w-15 bg-[#DF1463]/20 rounded-full flex items-center justify-center">
-                                <Users className="w-4 h-4 md:w-6 md:h-6 text-[#DF1463]" />
+                                <BrainCog className="w-4 h-4 md:w-6 md:h-6 text-[#DF1463]" />
                             </div>
                             <p className="text-gray-700 leading-relaxed text-left text-sm md:text-base">
-                                text-sm md:text-base
+                                Chamados analisados em tempo real com auxílio de IA — respostas mais rápidas desde o primeiro clique.
                             </p>
                         </div>
 
                         {/* Data Analytics Card */}
                         <div className="text-center space-y-4 flex gap-4">
                             <div className="w-11 h-11 min-h-11 min-w-11 md:w-15 md:h-15 md:min-h-15 md:min-w-15 bg-[#DF1463]/20 rounded-full flex items-center justify-center">
-                                <Users className="w-4 h-4 md:w-6 md:h-6 text-[#DF1463]" />
+                                <SlidersHorizontal className="w-4 h-4 md:w-6 md:h-6 text-[#DF1463]" />
                             </div>
                             <p className="text-gray-700 leading-relaxed text-left text-sm md:text-base">
-                                Stellar is more than just a SaaS and technology template—it's a complete digital transformation solution.
+                                Cada chamado recebe um peso com base no setor de origem, garantindo atendimento inteligente e eficiente.
                             </p>
                         </div>
 
                         {/* Digital Transformation Card */}
                         <div className="text-center space-y-4 flex gap-4">
                             <div className="w-11 h-11 min-h-11 min-w-11 md:w-15 md:h-15 md:min-h-15 md:min-w-15 bg-[#DF1463]/20 rounded-full flex items-center justify-center">
-                                <Users className="w-4 h-4 md:w-6 md:h-6 text-[#DF1463]" />
+                                <SmartphoneNfc className="w-4 h-4 md:w-6 md:h-6 text-[#DF1463]" />
                             </div>
                             <p className="text-gray-700 leading-relaxed text-left text-sm md:text-base">
-                                Stellar is more than just a SaaS and technology template—it's a complete digital transformation solution.
+                                Abertura de chamados por chatbot, app ou web — o suporte vai até você, onde estiver.
                             </p>
                         </div>
 

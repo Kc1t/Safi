@@ -24,23 +24,18 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
+                                <a href="#features" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
                                     Funcionalidades
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Perguntas Frequentes
+                                <a href="#pillars" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
+                                    Pilares
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Avaliações
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
-                                    Histórias
+                                <a href="#support" className="text-gray-600 hover:text-gray-900 text-sm transition-colors">
+                                    Abrir Chamado
                                 </a>
                             </li>
                         </ul>
@@ -117,12 +112,12 @@ export default function Footer() {
                         © Safi 2025 Todos os direitos reservados.
                     </p>
                     <div className="flex space-x-6">
-                        <a href="#" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">
+                        {/* <a href="#" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">
                             Contato
-                        </a>
-                        <a href="#" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">
+                        </a> */}
+                        {/* <a href="#" className="text-gray-500 hover:text-gray-900 text-sm transition-colors">
                             Termos
-                        </a>
+                        </a> */}
                     </div>
                 </div>
             </div>

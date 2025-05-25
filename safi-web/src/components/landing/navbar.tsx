@@ -41,7 +41,7 @@ export default function Navbar() {
                     <div className="px-6 lg:px-8">
                         <div className="flex items-center justify-between">
                             {/* Logo */}
-                            <a href="#hero" className="flex items-center space-x-2">
+                            <a href="#" className="flex items-center space-x-2">
                                 <div className="flex items-center">
                                     <Image src={NavLogo} alt="Logo" className="h-auto w-22" />
                                 </div>
@@ -83,11 +83,11 @@ export default function Navbar() {
                                     </SheetTrigger>
                                     <SheetContent side="right" className="w-[300px] sm:w-[400px] px-4">
                                         <div className="flex flex-col space-y-6 mt-6">
-                                            <Link href="/" className="flex items-center space-x-2">
+                                            <a href="#" className="flex items-center space-x-2">
                                                 <div className="flex items-center">
                                                     <Image src={NavLogo} alt="Logo" className="h-auto w-22" />
                                                 </div>
-                                            </Link>
+                                            </a>
 
                                             <nav className="flex flex-col space-y-4">
                                                 {navigationItems.map((item) => (
