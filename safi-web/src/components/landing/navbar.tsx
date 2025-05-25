@@ -69,7 +69,7 @@ export default function Navbar() {
                                             }`}
                                         variant="default"
                                     >
-                                        Abrir Chamado
+                                        Simular Chamado
                                     </Button>
                                 </a>
 
@@ -104,7 +104,7 @@ export default function Navbar() {
 
                                             <div className="pt-4 border-t">
                                                 <Button className="w-full rounded-full" onClick={() => setIsMobileMenuOpen(false)}>
-                                                    Abrir Chamado
+                                                    Simular Chamado
                                                 </Button>
                                             </div>
                                         </div>

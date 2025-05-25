@@ -154,7 +154,7 @@ export default function SupportForm() {
                                     className="bg-[#DF1463] hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium w-full lg:w-auto"
                                     disabled={!formData.agreeToTerms}
                                 >
-                                    Abrir chamado
+                                    Simular chamado
                                 </Button>
                             </div>
                         </form>
