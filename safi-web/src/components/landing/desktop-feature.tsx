@@ -20,7 +20,7 @@ export default function DestktopFeature() {
         <div className="space-y-6">
           <div className="space-y-4 flex flex-col items-center md:items-start">
             <p className="text-xs sm:text-sm font-semibold text-pink-500 uppercase tracking-widest">Funcionalidades</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">Administrando seu Chamado
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight text-center md:text-left">Administrando seu Chamado
             </h2>
           </div>
 
