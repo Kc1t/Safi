@@ -1,23 +1,32 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { X, Send, Bot, User, Minimize2, ArrowUp } from "lucide-react"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { usePublicChat } from "@/hooks/public-chat"
-import { ChatbotHeader } from "./chatbot/chatbot-header"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowUp } from "lucide-react"
+import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown"
+import { ChatbotHeader } from "./chatbot/chatbot-header"
+import { ChatbotWelcome } from "./chatbot/chatbot-welcome"
 
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false)
     const { messages, input, handleInputChange, handleSubmit, isLoading } = usePublicChat()
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null)
+
+    // Remova as sugestões daqui se quiser passar por props, ou mantenha se for usar localmente
+    const suggestions = [
+        "Como vocês funcionam?",
+        "Preciso de ajuda com...",
+        "Quais serviços vocês oferecem?",
+        "Fale sobre a empresa",
+    ]
 
     // Efeito para scrollar para baixo quando mensagens mudam ou loading muda
     useEffect(() => {
@@ -28,6 +37,11 @@ export default function ChatbotWidget() {
 
     const toggleChat = () => {
         setIsOpen(!isOpen)
+    }
+
+    // Função para setar o input ao clicar na sugestão
+    const handleSuggestionClick = (suggestion: string) => {
+        handleInputChange({ target: { value: suggestion } } as React.ChangeEvent<HTMLInputElement>)
     }
 
     return (
@@ -71,38 +85,11 @@ export default function ChatbotWidget() {
                                     <ScrollArea className="h-full w-full py-3 px-4">
                                         <AnimatePresence mode="wait">
                                             {messages.length === 0 ? (
-                                                <motion.div
-                                                    className="text-center text-[#252525]/70 mt-16 flex flex-col items-center justify-center"
-                                                    initial={{ opacity: 0, y: 20 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 0.3 }}
-                                                >
-                                                    <div
-                                                        className="relative w-20 h-20 cursor-pointer transition-all duration-300 hover:scale-95"
-                                                    >
-                                                        <Image
-                                                            src={SafiBubble || "/placeholder.svg"}
-                                                            className="object-cover w-full h-full"
-                                                            alt="Safi Bubble"
-                                                        />
-                                                    </div>
-                                                    <motion.h3
-                                                        className="text-lg font-semibold mb-2 text-[#252525]"
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        transition={{ delay: 0.4 }}
-                                                    >
-                                                        Como posso ajudá-lo?
-                                                    </motion.h3>
-                                                    <motion.p
-                                                        className="text-sm text-[#252525]/60 max-w-md mx-auto"
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        transition={{ delay: 0.5 }}
-                                                    >
-                                                        Sou seu assistente virtual. Faça qualquer pergunta e terei prazer em ajudá-lo.
-                                                    </motion.p>
-                                                </motion.div>
+                                                <ChatbotWelcome
+                                                    SafiBubble={SafiBubble}
+                                                    suggestions={suggestions}
+                                                    handleSuggestionClick={handleSuggestionClick}
+                                                />
                                             ) : (
                                                 <div className="space-y-6">
                                                     <AnimatePresence>
@@ -170,19 +157,6 @@ export default function ChatbotWidget() {
 
                                                                     </motion.div>
                                                                 </motion.div>
-
-                                                                {/* {message.role === "user" && (
-                                                                    <motion.div
-                                                                        className="flex-shrink-0"
-                                                                        initial={{ scale: 0 }}
-                                                                        animate={{ scale: 1 }}
-                                                                        transition={{ delay: 0.2 }}
-                                                                    >
-                                                                        <div className="w-8 h-8 bg-[#252525] rounded-full flex items-center justify-center shadow-sm">
-                                                                            <User className="h-4 w-4 text-white" />
-                                                                        </div>
-                                                                    </motion.div>
-                                                                )} */}
                                                             </motion.div>
                                                         ))}
                                                     </AnimatePresence>
@@ -227,7 +201,6 @@ export default function ChatbotWidget() {
                                                             </motion.div>
                                                         )}
                                                     </AnimatePresence>
-                                                    {/* Elemento invisível para scroll automático */}
                                                     <div ref={messagesEndRef} />
                                                 </div>
                                             )}
@@ -239,7 +212,6 @@ export default function ChatbotWidget() {
                                     <CardFooter className="p-6 border-t border-[#252525]/10 flex-shrink-0 bg-white/50">
                                         <form onSubmit={handleSubmit} className="flex w-full gap-3 items-center">
                                             <div className="flex-1 relative">
-                                                {/* <div className="flex items-center bg-white border border-[#252525]/10 rounded-full px-4 py-3 gap-3"> */}
                                                 <Input
                                                     value={input}
                                                     onChange={handleInputChange}
@@ -248,7 +220,6 @@ export default function ChatbotWidget() {
                                                     disabled={isLoading}
                                                 />
                                             </div>
-                                            {/* </div> */}
                                             <Button
                                                 type="submit"
                                                 disabled={isLoading || !input.trim()}
