@@ -8,10 +8,10 @@ export interface ChatInput {
     telefone: string;
     email: string;
     setor: string;
-    historico: Mensagem[]; 
+    historico: Mensagem[];
 }
 
-export function gerarPromptSafi(input: ChatInput): string {
+export function generateSupportPrompt(input: ChatInput): string {
     const header = `
 Você é um atendente virtual especialista em suporte técnico da NeoPharma, utilizando o sistema SAFI.
 Regras:

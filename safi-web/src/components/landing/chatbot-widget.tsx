@@ -1,18 +1,19 @@
 "use client"
 
 import { useState } from "react"
-// import { useChat } from "ai/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageCircle, X, Send, Bot, User, Minimize2 } from "lucide-react"
+import { X, Send, Bot, User, Minimize2, ArrowUp } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useGeminiChat } from "@/hooks/useGeminiChat"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
+import SafiBubble from "@/assets/ai/safi-bubble.png"
+import { usePublicChat } from "@/hooks/public-chat"
 
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false)
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = useGeminiChat()
+    const { messages, input, handleInputChange, handleSubmit, isLoading } = usePublicChat()
 
     const toggleChat = () => {
         setIsOpen(!isOpen)
@@ -20,21 +21,20 @@ export default function ChatbotWidget() {
 
     return (
         <>
-            <div className="fixed bottom-6 right-6 z-50">
-                <Button
+            <div className="fixed bottom-6 right-6 z-50 w-20 h-20">
+                <div
+                    className="relative w-full h-full cursor-pointer transition-all duration-300 hover:scale-95"
                     onClick={toggleChat}
-                    size="lg"
-                    className="rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-all duration-300 bg-slate-800 hover:bg-slate-700 border-2 border-slate-600"
                 >
-                    {/* {isOpen ? <X className="h-7 w-7" /> : <MessageCircle className="h-7 w-7" />} */}
-                </Button>
+                    <Image src={SafiBubble || "/placeholder.svg"} className="object-cover w-full h-full" alt="Safi Bubble" />
+                </div>
             </div>
 
             {/* Modal Backdrop with animation */}
-            <AnimatePresence >
+            <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 bg-[#252525]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -52,22 +52,30 @@ export default function ChatbotWidget() {
                                 damping: 30,
                             }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full max-w-2xl"
+                            className="w-full max-w-2xl border-none"
                         >
-                            <Card className="h-[600px] shadow-2xl border-0 flex flex-col overflow-hidden p-0">
+                            <Card className="h-[600px] flex flex-col border-none overflow-hidden p-0 gap-0 bg-white">
                                 <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}>
-                                    <CardHeader className="bg-slate-800 text-white flex-shrink-0 h-full">
+                                    <CardHeader className="bg-gradient-to-r from-[#DF1463] to-[#DF1463]/90 text-white flex-shrink-0 h-full">
                                         <div className="flex items-center justify-between">
                                             <CardTitle className="flex items-center gap-3 text-xl font-semibold py-3">
-                                                <div className="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center">
-                                                    <Bot className="h-5 w-5" />
+                                                <div
+                                                    className="relative w-8 h-8 md:w-15 md:h-15 cursor-pointer transition-all duration-300 hover:scale-95"
+                                                    onClick={toggleChat}
+                                                >
+                                                    <Image
+                                                        src={SafiBubble || "/placeholder.svg"}
+                                                        className="object-cover w-full h-full"
+                                                        alt="Safi Bubble"
+                                                    />
                                                 </div>
                                                 <motion.span
                                                     initial={{ opacity: 0, x: -10 }}
                                                     animate={{ opacity: 1, x: 0 }}
                                                     transition={{ delay: 0.2 }}
+                                                    className="text-sm md:text-lg"
                                                 >
-                                                    Assistente Virtual
+                                                    Safi - (AI Powered)
                                                 </motion.span>
                                             </CardTitle>
                                             <div className="flex gap-2">
@@ -75,7 +83,7 @@ export default function ChatbotWidget() {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={toggleChat}
-                                                    className="text-white hover:bg-slate-700 h-8 w-8 p-0"
+                                                    className="text-white hover:bg-white/20 hover:border-white/60 border border-white/30 hover:text-white h-8 w-8 p-0 transition-all duration-200"
                                                 >
                                                     <Minimize2 className="h-4 w-4" />
                                                 </Button>
@@ -83,7 +91,7 @@ export default function ChatbotWidget() {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={toggleChat}
-                                                    className="text-white hover:bg-slate-700 h-8 w-8 p-0"
+                                                    className="text-white hover:bg-white/20 hover:border-white/60 border border-white/30 hover:text-white h-8 w-8 p-0 transition-all duration-200"
                                                 >
                                                     <X className="h-4 w-4" />
                                                 </Button>
@@ -92,21 +100,27 @@ export default function ChatbotWidget() {
                                     </CardHeader>
                                 </motion.div>
 
-                                <CardContent className="flex-1 p-0 overflow-hidden">
-                                    <ScrollArea className="h-full p-6">
+                                <CardContent className="flex-1 overflow-hidden w-full">
+                                    <ScrollArea className="h-full w-full py-3">
                                         <AnimatePresence mode="wait">
                                             {messages.length === 0 ? (
                                                 <motion.div
-                                                    className="text-center text-slate-600 mt-16"
+                                                    className="text-center text-[#252525]/70 mt-16 flex flex-col items-center justify-center"
                                                     initial={{ opacity: 0, y: 20 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ delay: 0.3 }}
                                                 >
-                                                    <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                                        <Bot className="h-10 w-10 text-slate-600" />
+                                                    <div
+                                                        className="relative w-20 h-20 cursor-pointer transition-all duration-300 hover:scale-95"
+                                                    >
+                                                        <Image
+                                                            src={SafiBubble || "/placeholder.svg"}
+                                                            className="object-cover w-full h-full"
+                                                            alt="Safi Bubble"
+                                                        />
                                                     </div>
                                                     <motion.h3
-                                                        className="text-lg font-semibold mb-2"
+                                                        className="text-lg font-semibold mb-2 text-[#252525]"
                                                         initial={{ opacity: 0 }}
                                                         animate={{ opacity: 1 }}
                                                         transition={{ delay: 0.4 }}
@@ -114,7 +128,7 @@ export default function ChatbotWidget() {
                                                         Como posso ajudá-lo?
                                                     </motion.h3>
                                                     <motion.p
-                                                        className="text-sm text-slate-500 max-w-md mx-auto"
+                                                        className="text-sm text-[#252525]/60 max-w-md mx-auto"
                                                         initial={{ opacity: 0 }}
                                                         animate={{ opacity: 1 }}
                                                         transition={{ delay: 0.5 }}
@@ -146,16 +160,22 @@ export default function ChatbotWidget() {
                                                                         animate={{ scale: 1 }}
                                                                         transition={{ delay: 0.2 }}
                                                                     >
-                                                                        <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
-                                                                            <Bot className="h-4 w-4 text-slate-600" />
+                                                                        <div
+                                                                            className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95"
+                                                                        >
+                                                                            <Image
+                                                                                src={SafiBubble || "/placeholder.svg"}
+                                                                                className="object-cover w-full h-full"
+                                                                                alt="Safi Bubble"
+                                                                            />
                                                                         </div>
                                                                     </motion.div>
                                                                 )}
 
                                                                 <motion.div
-                                                                    className={`max-w-[75%] rounded-2xl px-4 py-3 ${message.role === "user"
-                                                                            ? "bg-slate-800 text-white"
-                                                                            : "bg-slate-50 text-slate-900 border border-slate-200"
+                                                                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === "user"
+                                                                        ? "bg-[#252525] text-white"
+                                                                        : "bg-white text-[#252525] border border-[#252525]/10"
                                                                         }`}
                                                                 >
                                                                     <motion.p
@@ -168,18 +188,18 @@ export default function ChatbotWidget() {
                                                                     </motion.p>
                                                                 </motion.div>
 
-                                                                {message.role === "user" && (
+                                                                {/* {message.role === "user" && (
                                                                     <motion.div
                                                                         className="flex-shrink-0"
                                                                         initial={{ scale: 0 }}
                                                                         animate={{ scale: 1 }}
                                                                         transition={{ delay: 0.2 }}
                                                                     >
-                                                                        <div className="w-8 h-8 bg-slate-800 rounded-full flex items-center justify-center">
+                                                                        <div className="w-8 h-8 bg-[#252525] rounded-full flex items-center justify-center shadow-sm">
                                                                             <User className="h-4 w-4 text-white" />
                                                                         </div>
                                                                     </motion.div>
-                                                                )}
+                                                                )} */}
                                                             </motion.div>
                                                         ))}
                                                     </AnimatePresence>
@@ -188,25 +208,25 @@ export default function ChatbotWidget() {
                                                         {isLoading && (
                                                             <motion.div
                                                                 className="flex gap-4 justify-start"
-                                                                initial={{ opacity: 0, y: 20 }}
+                                                                initial={{ opacity: 0, y: 10 }}
                                                                 animate={{ opacity: 1, y: 0 }}
                                                                 exit={{ opacity: 0, y: -20 }}
                                                                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                                             >
                                                                 <div className="flex-shrink-0">
-                                                                    <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
-                                                                        <Bot className="h-4 w-4 text-slate-600" />
+                                                                    <div className="w-8 h-8 bg-[#DF1463]/10 border border-[#DF1463]/20 rounded-full flex items-center justify-center">
+                                                                        <Bot className="h-4 w-4 text-[#DF1463]" />
                                                                     </div>
                                                                 </div>
-                                                                <div className="bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3">
+                                                                <div className="bg-white border border-[#252525]/10 shadow-sm rounded-2xl px-4 py-3">
                                                                     <div className="flex space-x-1">
                                                                         {[0, 1, 2].map((i) => (
                                                                             <motion.div
                                                                                 key={i}
-                                                                                className="w-2 h-2 bg-slate-400 rounded-full"
-                                                                                animate={{ y: [0, -8, 0] }}
+                                                                                className="w-2 h-2 bg-[#DF1463] rounded-full"
+                                                                                animate={{ y: [0, -2, 0] }}
                                                                                 transition={{
-                                                                                    duration: 0.6,
+                                                                                    duration: 0.9,
                                                                                     repeat: Number.POSITIVE_INFINITY,
                                                                                     delay: i * 0.1,
                                                                                     ease: "easeInOut",
@@ -225,30 +245,57 @@ export default function ChatbotWidget() {
                                 </CardContent>
 
                                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}>
-                                    <CardFooter className="p-6 border-t border-slate-200 flex-shrink-0">
-                                        <form onSubmit={handleSubmit} className="flex w-full gap-3">
-                                            <Input
-                                                value={input}
-                                                onChange={handleInputChange}
-                                                placeholder="Digite sua mensagem..."
-                                                className="flex-1 border-slate-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl"
-                                                disabled={isLoading}
-                                            />
+                                    <CardFooter className="p-6 border-t border-[#252525]/10 flex-shrink-0 bg-white/50">
+                                        <form onSubmit={handleSubmit} className="flex w-full gap-3 items-center">
+                                            <div className="flex-1 relative">
+                                                {/* <div className="flex items-center bg-white border border-[#252525]/10 rounded-full px-4 py-3 gap-3"> */}
+                                                <Input
+                                                    value={input}
+                                                    onChange={handleInputChange}
+                                                    placeholder="Escreva Algo..."
+                                                    className="flex-1 bg-white focus:ring-0 focus:outline-none text-[#252525] placeholder:text-[#475569] py-4 px-6 rounded-full border-[#CBD5E1] border-1 h-full w-full"
+                                                    disabled={isLoading}
+                                                />
+                                                {/* <div className="flex items-center gap-2">
+                                                        <Button
+                                                            type="button"
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="h-6 w-6 p-0 hover:bg-[#232525]/10 rounded-full"
+                                                        >
+                                                            <svg className="h-4 w-4 text-[#252525]/60" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M12 2C13.1 2 14 2.9 14 4V11C14 12.1 13.1 13 12 13C10.9 13 10 12.1 10 11V4C10 2.9 10.9 2 12 2ZM19 11C19 14.53 16.39 17.44 13 17.93V21H11V17.93C7.61 17.44 5 14.53 5 11H7C7 13.76 9.24 16 12 16S17 13.76 17 11H19Z" />
+                                                            </svg>
+                                                        </Button>
+                                                        <Button
+                                                            type="button"
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            className="h-6 w-6 p-0 hover:bg-[#252525]/10 rounded-full"
+                                                        >
+                                                            <svg className="h-4 w-4 text-[#252525]/60" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M16.5 6V17.5C16.5 19.71 14.71 21.5 12.5 21.5C10.29 21.5 8.5 19.71 8.5 17.5V5C8.5 3.62 9.62 2.5 11 2.5C12.38 2.5 13.5 3.62 13.5 5V15.5C13.5 16.05 13.05 16.5 12.5 16.5C11.95 16.5 11.5 16.05 11.5 15.5V6H10V15.5C10 16.88 11.12 18 12.5 18C13.88 18 15 16.88 15 15.5V5C15 2.79 13.21 1 11 1C8.79 1 7 2.79 7 5V17.5C7 20.54 9.46 23 12.5 23C15.54 23 18 20.54 18 17.5V6H16.5Z" />
+                                                            </svg>
+                                                        </Button>
+                                                    </div> */}
+                                            </div>
+                                            {/* </div> */}
                                             <Button
                                                 type="submit"
                                                 disabled={isLoading || !input.trim()}
-                                                className="bg-slate-800 hover:bg-slate-700 rounded-xl px-6"
+                                                className="bg-[#DF1463] hover:bg-[#DF1463]/90 text-white border-0 rounded-full h-12 w-12 p-0 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 flex-shrink-0 text-2xl"
                                             >
-                                                <Send className="h-4 w-4" />
+                                                <ArrowUp />
                                             </Button>
                                         </form>
                                     </CardFooter>
                                 </motion.div>
                             </Card>
                         </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    </motion.div >
+                )
+                }
+            </AnimatePresence >
         </>
     )
 }
