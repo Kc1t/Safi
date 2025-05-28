@@ -100,8 +100,8 @@ export default function ChatbotWidget() {
                                     </CardHeader>
                                 </motion.div>
 
-                                <CardContent className="flex-1 overflow-hidden w-full">
-                                    <ScrollArea className="h-full w-full py-3">
+                                <CardContent className="flex-1 overflow-hidden w-full px-0">
+                                    <ScrollArea className="h-full w-full py-3 px-4">
                                         <AnimatePresence mode="wait">
                                             {messages.length === 0 ? (
                                                 <motion.div
@@ -173,7 +173,7 @@ export default function ChatbotWidget() {
                                                                 )}
 
                                                                 <motion.div
-                                                                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === "user"
+                                                                    className={`max-w-[75%] rounded-2xl px-4 py-3 ${message.role === "user"
                                                                         ? "bg-[#252525] text-white"
                                                                         : "bg-white text-[#252525] border border-[#252525]/10"
                                                                         }`}
@@ -214,11 +214,17 @@ export default function ChatbotWidget() {
                                                                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                                             >
                                                                 <div className="flex-shrink-0">
-                                                                    <div className="w-8 h-8 bg-[#DF1463]/10 border border-[#DF1463]/20 rounded-full flex items-center justify-center">
-                                                                        <Bot className="h-4 w-4 text-[#DF1463]" />
+                                                                    <div
+                                                                        className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95"
+                                                                    >
+                                                                        <Image
+                                                                            src={SafiBubble || "/placeholder.svg"}
+                                                                            className="object-cover w-full h-full"
+                                                                            alt="Safi Bubble"
+                                                                        />
                                                                     </div>
                                                                 </div>
-                                                                <div className="bg-white border border-[#252525]/10 shadow-sm rounded-2xl px-4 py-3">
+                                                                <div className="bg-white border border-[#252525]/10 rounded-xl px-4 py-3">
                                                                     <div className="flex space-x-1">
                                                                         {[0, 1, 2].map((i) => (
                                                                             <motion.div
@@ -256,28 +262,6 @@ export default function ChatbotWidget() {
                                                     className="flex-1 bg-white focus:ring-0 focus:outline-none text-[#252525] placeholder:text-[#475569] py-4 px-6 rounded-full border-[#CBD5E1] border-1 h-full w-full"
                                                     disabled={isLoading}
                                                 />
-                                                {/* <div className="flex items-center gap-2">
-                                                        <Button
-                                                            type="button"
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            className="h-6 w-6 p-0 hover:bg-[#232525]/10 rounded-full"
-                                                        >
-                                                            <svg className="h-4 w-4 text-[#252525]/60" fill="currentColor" viewBox="0 0 24 24">
-                                                                <path d="M12 2C13.1 2 14 2.9 14 4V11C14 12.1 13.1 13 12 13C10.9 13 10 12.1 10 11V4C10 2.9 10.9 2 12 2ZM19 11C19 14.53 16.39 17.44 13 17.93V21H11V17.93C7.61 17.44 5 14.53 5 11H7C7 13.76 9.24 16 12 16S17 13.76 17 11H19Z" />
-                                                            </svg>
-                                                        </Button>
-                                                        <Button
-                                                            type="button"
-                                                            variant="ghost"
-                                                            size="sm"
-                                                            className="h-6 w-6 p-0 hover:bg-[#252525]/10 rounded-full"
-                                                        >
-                                                            <svg className="h-4 w-4 text-[#252525]/60" fill="currentColor" viewBox="0 0 24 24">
-                                                                <path d="M16.5 6V17.5C16.5 19.71 14.71 21.5 12.5 21.5C10.29 21.5 8.5 19.71 8.5 17.5V5C8.5 3.62 9.62 2.5 11 2.5C12.38 2.5 13.5 3.62 13.5 5V15.5C13.5 16.05 13.05 16.5 12.5 16.5C11.95 16.5 11.5 16.05 11.5 15.5V6H10V15.5C10 16.88 11.12 18 12.5 18C13.88 18 15 16.88 15 15.5V5C15 2.79 13.21 1 11 1C8.79 1 7 2.79 7 5V17.5C7 20.54 9.46 23 12.5 23C15.54 23 18 20.54 18 17.5V6H16.5Z" />
-                                                            </svg>
-                                                        </Button>
-                                                    </div> */}
                                             </div>
                                             {/* </div> */}
                                             <Button
