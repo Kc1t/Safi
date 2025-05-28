@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,6 +16,15 @@ import ReactMarkdown from "react-markdown"
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false)
     const { messages, input, handleInputChange, handleSubmit, isLoading } = usePublicChat()
+
+    const messagesEndRef = useRef<HTMLDivElement | null>(null)
+
+    // Efeito para scrollar para baixo quando mensagens mudam ou loading muda
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+        }
+    }, [messages, isLoading])
 
     const toggleChat = () => {
         setIsOpen(!isOpen)
@@ -218,6 +227,8 @@ export default function ChatbotWidget() {
                                                             </motion.div>
                                                         )}
                                                     </AnimatePresence>
+                                                    {/* Elemento invisível para scroll automático */}
+                                                    <div ref={messagesEndRef} />
                                                 </div>
                                             )}
                                         </AnimatePresence>
