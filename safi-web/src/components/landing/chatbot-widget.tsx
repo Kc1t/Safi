@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
 import { usePublicChat } from "@/hooks/public-chat"
+import { ChatbotHeader } from "./chatbot/chatbot-header"
+import ReactMarkdown from "react-markdown"
 
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false)
@@ -34,7 +36,7 @@ export default function ChatbotWidget() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="fixed inset-0 bg-[#252525]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 bg-[#252525]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-hidden"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -55,51 +57,7 @@ export default function ChatbotWidget() {
                             className="w-full max-w-2xl border-none"
                         >
                             <Card className="h-[600px] flex flex-col border-none overflow-hidden p-0 gap-0 bg-white">
-                                <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}>
-                                    <CardHeader className="bg-gradient-to-r from-[#DF1463] to-[#DF1463]/90 text-white flex-shrink-0 h-full">
-                                        <div className="flex items-center justify-between">
-                                            <CardTitle className="flex items-center gap-3 text-xl font-semibold py-3">
-                                                <div
-                                                    className="relative w-8 h-8 md:w-15 md:h-15 cursor-pointer transition-all duration-300 hover:scale-95"
-                                                    onClick={toggleChat}
-                                                >
-                                                    <Image
-                                                        src={SafiBubble || "/placeholder.svg"}
-                                                        className="object-cover w-full h-full"
-                                                        alt="Safi Bubble"
-                                                    />
-                                                </div>
-                                                <motion.span
-                                                    initial={{ opacity: 0, x: -10 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    transition={{ delay: 0.2 }}
-                                                    className="text-sm md:text-lg"
-                                                >
-                                                    Safi - (AI Powered)
-                                                </motion.span>
-                                            </CardTitle>
-                                            <div className="flex gap-2">
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={toggleChat}
-                                                    className="text-white hover:bg-white/20 hover:border-white/60 border border-white/30 hover:text-white h-8 w-8 p-0 transition-all duration-200"
-                                                >
-                                                    <Minimize2 className="h-4 w-4" />
-                                                </Button>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={toggleChat}
-                                                    className="text-white hover:bg-white/20 hover:border-white/60 border border-white/30 hover:text-white h-8 w-8 p-0 transition-all duration-200"
-                                                >
-                                                    <X className="h-4 w-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </CardHeader>
-                                </motion.div>
-
+                                <ChatbotHeader onToggle={toggleChat} />
                                 <CardContent className="flex-1 overflow-hidden w-full px-0">
                                     <ScrollArea className="h-full w-full py-3 px-4">
                                         <AnimatePresence mode="wait">
@@ -178,14 +136,30 @@ export default function ChatbotWidget() {
                                                                         : "bg-white text-[#252525] border border-[#252525]/10"
                                                                         }`}
                                                                 >
-                                                                    <motion.p
-                                                                        className="text-sm leading-relaxed whitespace-pre-wrap"
+                                                                    <motion.div
+                                                                        className="prose prose-sm max-w-none text-sm leading-relaxed"
                                                                         initial={{ opacity: 0 }}
                                                                         animate={{ opacity: 1 }}
                                                                         transition={{ delay: 0.1 }}
                                                                     >
-                                                                        {message.content}
-                                                                    </motion.p>
+                                                                        <ReactMarkdown
+                                                                            components={{
+                                                                                a: ({ href, children }) => (
+                                                                                    <a
+                                                                                        href={href}
+                                                                                        target="_blank"
+                                                                                        rel="noopener noreferrer"
+                                                                                        className="text-[#DF1463] underline hover:opacity-80 transition"
+                                                                                    >
+                                                                                        {children}
+                                                                                    </a>
+                                                                                ),
+                                                                            }}
+                                                                        >
+                                                                            {message.content}
+                                                                        </ReactMarkdown>
+
+                                                                    </motion.div>
                                                                 </motion.div>
 
                                                                 {/* {message.role === "user" && (
