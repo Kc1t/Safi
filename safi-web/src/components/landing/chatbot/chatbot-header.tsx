@@ -4,14 +4,16 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { CardHeader, CardTitle } from "@/components/ui/card"
-import { X, Minimize2 } from "lucide-react"
+import { X, Minimize2, Maximize2 } from "lucide-react"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
 
 interface ChatbotHeaderProps {
     onToggle: () => void
+    isExpanded: boolean
+    onExpandToggle: () => void
 }
 
-export function ChatbotHeader({ onToggle }: ChatbotHeaderProps) {
+export function ChatbotHeader({ onToggle, isExpanded, onExpandToggle }: ChatbotHeaderProps) {
     return (
         <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}>
             <CardHeader className="bg-gradient-to-r from-[#DF1463] to-[#DF1463]/90 text-white flex-shrink-0 h-full">
@@ -40,10 +42,11 @@ export function ChatbotHeader({ onToggle }: ChatbotHeaderProps) {
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={onToggle}
+                            onClick={onExpandToggle}
                             className="text-white hover:bg-white/20 hover:border-white/60 border border-white/30 hover:text-white h-8 w-8 p-0 transition-all duration-200"
+                            title={isExpanded ? "Minimizar" : "Expandir"}
                         >
-                            <Minimize2 className="h-4 w-4" />
+                            {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
                         </Button>
                         <Button
                             variant="ghost"

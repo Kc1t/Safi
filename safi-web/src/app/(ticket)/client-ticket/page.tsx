@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send, SmilePlus } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Topbar } from "@/components/tobar"
 
 interface Message {
   id: string
@@ -68,62 +69,65 @@ function ClientTicket() {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-3.5rem)] max-w-3xl mx-auto">
-      <div className="border-b p-4">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-medium">Ticket# 2025-CS123</h2>
-          <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-100">RH</Badge>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-4 space-y-6">
-        {messages.map((message) => (
-          <div key={message.id} className="flex flex-col gap-2">
-            {message.sender === "user" ? (
-              <div className="bg-[#e91e63] text-white p-4 rounded-lg max-w-[80%] self-start">
-                <p>{message.content}</p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-w-[80%] self-end">
-                <div className="flex items-center gap-2 justify-end">
-                  <span className="text-sm text-gray-500">{message.analyst}</span>
-                </div>
-                <div className="bg-gray-100 p-4 rounded-lg">
-                  <p className="text-gray-800">{message.content}</p>
-                </div>
-                <div className="flex justify-end gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700"
-                  >
-                    Não Resolveu
-                  </Button>
-                  <Button size="sm" className="bg-[#e91e63] hover:bg-[#d81b60]">
-                    Resolveu Meu Problema
-                  </Button>
-                </div>
-              </div>
-            )}
+    <div className="min-h-screen flex flex-col items-center justify-start bg-white">
+      <Topbar />
+      <div className="flex flex-col h-full max-w-3xl mx-auto w-full border rounded-lg my-3">
+        <div className="border-b p-4">
+          <div className="flex items-center gap-2">
+            <h2 className="text-lg font-medium">Ticket# 2025-CS123</h2>
+            <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-100">RH</Badge>
           </div>
-        ))}
-      </div>
+        </div>
 
-      <div className="border-t p-4">
-        <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-          <Button type="button" variant="ghost" size="icon">
-            <SmilePlus className="h-5 w-5 text-gray-500" />
-          </Button>
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Escreva suas Dúvidas"
-            className="flex-1"
-          />
-          <Button type="submit" size="icon" className="bg-[#e91e63] hover:bg-[#d81b60]">
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
+        <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          {messages.map((message) => (
+            <div key={message.id} className="flex flex-col gap-2">
+              {message.sender === "user" ? (
+                <div className="bg-[#e91e63] text-white p-4 rounded-lg max-w-[80%] self-start">
+                  <p>{message.content}</p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-w-[80%] self-end">
+                  <div className="flex items-center gap-2 justify-end">
+                    <span className="text-sm text-gray-500">{message.analyst}</span>
+                  </div>
+                  <div className="bg-gray-100 p-4 rounded-lg">
+                    <p className="text-gray-800">{message.content}</p>
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700"
+                    >
+                      Não Resolveu
+                    </Button>
+                    <Button size="sm" className="bg-[#e91e63] hover:bg-[#d81b60]">
+                      Resolveu Meu Problema
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t p-4">
+          <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+            <Button type="button" variant="ghost" size="icon">
+              <SmilePlus className="h-5 w-5 text-gray-500" />
+            </Button>
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Escreva suas Dúvidas"
+              className="flex-1"
+            />
+            <Button type="submit" size="icon" className="bg-[#e91e63] hover:bg-[#d81b60]">
+              <Send className="h-4 w-4" />
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   )

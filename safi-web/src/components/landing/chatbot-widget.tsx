@@ -16,6 +16,7 @@ import { ChatbotWelcome } from "./chatbot/chatbot-welcome"
 
 export default function ChatbotWidget() {
     const [isOpen, setIsOpen] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
     const { messages, input, handleInputChange, handleSubmit, isLoading } = usePublicChat()
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null)
@@ -68,19 +69,26 @@ export default function ChatbotWidget() {
                     >
                         {/* Chat Modal - Centered with animations */}
                         <motion.div
-                            initial={{ scale: 0.8, opacity: 0, y: 50 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+                            initial={false}
+                            animate={{
+                                width: isExpanded ? "90vw" : "36rem",
+                                height: isExpanded ? "90vh" : "600px",
+                            }}
                             transition={{
                                 type: "spring",
-                                stiffness: 300,
+                                stiffness: 200,
                                 damping: 30,
                             }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full max-w-2xl border-none"
+                            className={`w-full transition-all ease-in-out duration-300 ${isExpanded ? "max-w-none" : "max-w-2xl"} border-none`}
+                            style={isExpanded ? { height: "90vh" } : {}}
                         >
-                            <Card className="h-[600px] flex flex-col border-none overflow-hidden p-0 gap-0 bg-white">
-                                <ChatbotHeader onToggle={toggleChat} />
+                            <Card className={`${isExpanded ? "h-full" : "h-[600px]"} flex flex-col border-none overflow-hidden p-0 gap-0 bg-white`}>
+                                <ChatbotHeader
+                                    onToggle={toggleChat}
+                                    isExpanded={isExpanded}
+                                    onExpandToggle={() => setIsExpanded((prev) => !prev)}
+                                />
                                 <CardContent className="flex-1 overflow-hidden w-full px-0">
                                     <ScrollArea className="h-full w-full py-3 px-4">
                                         <AnimatePresence mode="wait">
