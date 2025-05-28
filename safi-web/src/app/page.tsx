@@ -1,3 +1,4 @@
+import ChatbotWidget from "@/components/landing/chatbot-widget";
 import DestktopFeature from "@/components/landing/desktop-feature";
 import FeaturesResume from "@/components/landing/features-resume";
 import FeaturesStart from "@/components/landing/features-start";
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <Navbar />
+      {/* <ChatbotWidget /> */}
       <Header />
       <FeaturesStart />
       <DestktopFeature />
