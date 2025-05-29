@@ -5,7 +5,7 @@ export type Mensagem = {
 
 export interface ChatInput {
     nome: string;
-    telefone: string;
+    // telefone: string;
     email: string;
     setor: string;
     historico: Mensagem[];
@@ -22,7 +22,6 @@ Regras:
 
 Solicitante:
 Nome: ${input.nome}
-Telefone: ${input.telefone}
 Email: ${input.email}
 Setor: ${input.setor}
 `;

@@ -6,7 +6,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 interface InputPayload {
     nome: string;
-    telefone: string;
+    // telefone: string;
     email: string;
     setor: string;
     historico: Mensagem[];

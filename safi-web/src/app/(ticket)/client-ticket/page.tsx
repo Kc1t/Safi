@@ -1,129 +1,171 @@
 "use client"
 
 import type React from "react"
+import { useEffect, useState } from "react"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Send, SmilePlus } from "lucide-react"
+import { Send } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Topbar } from "@/components/tobar"
+import ReactMarkdown from "react-markdown"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { useTicketChat } from "@/hooks/ticket-chat"
+import { useTicketStore } from "@/store/ticketStore"
 
-interface Message {
-  id: string
-  sender: "user" | "support"
-  content: string
-  timestamp: Date
-  analyst?: string
-  resolved?: boolean
+export const areas: Record<string, string> = {
+  "recursos-humanos": "RH",
+  ti: "TI",
+  financeiro: "Financeiro",
+  comercial: "Comercial",
+  operacoes: "Operações",
 }
 
 function ClientTicket() {
-  const [input, setInput] = useState("")
-  const [messages, setMessages] = useState<Message[]>([
-    // {
-    //   id: "1",
-    //   sender: "user",
-    //   content:
-    //     'Estou enfrentando um problema com o sistema de geração de relatórios da nossa aplicação. Sempre que tento gerar um relatório em PDF usando o filtro de datas personalizado, o sistema retorna um erro genérico de "Falha na geração do documento". Já revisei os parâmetros e mesmo usando dados padrão, o erro persiste. Isso começou a acontecer depois da última atualização. Preciso de uma solução urgente, pois impacta diretamente a operação do tema de compliance.',
-    //   timestamp: new Date(2025, 4, 10, 14, 30),
-    // },
-    // {
-    //   id: "2",
-    //   sender: "support",
-    //   content:
-    //     "Entendi. Isso geralmente ocorre quando há inconsistência entre os parâmetros enviados para o gerador de PDF e o formato esperado pelo backend. Tente limpar o cache do navegador e redefinir os filtros para os valores padrão. Em seguida, gere novamente o relatório. Se possível, use o intervalo de datas padrão da aplicação para validar se o erro persiste.",
-    //   timestamp: new Date(2025, 4, 10, 14, 45),
-    //   analyst: "Analista N0",
-    // },
-    // {
-    //   id: "3",
-    //   sender: "support",
-    //   content:
-    //     "Compreendido. Vou escalar esse caso para um analista N1 para análise mais aprofundada, já que os passos iniciais não solucionaram. Um momento.",
-    //   timestamp: new Date(2025, 4, 10, 15, 10),
-    //   analyst: "Analista N0",
-    // },
-    // {
-    //   id: "4",
-    //   sender: "support",
-    //   content:
-    //     "Olá, quem fala é o Felipe, analista N1. Agradeço por relatar o problema com detalhes. Fizemos uma varredura nos logs do serviço de geração de relatórios e identificamos que a falha está relacionada a um conflito entre o novo formato de datas implementado na atualização e a configuração regional do seu perfil. Já aplicamos um ajuste temporário no backend que força o formato esperado. Por favor, tente gerar o relatório novamente agora. Me avise se o erro persistir.",
-    //   timestamp: new Date(2025, 4, 10, 15, 30),
-    //   analyst: "Analista N1",
-    // },
-  ])
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim()) return
+  const ticket = useTicketStore((state) => state.ticket)
 
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      sender: "user",
-      content: input,
-      timestamp: new Date(),
+  const { input, messages, isLoading, handleInputChange, handleSubmit, setInput } = useTicketChat({
+    nome: ticket.nome,
+    email: ticket.contato,
+    setor: ticket.setor,
+  })
+
+  const [awaitingFeedback, setAwaitingFeedback] = useState(false)
+  const [autoSubmitReady, setAutoSubmitReady] = useState(false)
+
+  // Preenche o input com a descrição do ticket, se não houver mensagens
+  useEffect(() => {
+    if (messages.length === 0 && ticket.descricao && !input) {
+      setInput(ticket.descricao)
+      setAutoSubmitReady(true)
     }
+  }, [ticket, messages.length, input, setInput])
 
-    setMessages([...messages, newMessage])
-    setInput("")
+  // Envia automaticamente após setInput (quando estiver pronto)
+  useEffect(() => {
+    if (autoSubmitReady && input) {
+      handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)
+      setAutoSubmitReady(false)
+    }
+  }, [autoSubmitReady, input, handleSubmit])
+
+  // Verifica se o assistente pediu feedback
+  useEffect(() => {
+    if (messages.length > 0 && messages[messages.length - 1].role === "assistant") {
+      const lastContent = messages[messages.length - 1].content.trim().toLowerCase()
+      if (lastContent.endsWith("resolveu")) {
+        setAwaitingFeedback(true)
+      } else {
+        setAwaitingFeedback(false)
+      }
+    } else {
+      setAwaitingFeedback(false)
+    }
+  }, [messages])
+
+  const handleFeedback = (resolved: boolean) => {
+    setAwaitingFeedback(false)
+    // Exemplo: fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ resolved }) })
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-white">
+    <div className="min-h-screen flex flex-col bg-white">
       <Topbar />
-      <div className="flex flex-col h-full max-w-3xl mx-auto w-full border rounded-lg my-3">
-        <div className="border-b p-4">
+      <div
+        className="flex flex-col w-full max-w-3xl mx-auto border rounded-lg my-2 bg-white overflow-hidden"
+        style={{
+          height: "calc(100vh - 60px)",
+          maxHeight: "90vh",
+        }}
+      >
+        {/* Header */}
+        <div className="border-b p-2 sm:p-3 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-medium">Ticket# 2025-CS123</h2>
-            <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-100">RH</Badge>
+            <h2 className="text-base font-medium">Ticket# 2025-CS123</h2>
+            <Badge className="bg-pink-100 text-pink-800 hover:bg-pink-100 text-xs">
+              {areas[ticket.setor] ?? ticket.setor}
+            </Badge>
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {messages.map((message) => (
-            <div key={message.id} className="flex flex-col gap-2">
-              {message.sender === "user" ? (
-                <div className="bg-[#e91e63] text-white p-4 rounded-lg max-w-[80%] self-start">
-                  <p>{message.content}</p>
+        {/* Messages */}
+        <ScrollArea className="flex-1 p-3 space-y-3 overflow-y-auto">
+          {messages.map((message, idx) => (
+            <div key={message.id} className="flex flex-col gap-1">
+              {message.role === "user" ? (
+                <div className="flex w-full justify-end">
+                  <div className="rounded-lg bg-[#e91e63] text-white px-3 py-2 max-w-[80%]">
+                    <p className="text-sm break-words">{message.content}</p>
+                  </div>
                 </div>
               ) : (
-                <div className="space-y-2 max-w-[80%] self-end">
-                  <div className="flex items-center gap-2 justify-end">
-                    <span className="text-sm text-gray-500">{message.analyst}</span>
-                  </div>
-                  <div className="bg-gray-100 p-4 rounded-lg">
-                    <p className="text-gray-800">{message.content}</p>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700"
+                <div className="flex w-full flex-col items-start gap-1">
+                  <div className="rounded-lg bg-gray-100 text-[#252525] px-3 py-2 max-w-[80%]">
+                    <ReactMarkdown
+                      components={{
+                        a: ({ href, children }) => (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#DF1463] underline hover:opacity-80 transition"
+                          >
+                            {children}
+                          </a>
+                        ),
+                      }}
                     >
-                      Não Resolveu
-                    </Button>
-                    <Button size="sm" className="bg-[#e91e63] hover:bg-[#d81b60]">
-                      Resolveu Meu Problema
-                    </Button>
+                      {message.content}
+                    </ReactMarkdown>
                   </div>
+                  {idx === messages.length - 1 && awaitingFeedback && (
+                    <div className="flex flex-wrap justify-start gap-1 mt-1">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700 text-xs h-7"
+                        onClick={() => handleFeedback(false)}
+                      >
+                        Não Resolveu
+                      </Button>
+                      <Button
+                        size="sm"
+                        className="bg-[#e91e63] hover:bg-[#d81b60] text-xs h-7"
+                        onClick={() => handleFeedback(true)}
+                      >
+                        Resolveu Meu Problema
+                      </Button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           ))}
-        </div>
+          {isLoading && (
+            <div className="flex w-full flex-col items-start gap-1">
+              <div className="rounded-lg bg-gray-100 text-[#252525] px-3 py-2 max-w-[80%] shadow-sm opacity-70">
+                <p className="text-sm">...</p>
+              </div>
+            </div>
+          )}
+        </ScrollArea>
 
-        <div className="border-t p-4">
-          <form onSubmit={handleSendMessage} className="flex items-center gap-2">
-            <Button type="button" variant="ghost" size="icon">
-              <SmilePlus className="h-5 w-5 text-gray-500" />
-            </Button>
+        {/* Input */}
+        <div className="border-t p-2 bg-white flex-shrink-0">
+          <form onSubmit={handleSubmit} className="flex items-center gap-2">
             <Input
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Escreva suas Dúvidas"
-              className="flex-1"
+              className="flex-1 bg-white focus:ring-0 focus:outline-none text-[#252525] placeholder:text-[#475569] py-2 px-4 rounded-full border-[#CBD5E1] h-9 text-sm"
+              disabled={isLoading || awaitingFeedback}
             />
-            <Button type="submit" size="icon" className="bg-[#e91e63] hover:bg-[#d81b60]">
+            <Button
+              type="submit"
+              size="icon"
+              className="bg-[#e91e63] hover:bg-[#d81b60] text-white border-0 rounded-full h-9 w-9 p-0 shadow-md hover:shadow-lg transition-all duration-200 flex-shrink-0"
+              disabled={isLoading || !input.trim() || awaitingFeedback}
+            >
               <Send className="h-4 w-4" />
             </Button>
           </form>
