@@ -8,7 +8,7 @@ interface TicketSummaryProps {
 
 export function TicketSummary({ title, description, createdAt }: TicketSummaryProps) {
   return (
-    <div className="bg-gray-50 p-4 rounded-lg">
+    <div className="border p-4 rounded-lg">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-medium text-gray-900">Resumo do Chamado</h3>
         <div className="flex items-center gap-2">

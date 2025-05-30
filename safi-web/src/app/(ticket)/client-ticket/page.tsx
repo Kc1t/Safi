@@ -17,15 +17,15 @@ import { AnimatePresence, motion } from "framer-motion"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
 import Image from "next/image"
 
-export const areas: Record<string, string> = {
-  "recursos-humanos": "RH",
-  ti: "TI",
-  financeiro: "Financeiro",
-  comercial: "Comercial",
-  operacoes: "Operações",
-}
+export default function ClientTicket() {
+  const areas: Record<string, string> = {
+    "recursos-humanos": "RH",
+    ti: "TI",
+    financeiro: "Financeiro",
+    comercial: "Comercial",
+    operacoes: "Operações",
+  }
 
-function ClientTicket() {
   const ticket = useTicketStore((state) => state.ticket)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
@@ -259,4 +259,3 @@ function ClientTicket() {
   )
 }
 
-export default ClientTicket
