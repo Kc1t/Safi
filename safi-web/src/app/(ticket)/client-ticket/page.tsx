@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,9 @@ import ReactMarkdown from "react-markdown"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTicketChat } from "@/hooks/ticket-chat"
 import { useTicketStore } from "@/store/ticketStore"
+import { AnimatePresence, motion } from "framer-motion"
+import SafiBubble from "@/assets/ai/safi-bubble.png"
+import Image from "next/image"
 
 export const areas: Record<string, string> = {
   "recursos-humanos": "RH",
@@ -23,6 +26,7 @@ export const areas: Record<string, string> = {
 
 function ClientTicket() {
   const ticket = useTicketStore((state) => state.ticket)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   const { input, messages, isLoading, handleInputChange, handleSubmit, setInput } = useTicketChat({
     nome: ticket.nome,
@@ -53,7 +57,7 @@ function ClientTicket() {
   useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role === "assistant") {
       const lastContent = messages[messages.length - 1].content.trim().toLowerCase()
-      if (lastContent.endsWith("resolveu")) {
+      if (lastContent.endsWith("resolvido?")) {
         setAwaitingFeedback(true)
       } else {
         setAwaitingFeedback(false)
@@ -62,6 +66,13 @@ function ClientTicket() {
       setAwaitingFeedback(false)
     }
   }, [messages])
+
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }, [messages, isLoading])
 
   const handleFeedback = (resolved: boolean) => {
     setAwaitingFeedback(false)
@@ -72,7 +83,7 @@ function ClientTicket() {
     <div className="min-h-screen flex flex-col bg-white">
       <Topbar />
       <div
-        className="flex flex-col w-full max-w-3xl mx-auto border rounded-lg my-2 bg-white overflow-hidden"
+        className="flex flex-col w-full max-w-3xl mx-auto border-0 md:border-1 rounded-lg my-2 bg-white overflow-hidden"
         style={{
           height: "calc(100vh - 60px)",
           maxHeight: "90vh",
@@ -89,37 +100,79 @@ function ClientTicket() {
         </div>
 
         {/* Messages */}
-        <ScrollArea className="flex-1 p-3 space-y-3 overflow-y-auto">
-          {messages.map((message, idx) => (
-            <div key={message.id} className="flex flex-col gap-1">
-              {message.role === "user" ? (
-                <div className="flex w-full justify-end">
-                  <div className="rounded-lg bg-[#e91e63] text-white px-3 py-2 max-w-[80%]">
-                    <p className="text-sm break-words">{message.content}</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex w-full flex-col items-start gap-1">
-                  <div className="rounded-lg bg-gray-100 text-[#252525] px-3 py-2 max-w-[80%]">
-                    <ReactMarkdown
-                      components={{
-                        a: ({ href, children }) => (
-                          <a
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#DF1463] underline hover:opacity-80 transition"
-                          >
-                            {children}
-                          </a>
-                        ),
-                      }}
+        <ScrollArea className="flex-1 p-3 overflow-y-auto">
+          <div className="space-y-6">
+            <AnimatePresence>
+              {messages.map((message, index) => (
+                <motion.div
+                  key={message.id}
+                  className={`flex gap-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                  initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 30,
+                    delay: index * 0.1,
+                  }}
+                >
+                  {message.role === "assistant" && (
+                    <motion.div
+                      className="flex-shrink-0"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2 }}
                     >
-                      {message.content}
-                    </ReactMarkdown>
-                  </div>
-                  {idx === messages.length - 1 && awaitingFeedback && (
-                    <div className="flex flex-wrap justify-start gap-1 mt-1">
+                      <div className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95">
+                        <Image
+                          src={SafiBubble || "/placeholder.svg"}
+                          className="object-cover w-full h-full"
+                          alt="Safi Bubble"
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+
+                  <motion.div
+                    className={`max-w-[75%] rounded-2xl px-4 py-3 ${
+                      message.role === "user"
+                        ? "bg-[#e91e63] text-white"
+                        : "bg-white text-[#252525] border border-[#252525]/10"
+                    }`}
+                  >
+                    <motion.div
+                      className="prose prose-sm max-w-none text-sm leading-relaxed"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      <ReactMarkdown
+                        components={{
+                          a: ({ href, children }) => (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#DF1463] underline hover:opacity-80 transition"
+                            >
+                              {children}
+                            </a>
+                          ),
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
+                    </motion.div>
+                  </motion.div>
+
+                  {message.role === "assistant" && index === messages.length - 1 && awaitingFeedback && (
+                    <motion.div
+                      className="flex flex-wrap justify-start gap-1 mt-1"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
                       <Button
                         variant="outline"
                         size="sm"
@@ -135,23 +188,61 @@ function ClientTicket() {
                       >
                         Resolveu Meu Problema
                       </Button>
-                    </div>
+                    </motion.div>
                   )}
-                </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            <AnimatePresence>
+              {isLoading && (
+                <motion.div
+                  className="flex gap-4 justify-start"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                >
+                  <div className="flex-shrink-0">
+                    <div className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95">
+                      <Image
+                        src={SafiBubble || "/placeholder.svg"}
+                        className="object-cover w-full h-full"
+                        alt="Safi Bubble"
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-white border border-[#252525]/10 rounded-2xl px-4 py-3">
+                    <div className="flex space-x-1">
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-2 h-2 bg-[#DF1463] rounded-full"
+                          animate={{ y: [0, -2, 0] }}
+                          transition={{
+                            duration: 0.9,
+                            repeat: Number.POSITIVE_INFINITY,
+                            delay: i * 0.1,
+                            ease: "easeInOut",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
               )}
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex w-full flex-col items-start gap-1">
-              <div className="rounded-lg bg-gray-100 text-[#252525] px-3 py-2 max-w-[80%] shadow-sm opacity-70">
-                <p className="text-sm">...</p>
-              </div>
-            </div>
-          )}
+            </AnimatePresence>
+            <div ref={messagesEndRef} />
+          </div>
         </ScrollArea>
 
         {/* Input */}
-        <div className="border-t p-2 bg-white flex-shrink-0">
+        <motion.div
+          className="border-t p-2 bg-white flex-shrink-0"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
           <form onSubmit={handleSubmit} className="flex items-center gap-2">
             <Input
               value={input}
@@ -163,13 +254,13 @@ function ClientTicket() {
             <Button
               type="submit"
               size="icon"
-              className="bg-[#e91e63] hover:bg-[#d81b60] text-white border-0 rounded-full h-9 w-9 p-0 shadow-md hover:shadow-lg transition-all duration-200 flex-shrink-0"
+              className="bg-[#e91e63] hover:bg-[#d81b60] text-white border-0 rounded-full h-9 w-9 p-0 shadow-md hover:shadow-lg transition-all duration-200 flex-shrink-0 disabled:opacity-50"
               disabled={isLoading || !input.trim() || awaitingFeedback}
             >
               <Send className="h-4 w-4" />
             </Button>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

@@ -23,6 +23,9 @@ export default function SupportForm() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         localStorage.setItem("userName", ticket.nome)
+        localStorage.setItem("userContact", ticket.contato)
+        localStorage.setItem("userSector", ticket.setor)
+        localStorage.setItem("userDescription", ticket.descricao)
         // Redireciona para a tela de chat com as infos no Zustand
         router.push("/client-ticket")
         // Se quiser limpar o formulário depois de enviar, descomente:

@@ -36,7 +36,7 @@ export function ChatbotWelcome({ SafiBubble, suggestions, handleSuggestionClick 
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
             >
-                Sou seu assistente virtual. Faça qualquer pergunta e terei prazer em ajudá-lo.
+                Sou sua assistente virtual. Pergunte referente ao uso do sistema e terei prazer em ajudá-lo.
             </motion.p>
 
             <motion.div
