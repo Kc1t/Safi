@@ -2,38 +2,39 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useTicketStore } from "@/store/ticketStore"
 
 
 export default function SupportForm() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        sector: "",
-        message: "",
-        agreeToTerms: false,
-    })
+    const router = useRouter()
+    const { ticket, setTicket, resetTicket } = useTicketStore()
+
+    const handleChange = (field: keyof typeof ticket, value: any) => {
+        setTicket({ ...ticket, [field]: value })
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log("Formulário enviado:", formData)
+        localStorage.setItem("userName", ticket.nome)
+        // Redireciona para a tela de chat com as infos no Zustand
+        router.push("/client-ticket")
+        // Se quiser limpar o formulário depois de enviar, descomente:
+        // resetTicket()
     }
 
     const sectors = [
-        "Tecnologia",
-        "Marketing",
-        "Vendas",
-        "Recursos Humanos",
-        "Financeiro",
-        "Operações",
-        "Jurídico",
-        "Outros",
+        "recursos-humanos",
+        "ti",
+        "financeiro",
+        "comercial",
+        "operacoes",
     ]
 
     return (
@@ -53,22 +54,6 @@ export default function SupportForm() {
                             </div>
 
                             <div className="space-y-6">
-                                {/* <div className="flex items-center gap-3">
-                                    <Mail className="w-5 h-5 text-[#DF1463]" />
-                                    <span className="text-gray-700">SoulDesign@gmail.com</span>
-                                </div>
-
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-[#DF1463] rounded-lg p-3 flex items-center justify-center min-w-[120px]">
-                                        <Phone className="w-4 h-4 text-white mr-2" />
-                                        <span className="text-white font-medium">+123 456 789</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3">
-                                    <MapPin className="w-5 h-5 text-[#DF1463]" />
-                                    <span className="text-gray-700">Rua Exemplo, 123, Casa 456</span>
-                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -83,8 +68,8 @@ export default function SupportForm() {
                                 <Input
                                     id="name"
                                     type="text"
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    value={ticket.nome}
+                                    onChange={(e) => handleChange("nome", e.target.value)}
                                     className="border-0 border-b-2 border-pink-300 rounded-none bg-transparent focus:border-[#DF1463] px-0 py-3"
                                     required
                                 />
@@ -97,8 +82,8 @@ export default function SupportForm() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    value={ticket.contato}
+                                    onChange={(e) => handleChange("contato", e.target.value)}
                                     className="border-0 border-b-2 border-pink-300 rounded-none bg-transparent focus:border-[#DF1463] px-0 py-3"
                                     required
                                 />
@@ -108,16 +93,16 @@ export default function SupportForm() {
                                 <Label htmlFor="sector" className="text-gray-600 text-sm">
                                     Setor da empresa
                                 </Label>
-                                <Select value={formData.sector} onValueChange={(value) => setFormData({ ...formData, sector: value })}>
+                                <Select value={ticket.setor} onValueChange={(value) => handleChange("setor", value)}>
                                     <SelectTrigger className="w-full border-0 border-b-2 border-pink-300 rounded-none bg-transparent focus:border-[#DF1463] px-0 py-3">
                                         <SelectValue placeholder="Selecione o setor" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {sectors.map((sector) => (
-                                            <SelectItem key={sector} value={sector}>
-                                                {sector}
-                                            </SelectItem>
-                                        ))}
+                                        <SelectItem value="recursos-humanos">Recursos Humanos</SelectItem>
+                                        <SelectItem value="ti">TI</SelectItem>
+                                        <SelectItem value="financeiro">Financeiro</SelectItem>
+                                        <SelectItem value="comercial">Comercial</SelectItem>
+                                        <SelectItem value="operacoes">Operações</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -128,8 +113,8 @@ export default function SupportForm() {
                                 </Label>
                                 <Textarea
                                     id="message"
-                                    value={formData.message}
-                                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                    value={ticket.descricao}
+                                    onChange={(e) => handleChange("descricao", e.target.value)}
                                     className="border-0 border-b-2 border-pink-300 rounded-none bg-transparent focus:border-[#DF1463] px-0 py-3 min-h-[100px] resize-none"
                                     required
                                 />
@@ -138,8 +123,8 @@ export default function SupportForm() {
                             <div className="flex items-center space-x-3 pt-4">
                                 <Checkbox
                                     id="terms"
-                                    checked={formData.agreeToTerms}
-                                    onCheckedChange={(checked) => setFormData({ ...formData, agreeToTerms: checked as boolean })}
+                                    checked={ticket.concordo}
+                                    onCheckedChange={(checked) => handleChange("concordo", checked as boolean)}
                                     className="rounded-full border-2 border-pink-300 data-[state=checked]:bg-[#DF1463] data-[state=checked]:border-[#DF1463] cursor-pointer"
                                     required
                                 />
@@ -152,7 +137,7 @@ export default function SupportForm() {
                                 <Button
                                     type="submit"
                                     className="bg-[#DF1463] hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium w-full lg:w-auto"
-                                    disabled={!formData.agreeToTerms}
+                                    disabled={!ticket.concordo}
                                 >
                                     Simular chamado
                                 </Button>

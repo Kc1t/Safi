@@ -12,6 +12,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export function Topbar() {
+
+  const userName = localStorage.getItem("userName") || "Usuário"
+  const userInitials = userName
+    .split(" ").map((name) => name.charAt(0).toUpperCase())
+    .slice(0, 2)
+
   return (
     <header className="w-full border-b bg-white">
       <div className="flex h-14 items-center justify-between px-4">
@@ -31,9 +37,9 @@ export function Topbar() {
               <Button variant="ghost" className="flex items-center gap-2 px-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/placeholder.svg?height=32&width=32" alt="Leticia Rocha" />
-                  <AvatarFallback>LR</AvatarFallback>
+                  <AvatarFallback>{userInitials}</AvatarFallback>
                 </Avatar>
-                <span className="text-sm font-medium">Leticia Rocha</span>
+                <span className="text-sm font-medium">{userName}</span>
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
