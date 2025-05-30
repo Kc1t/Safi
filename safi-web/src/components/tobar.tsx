@@ -100,7 +100,7 @@ export function Topbar() {
                   <span>Meus Tickets (Analista)</span>
                 </Link>
 
-                <div className="border-t pt-2 mt-2">
+                {/* <div className="border-t pt-2 mt-2">
                   <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 px-3">Configurações</p>
                   <div className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed opacity-60">
                     <User className="h-5 w-5 text-gray-400" />
@@ -112,7 +112,7 @@ export function Topbar() {
                     <span>Configurações</span>
                     <span className="ml-auto text-xs text-gray-400">(Em breve)</span>
                   </div>
-                </div>
+                </div> */}
               </nav>
             </div>
 
@@ -120,9 +120,9 @@ export function Topbar() {
             <div className="border-t bg-gray-50 p-6">
               <div className="text-xs text-muted-foreground">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 bg-[#DF1463] rounded flex items-center justify-center">
+                  {/* <div className="w-6 h-6 bg-[#DF1463] rounded flex items-center justify-center">
                     <span className="text-white font-bold text-xs">S</span>
-                  </div>
+                  </div> */}
                   <span className="font-medium text-gray-900">Sistema Safi v0.1</span>
                 </div>
                 <p className="leading-relaxed">

@@ -12,6 +12,7 @@ import ReactMarkdown from "react-markdown"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTicketChat } from "@/hooks/ticket-chat"
 import { useTicketStore } from "@/store/ticketStore"
+import { useAutoSubmitMessage } from "@/hooks/use-auto-submit-message"
 import { AnimatePresence, motion } from "framer-motion"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
 import Image from "next/image"
@@ -35,29 +36,22 @@ function ClientTicket() {
   })
 
   const [awaitingFeedback, setAwaitingFeedback] = useState(false)
-  const [autoSubmitReady, setAutoSubmitReady] = useState(false)
 
-  // Preenche o input com a descrição do ticket, se não houver mensagens
-  useEffect(() => {
-    if (messages.length === 0 && ticket.descricao && !input) {
-      setInput(ticket.descricao)
-      setAutoSubmitReady(true)
-    }
-  }, [ticket, messages.length, input, setInput])
-
-  // Envia automaticamente após setInput (quando estiver pronto)
-  useEffect(() => {
-    if (autoSubmitReady && input) {
-      handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>)
-      setAutoSubmitReady(false)
-    }
-  }, [autoSubmitReady, input, handleSubmit])
+  // Hook para auto-submit da mensagem inicial
+  useAutoSubmitMessage({
+    messages,
+    input,
+    initialMessage: ticket.descricao,
+    setInput,
+    handleSubmit,
+  })
 
   // Verifica se o assistente pediu feedback
   useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role === "assistant") {
       const lastContent = messages[messages.length - 1].content.trim().toLowerCase()
-      if (lastContent.endsWith("resolvido?")) {
+      const feedbackPhrases = ["resolvido?", "**resolvido?**", "*resolvido?*", "isso resolveu seu problema?", "problema resolvido?"];
+      if (feedbackPhrases.some(phrase => lastContent.toLowerCase().endsWith(phrase))) {
         setAwaitingFeedback(true)
       } else {
         setAwaitingFeedback(false)
@@ -135,11 +129,10 @@ function ClientTicket() {
                   )}
 
                   <motion.div
-                    className={`max-w-[75%] rounded-2xl px-4 py-3 ${
-                      message.role === "user"
-                        ? "bg-[#e91e63] text-white"
-                        : "bg-white text-[#252525] border border-[#252525]/10"
-                    }`}
+                    className={`max-w-[75%] rounded-2xl px-4 py-3 ${message.role === "user"
+                      ? "bg-[#e91e63] text-white"
+                      : "bg-white text-[#252525] border border-[#252525]/10"
+                      }`}
                   >
                     <motion.div
                       className="prose prose-sm max-w-none text-sm leading-relaxed"

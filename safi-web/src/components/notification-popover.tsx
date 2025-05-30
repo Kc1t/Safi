@@ -115,7 +115,7 @@ export function NotificationPopover() {
       <PopoverContent className="w-80 p-0" align="end">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="font-semibold text-gray-900">Notificações</h3>
-          {unreadCount > 0 && (
+          {/* {unreadCount > 0 && (
             <Button
               variant="ghost"
               size="sm"
@@ -124,7 +124,7 @@ export function NotificationPopover() {
             >
               Marcar todas como lidas
             </Button>
-          )}
+          )} */}
         </div>
         <ScrollArea className="h-80">
           {notifications.length === 0 ? (
@@ -138,11 +138,11 @@ export function NotificationPopover() {
                 <div
                   key={notification.id}
                   className={`p-4 hover:bg-gray-50 transition-colors ${
-                    !notification.read ? "bg-[#E91E63]/5" : ""
+                    !notification.read ? "bg-[#E91E63]/5" : "bg-white"
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 mt-0.5">{getNotificationIcon(notification.type)}</div>
+                    {/* <div className="flex-shrink-0 mt-0.5">{getNotificationIcon(notification.type)}</div> */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
