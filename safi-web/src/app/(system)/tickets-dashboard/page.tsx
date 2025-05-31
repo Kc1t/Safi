@@ -1,5 +1,5 @@
 import { Dashboard } from "@/components/dashboard/dashboard"
-import { Topbar } from "@/components/tobar"
+import { Topbar } from "@/components/topbar"
 
 export default function DashboardPage() {
   return (

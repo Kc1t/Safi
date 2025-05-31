@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { NotificationPopover } from "@/components/notification-popover"
+import Avatar1 from "@/assets/avatars/avatar-1.png"
+import Avatar2 from "@/assets/avatars/avatar-2.png"
+import Avatar3 from "@/assets/avatars/avatar-3.png"
+import Avatar4 from "@/assets/avatars/avatar-4.png"
 
 export function Topbar() {
   const [userName, setUserName] = useState("Usuário")
@@ -45,7 +49,6 @@ export function Topbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-xs">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Menu Button - Available on all screens */}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="mr-2">
@@ -55,11 +58,10 @@ export function Topbar() {
           </SheetTrigger>
 
           <SheetContent side="left" className="flex flex-col w-80 p-0 text-white">
-            {/* Top Area */}
             <div className="bg-gradient-to-r from-[#DF1463] to-[#DF1463] p-6 text-white">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12 border-2 border-white/20">
-                  <AvatarImage src="/placeholder.svg" alt={userName} />
+                  <AvatarImage src={Avatar4.src} alt={userName} />
                   <AvatarFallback className="bg-white/20 text-white font-semibold text-lg">
                     {userInitials}
                   </AvatarFallback>
@@ -75,7 +77,6 @@ export function Topbar() {
               </div>
             </div>
 
-            {/* Navigation */}
             <div className="flex-1 p-4">
               <nav className="space-y-1">
                 <Link
@@ -116,7 +117,6 @@ export function Topbar() {
               </nav>
             </div>
 
-            {/* Bottom Area */}
             <div className="border-t bg-gray-50 p-6">
               <div className="text-xs text-muted-foreground">
                 <div className="flex items-center gap-2 mb-2">
@@ -142,22 +142,19 @@ export function Topbar() {
           </SheetContent>
         </Sheet>
 
-        {/* Logo/Brand - Hidden on mobile when menu is present */}
         <div className="hidden lg:flex items-center">
           {/* <h1 className="text-xl font-bold text-gray-900">Sistema Safi</h1> */}
         </div>
 
         {/* Right side actions */}
         <div className="flex items-center gap-2 ml-auto">
-          {/* Notifications */}
           <NotificationPopover />
 
-          {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-2 px-2 py-1.5 h-auto">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg" alt={userName} />
+                  <AvatarImage src={Avatar4.src} alt={userName} />
                   <AvatarFallback className="bg-[#DF1463]/20 text-[#DF1463] font-medium">{userInitials}</AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:flex items-center gap-1">

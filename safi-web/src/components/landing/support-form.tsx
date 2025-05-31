@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
 
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -15,21 +16,31 @@ import { useTicketStore } from "@/store/ticketStore"
 export default function SupportForm() {
     const router = useRouter()
     const { ticket, setTicket, resetTicket } = useTicketStore()
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleChange = (field: keyof typeof ticket, value: any) => {
         setTicket({ ...ticket, [field]: value })
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        localStorage.setItem("userName", ticket.nome)
-        localStorage.setItem("userContact", ticket.contato)
-        localStorage.setItem("userSector", ticket.setor)
-        localStorage.setItem("userDescription", ticket.descricao)
-        // Redireciona para a tela de chat com as infos no Zustand
-        router.push("/client-ticket")
-        // Se quiser limpar o formulário depois de enviar, descomente:
-        // resetTicket()
+        setIsLoading(true)
+        
+        try {
+            localStorage.setItem("userName", ticket.nome)
+            localStorage.setItem("userContact", ticket.contato)
+            localStorage.setItem("userSector", ticket.setor)
+            localStorage.setItem("userDescription", ticket.descricao)
+            
+            // Simulate some processing time
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            
+            router.push("/client-ticket")
+        } catch (error) {
+            console.error("Error submitting form:", error)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     const sectors = [
@@ -140,9 +151,16 @@ export default function SupportForm() {
                                 <Button
                                     type="submit"
                                     className="bg-[#DF1463] hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium w-full lg:w-auto"
-                                    disabled={!ticket.concordo}
+                                    disabled={!ticket.concordo || isLoading}
                                 >
-                                    Simular chamado
+                                    {isLoading ? (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                            Enviando...
+                                        </div>
+                                    ) : (
+                                        "Simular chamado"
+                                    )}
                                 </Button>
                             </div>
                         </form>

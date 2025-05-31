@@ -12,7 +12,7 @@ export function TicketSummary({ title, description, createdAt }: TicketSummaryPr
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-medium text-gray-900">Resumo do Chamado</h3>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-blue-600 cursor-pointer">Download</span>
+          {/* <span className="text-sm text-blue-600 cursor-pointer">Download</span> */}
           <Archive className="h-4 w-4 text-gray-400" />
         </div>
       </div>
@@ -25,7 +25,7 @@ export function TicketSummary({ title, description, createdAt }: TicketSummaryPr
           </div>
           <p className="text-sm text-gray-600 leading-relaxed">
             {description}
-            <span className="text-blue-600 cursor-pointer ml-1">(MAIS)</span>
+            <span className="text-[#DF1463] cursor-pointer ml-1">(MAIS)</span>
           </p>
         </div>
         

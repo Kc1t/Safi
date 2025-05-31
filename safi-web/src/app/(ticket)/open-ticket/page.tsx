@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -16,24 +16,33 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Topbar } from "@/components/tobar";
+import { Topbar } from "@/components/topbar";
 
 import { useTicketStore } from "@/store/ticketStore";
 
 export default function OpenTicket() {
   const router = useRouter();
   const { ticket, setTicket, resetTicket } = useTicketStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (field: keyof typeof ticket, value: any) => {
     setTicket({ ...ticket, [field]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Redireciona para a tela de chat com as infos no Zustand
-    router.push("/client-ticket");
-    // Se quiser limpar o formulário depois de enviar, descomente:
-    // resetTicket();
+    setIsLoading(true);
+
+    try {
+      // Simulate some processing time
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      router.push("/client-ticket");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -141,10 +150,17 @@ export default function OpenTicket() {
                   </Button>
                   <Button
                     type="submit"
-                    disabled={!ticket.concordo}
+                    disabled={!ticket.concordo || isLoading}
                     className="bg-[#e91e63] hover:bg-[#d81b60]"
                   >
-                    Abrir Chamado
+                    {isLoading ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Processando...
+                      </div>
+                    ) : (
+                      "Abrir Chamado"
+                    )}
                   </Button>
                 </div>
               </form>

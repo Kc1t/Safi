@@ -12,7 +12,7 @@ interface CustomerInfoProps {
 
 export function CustomerInfo({ name, phone, email, avatar, initials }: CustomerInfoProps) {
   return (
-    <div className="bg-gray-50 p-4 rounded-lg">
+    <div className="bg-gray-50 p-4 rounded-lg border">
       <h3 className="text-sm font-medium text-gray-900 mb-3">Informações do Cliente</h3>
       <div className="flex items-center gap-3">
         <Avatar className="h-12 w-12">

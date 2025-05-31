@@ -121,7 +121,7 @@ export function Dashboard() {
           <div className="">
             <div className="w-full">
               <Tabs defaultValue="todos" className="w-full" onValueChange={handleTabChange}>
-                <TabsList className="grid grid-cols-2 sm:grid-cols-4 mb-6 w-full">
+                <TabsList className="flex flex-wrap mb-4 w-full bg-white shadow-sm">
                   <TabsTrigger value="todos" className="">
                     <span className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-[#e91e63]"></span>
@@ -174,7 +174,7 @@ export function Dashboard() {
                         <div className="text-xs text-gray-500 leading-relaxed">
                           Aberto às {ticket.openedAt} · Triagem: IA ({ticket.triage}) · Nível De Complexidade: {ticket.complexity}
                         </div>
-                        <Link href={"ticket"}>
+                        <Link href={`/ticket/${ticket.id}`}>
                           <Button size="sm" className="bg-[#e91e63] hover:bg-[#d81b60] text-white font-medium self-start sm:self-auto text-xs sm:text-sm">
                             <span className="hidden sm:inline">Acompanhar Chamado</span>
                             <span className="sm:hidden">Acompanhar</span>

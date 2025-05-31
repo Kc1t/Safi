@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Topbar } from "@/components/tobar"
+import { Topbar } from "@/components/topbar"
 import ReactMarkdown from "react-markdown"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTicketChat } from "@/hooks/ticket-chat"
@@ -37,7 +37,7 @@ export default function ClientTicket() {
 
   const [awaitingFeedback, setAwaitingFeedback] = useState(false)
 
-  // Hook para auto-submit da mensagem inicial
+  // mensagem inicial
   useAutoSubmitMessage({
     messages,
     input,
@@ -46,7 +46,7 @@ export default function ClientTicket() {
     handleSubmit,
   })
 
-  // Verifica se o assistente pediu feedback
+  // Verifica feedback
   useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role === "assistant") {
       const lastContent = messages[messages.length - 1].content.trim().toLowerCase()
@@ -61,7 +61,6 @@ export default function ClientTicket() {
     }
   }, [messages])
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
@@ -100,7 +99,7 @@ export default function ClientTicket() {
               {messages.map((message, index) => (
                 <motion.div
                   key={message.id}
-                  className={`flex gap-4 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex gap-3 w-full ${message.role === "user" ? "justify-end" : "justify-start"}`}
                   initial={{ opacity: 0, y: 20, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.8 }}
@@ -113,7 +112,7 @@ export default function ClientTicket() {
                 >
                   {message.role === "assistant" && (
                     <motion.div
-                      className="flex-shrink-0"
+                      className="flex-shrink-0 self-start mt-1"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.2 }}
@@ -128,104 +127,66 @@ export default function ClientTicket() {
                     </motion.div>
                   )}
 
-                  <motion.div
-                    className={`max-w-[75%] rounded-2xl px-4 py-3 ${message.role === "user"
-                      ? "bg-[#e91e63] text-white"
-                      : "bg-white text-[#252525] border border-[#252525]/10"
-                      }`}
-                  >
+                  <div className="flex flex-col max-w-[85%] sm:max-w-[75%]">
                     <motion.div
-                      className="prose prose-sm max-w-none text-sm leading-relaxed"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.1 }}
+                      className={`rounded-2xl px-4 py-3 ${message.role === "user"
+                          ? "bg-[#e91e63] text-white ml-auto"
+                          : "bg-white text-[#252525] border border-[#252525]/10"
+                        }`}
                     >
-                      <ReactMarkdown
-                        components={{
-                          a: ({ href, children }) => (
-                            <a
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[#DF1463] underline hover:opacity-80 transition"
-                            >
-                              {children}
-                            </a>
-                          ),
-                        }}
+                      <motion.div
+                        className="prose prose-sm max-w-none text-sm leading-relaxed"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.1 }}
                       >
-                        {message.content}
-                      </ReactMarkdown>
+                        <ReactMarkdown
+                          components={{
+                            a: ({ href, children }) => (
+                              <a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#DF1463] underline hover:opacity-80 transition"
+                              >
+                                {children}
+                              </a>
+                            ),
+                          }}
+                        >
+                          {message.content}
+                        </ReactMarkdown>
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
 
-                  {message.role === "assistant" && index === messages.length - 1 && awaitingFeedback && (
-                    <motion.div
-                      className="flex flex-wrap justify-start gap-1 mt-1"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700 text-xs h-7"
-                        onClick={() => handleFeedback(false)}
+                    {message.role === "assistant" && index === messages.length - 1 && awaitingFeedback && (
+                      <motion.div
+                        className="flex flex-wrap gap-1 mt-2"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
                       >
-                        Não Resolveu
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="bg-[#e91e63] hover:bg-[#d81b60] text-xs h-7"
-                        onClick={() => handleFeedback(true)}
-                      >
-                        Resolveu Meu Problema
-                      </Button>
-                    </motion.div>
-                  )}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700 text-xs h-7"
+                          onClick={() => handleFeedback(false)}
+                        >
+                          Não Resolveu
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="bg-[#e91e63] hover:bg-[#d81b60] text-xs h-7"
+                          onClick={() => handleFeedback(true)}
+                        >
+                          Resolveu Meu Problema
+                        </Button>
+                      </motion.div>
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </AnimatePresence>
-
-            <AnimatePresence>
-              {isLoading && (
-                <motion.div
-                  className="flex gap-4 justify-start"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                >
-                  <div className="flex-shrink-0">
-                    <div className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95">
-                      <Image
-                        src={SafiBubble || "/placeholder.svg"}
-                        className="object-cover w-full h-full"
-                        alt="Safi Bubble"
-                      />
-                    </div>
-                  </div>
-                  <div className="bg-white border border-[#252525]/10 rounded-2xl px-4 py-3">
-                    <div className="flex space-x-1">
-                      {[0, 1, 2].map((i) => (
-                        <motion.div
-                          key={i}
-                          className="w-2 h-2 bg-[#DF1463] rounded-full"
-                          animate={{ y: [0, -2, 0] }}
-                          transition={{
-                            duration: 0.9,
-                            repeat: Number.POSITIVE_INFINITY,
-                            delay: i * 0.1,
-                            ease: "easeInOut",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
 
