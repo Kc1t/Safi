@@ -5,6 +5,9 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import GridBg from "@/assets/grid-bg.png"
 import AiInspect from "@/assets/ai/safi-ai-inspect.png"
+import VideoBgPlaceholder from "@/assets/placeholders/shots-placeholder.png"
+import VideoBgPlaceholder1 from "@/assets/placeholders/shots-placeholder-1.png"
+import VideoBgPlaceholder2 from "@/assets/placeholders/shots-placeholder-2.png"
 
 const Header = () => {
     const containerVariants = {
@@ -108,7 +111,7 @@ const Header = () => {
                             </motion.p>
                         </motion.div>
 
-                        {/* Video Demo Section */}
+                        {/* Video */}
                         <div className="w-full max-w-5xl mx-auto mt-4">
                             <div className="relative group cursor-pointer flex flex-col items-center justify-center">
                                 <Image
@@ -120,23 +123,20 @@ const Header = () => {
                                 />
                                 <div className="relative overflow-hidden rounded-lg shadow-2xl border w-full">
                                     <Image
-                                        src="/demo-video.png"
+                                        src={VideoBgPlaceholder2}
                                         alt="Demo do sistema de suporte técnico inteligente"
-                                        width={1400}
-                                        height={800}
-                                        className="w-full h-auto"
+                                        className="w-full h-auto object-cover"
                                         priority
                                     />
 
                                     {/* Play Button Overlay */}
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="bg-pink-500 hover:bg-pink-600 transition-all duration-300 rounded-full p-6 shadow-lg group-hover:scale-110">
-                                            <Play className="w-8 h-8 text-white fill-white ml-1" />
+                                    <div className="absolute inset-0 z-[10] flex items-center justify-center">
+                                        <div className="relative bg-pink-500 hover:bg-pink-600 transition-all duration-300 rounded-full p-3 md:p-4 lg:p-6 shadow-lg group-hover:scale-110 flex items-center justify-center aspect-square w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24">
+                                            <Play className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white fill-white ml-1" />
                                         </div>
                                     </div>
 
-                                    {/* Gradient Overlay */}
-                                    <div className="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg"></div>
+                                    <div className="absolute inset-0 bg-black/20 bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg"></div>
                                 </div>
                             </div>
                         </div>
