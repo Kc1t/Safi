@@ -11,7 +11,7 @@ interface TicketHeaderProps {
 export function TicketHeader({ ticketNumber, department }: TicketHeaderProps) {
   return (
     <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         <Link href="/tickets-dashboard" className="">
           <Button
             variant="outline"

@@ -67,8 +67,34 @@ export default function ClientTicket() {
     }
   }, [messages, isLoading])
 
+
   const handleFeedback = (resolved: boolean) => {
     setAwaitingFeedback(false)
+
+    if (!resolved) {
+      setInput("Não resolveu meu problema, preciso de mais ajuda.")
+
+      setTimeout(() => {
+        const form = document.querySelector('form') as HTMLFormElement
+        if (form) {
+          const submitEvent = new Event('submit', { bubbles: true, cancelable: true })
+          form.dispatchEvent(submitEvent)
+        }
+      }, 50)
+    }
+
+    if (resolved) {
+      setInput("Resolveu meu problema, obrigado!")
+
+      setTimeout(() => {
+        const form = document.querySelector('form') as HTMLFormElement
+        if (form) {
+          const submitEvent = new Event('submit', { bubbles: true, cancelable: true })
+          form.dispatchEvent(submitEvent)
+        }
+      }, 50)
+    }
+
     // Exemplo: fetch('/api/feedback', { method: 'POST', body: JSON.stringify({ resolved }) })
   }
 
@@ -130,8 +156,8 @@ export default function ClientTicket() {
                   <div className="flex flex-col max-w-[85%] sm:max-w-[75%]">
                     <motion.div
                       className={`rounded-2xl px-4 py-3 ${message.role === "user"
-                          ? "bg-[#e91e63] text-white ml-auto"
-                          : "bg-white text-[#252525] border border-[#252525]/10"
+                        ? "bg-[#e91e63] text-white ml-auto"
+                        : "bg-white text-[#252525] border border-[#252525]/10"
                         }`}
                     >
                       <motion.div

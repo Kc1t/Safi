@@ -31,12 +31,15 @@ import Avatar4 from "@/assets/avatars/avatar-4.png"
 
 export function Topbar() {
   const [userName, setUserName] = useState("Usuário")
+  const [contact, setContact] = useState("usuario@gmail.com")
   const router = useRouter()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const name = localStorage.getItem("userName")
+      const contact = localStorage.getItem("userContact")
       if (name) setUserName(name)
+      if (contact) setContact(contact)
     }
   }, [])
 
@@ -68,7 +71,7 @@ export function Topbar() {
                 </Avatar>
                 <div>
                   <h3 className="font-semibold text-lg">{userName}</h3>
-                  <p className="text-blue-100 text-sm">usuario@exemplo.com</p>
+                  <p className="text-blue-100 text-sm">{contact}</p>
                 </div>
               </div>
               <div className="mt-4 flex items-center gap-2 text-blue-100">

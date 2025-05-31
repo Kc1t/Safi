@@ -19,15 +19,13 @@ export default function Ticket() {
 
     const ticket = ticketsData.find(t => t.id === id)
 
-    console.log(JSON.stringify(ticket), "aqui")
-
     return (
         <div className="min-h-screen flex flex-col items-start justify-start bg-white">
             <Topbar />
             <main className="flex-1 px-4">
                 <Card className="w-full mx-auto shadow-none bg-transparent border-none">
                     <CardContent className="px-4 flex flex-col gap-1">
-                  
+
                         <TicketHeader ticketNumber={ticket?.number || ""} department={ticket?.department || ""} />
 
                         {/* Main Grid Layout */}
@@ -35,10 +33,10 @@ export default function Ticket() {
                             {/* Left Column - Customer Info & Priority */}
                             <div className="space-y-6">
                                 <CustomerInfo
-                                    name={ticket?.assignedTo?.name || ""}
-                                    phone={ticket?.assignedTo?.cellphone || ""}
-                                    email={ticket?.assignedTo?.email || ""}
-                                    initials={ticket?.assignedTo?.initials || ""}
+                                    name={ticket?.requester?.name || ""}
+                                    phone={ticket?.requester?.cellphone || ""}
+                                    email={ticket?.requester?.email || ""}
+                                    initials={ticket?.requester?.initials || ""}
                                 />
                                 <PriorityStatus />
                             </div>

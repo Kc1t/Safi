@@ -17,6 +17,9 @@ export default function Home() {
       <ChatbotWidget />
       <Header />
       <FeaturesStart />
+      {/* <div className="w-full flex items-center justify-center px-4 md:px-8">
+      <hr className="w-6xl my-8" />
+      </div> */}
       <DestktopFeature />
       {/* <MobileFeature /> */}
       <MobileCarousel />

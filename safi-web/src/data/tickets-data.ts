@@ -14,6 +14,12 @@ export interface Ticket {
         cellphone?: string
         email?: string
     }
+    requester?: {
+        name?: string
+        initials?: string
+        cellphone?: string
+        email?: string
+    }
     timeLine?: {
         id: string
         user: string
@@ -49,6 +55,12 @@ export const ticketsData: Ticket[] = [
             cellphone: "(11) 99876-5432",
             email: "leticia.rocha@empresa.com"
         },
+        requester: {
+            name: "Maria Silva",
+            initials: "MS",
+            cellphone: "(11) 91234-5678",
+            email: "maria.silva@empresa.com"
+        },
         timeLine: [
             {
                 id: "1",
@@ -61,7 +73,7 @@ export const ticketsData: Ticket[] = [
             {
                 id: "2",
                 user: "Analista N0 - IA",
-                action: "Escalou para N1",
+                action: "Escalou para N1 - Após 5 tentativas",
                 date: "15 Jan",
                 initials: "IA",
                 type: "ai"
@@ -69,14 +81,54 @@ export const ticketsData: Ticket[] = [
             {
                 id: "3",
                 user: "Analista N0 - IA",
-                action: "Recebeu Chamado",
+                action: "5ª Tentativa - Falhou",
                 date: "15 Jan",
                 initials: "IA",
                 type: "ai"
             },
             {
                 id: "4",
-                user: "Maria Silva",	
+                user: "Analista N0 - IA",
+                action: "4ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "5",
+                user: "Analista N0 - IA",
+                action: "3ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "6",
+                user: "Analista N0 - IA",
+                action: "2ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "7",
+                user: "Analista N0 - IA",
+                action: "1ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "8",
+                user: "Analista N0 - IA",
+                action: "Recebeu Chamado",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "9",
+                user: "Maria Silva",
                 action: "Abriu o Chamado",
                 date: "15 Jan",
                 initials: "MS",
@@ -120,11 +172,17 @@ export const ticketsData: Ticket[] = [
             name: "Analista N0 - IA",
             initials: "IA",
         },
+        requester: {
+            name: "Carlos Pereira",
+            initials: "CP",
+            cellphone: "(11) 92345-6789",
+            email: "carlos.pereira@empresa.com"
+        },
         timeLine: [
             {
                 id: "1",
                 user: "Analista N0 - IA",
-                action: "Resolveu Chamado",
+                action: "Resolveu Chamado - 2ª Tentativa",
                 date: "14 Jan",
                 initials: "IA",
                 type: "ai"
@@ -132,13 +190,21 @@ export const ticketsData: Ticket[] = [
             {
                 id: "2",
                 user: "Analista N0 - IA",
-                action: "Recebeu Chamado",
+                action: "1ª Tentativa - Falhou",
                 date: "14 Jan",
                 initials: "IA",
                 type: "ai"
             },
             {
                 id: "3",
+                user: "Analista N0 - IA",
+                action: "Recebeu Chamado",
+                date: "14 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "4",
                 user: "Carlos Pereira",
                 action: "Abriu o Chamado",
                 date: "14 Jan",
@@ -178,11 +244,17 @@ export const ticketsData: Ticket[] = [
             name: "Analista N0 - IA",
             initials: "IA",
         },
+        requester: {
+            name: "Roberto Santos",
+            initials: "RS",
+            cellphone: "(11) 93456-7890",
+            email: "roberto.santos@empresa.com"
+        },
         timeLine: [
             {
                 id: "1",
                 user: "Analista N0 - IA",
-                action: "Resolveu Chamado",
+                action: "Resolveu Chamado - 1ª Tentativa",
                 date: "13 Jan",
                 initials: "IA",
                 type: "ai"
@@ -238,6 +310,12 @@ export const ticketsData: Ticket[] = [
             cellphone: "(11) 96543-2109",
             email: "rodrigo.campos@empresa.com"
         },
+        requester: {
+            name: "Ana Costa",
+            initials: "AC",
+            cellphone: "(11) 97654-3210",
+            email: "ana.costa@empresa.com"
+        },
         timeLine: [
             {
                 id: "1",
@@ -250,7 +328,7 @@ export const ticketsData: Ticket[] = [
             {
                 id: "2",
                 user: "Analista N0 - IA",
-                action: "Escalou para N1",
+                action: "Escalou para N1 - Após 5 tentativas",
                 date: "15 Jan",
                 initials: "IA",
                 type: "ai"
@@ -258,13 +336,53 @@ export const ticketsData: Ticket[] = [
             {
                 id: "3",
                 user: "Analista N0 - IA",
-                action: "Recebeu Chamado",
+                action: "5ª Tentativa - Falhou",
                 date: "15 Jan",
                 initials: "IA",
                 type: "ai"
             },
             {
                 id: "4",
+                user: "Analista N0 - IA",
+                action: "4ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "5",
+                user: "Analista N0 - IA",
+                action: "3ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "6",
+                user: "Analista N0 - IA",
+                action: "2ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "7",
+                user: "Analista N0 - IA",
+                action: "1ª Tentativa - Falhou",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "8",
+                user: "Analista N0 - IA",
+                action: "Recebeu Chamado",
+                date: "15 Jan",
+                initials: "IA",
+                type: "ai"
+            },
+            {
+                id: "9",
                 user: "Ana Costa",
                 action: "Abriu o Chamado",
                 date: "15 Jan",
