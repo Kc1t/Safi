@@ -15,9 +15,18 @@ interface InputPayload {
 export async function POST(request: Request) {
     try {
         const data = await request.json() as InputPayload;
+        
+        console.log('Received data:', {
+            nome: data.nome,
+            email: data.email,
+            setor: data.setor,
+            historicoLength: data.historico.length
+        });
 
         const historicoLimpo = data.historico;
         const prompt = generateSupportPrompt({ ...data, historico: historicoLimpo });
+        
+        console.log('Generated prompt includes user data:', prompt.includes(data.nome || ''));
 
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
         const result = await model.generateContent(prompt);

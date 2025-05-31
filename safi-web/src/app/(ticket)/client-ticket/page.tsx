@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
 import BlobBg from "@/assets/backgrounds/blob-bg.png"
 import Image from "next/image"
+import { TicketWelcome } from "@/components/ticket-chat/ticket-welcome"
 
 export default function ClientTicket() {
   const areas: Record<string, string> = {
@@ -126,98 +127,102 @@ export default function ClientTicket() {
         {/* Messages */}
         <ScrollArea className="flex-1 p-3 overflow-y-auto">
           <div className="space-y-6">
-            <AnimatePresence>
-              {messages.map((message, index) => (
-                <motion.div
-                  key={message.id}
-                  className={`flex gap-3 w-full ${message.role === "user" ? "justify-end" : "justify-start"}`}
-                  initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, scale: 0.8 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                    delay: index * 0.1,
-                  }}
-                >
-                  {message.role === "assistant" && (
-                    <motion.div
-                      className="flex-shrink-0 self-start mt-1"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      <div className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95">
-                        <Image
-                          src={SafiBubble || "/placeholder.svg"}
-                          className="object-cover w-full h-full"
-                          alt="Safi Bubble"
-                        />
-                      </div>
-                    </motion.div>
-                  )}
-
-                  <div className="flex flex-col max-w-[85%] sm:max-w-[75%]">
-                    <motion.div
-                      className={`rounded-2xl px-4 py-3 ${message.role === "user"
-                        ? "bg-[#e91e63] text-white ml-auto"
-                        : "bg-white text-[#252525] border border-[#252525]/10"
-                        }`}
-                    >
+            {messages.length === 0 ? (
+              <TicketWelcome />
+            ) : (
+              <AnimatePresence>
+                {messages.map((message, index) => (
+                  <motion.div
+                    key={message.id}
+                    className={`flex gap-3 w-full ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                    initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30,
+                      delay: index * 0.1,
+                    }}
+                  >
+                    {message.role === "assistant" && (
                       <motion.div
-                        className="prose prose-sm max-w-none text-sm leading-relaxed"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.1 }}
+                        className="flex-shrink-0 self-start mt-1"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.2 }}
                       >
-                        <ReactMarkdown
-                          components={{
-                            a: ({ href, children }) => (
-                              <a
-                                href={href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#DF1463] underline hover:opacity-80 transition"
-                              >
-                                {children}
-                              </a>
-                            ),
-                          }}
-                        >
-                          {message.content}
-                        </ReactMarkdown>
-                      </motion.div>
-                    </motion.div>
-
-                    {message.role === "assistant" && index === messages.length - 1 && awaitingFeedback && (
-                      <motion.div
-                        className="flex flex-wrap gap-1 mt-2"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700 text-xs h-7"
-                          onClick={() => handleFeedback(false)}
-                        >
-                          Não Resolveu
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="bg-[#e91e63] hover:bg-[#d81b60] text-xs h-7"
-                          onClick={() => handleFeedback(true)}
-                        >
-                          Resolveu Meu Problema
-                        </Button>
+                        <div className="relative w-8 h-8 cursor-pointer transition-all duration-300 hover:scale-95">
+                          <Image
+                            src={SafiBubble || "/placeholder.svg"}
+                            className="object-cover w-full h-full"
+                            alt="Safi Bubble"
+                          />
+                        </div>
                       </motion.div>
                     )}
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
+
+                    <div className="flex flex-col max-w-[85%] sm:max-w-[75%]">
+                      <motion.div
+                        className={`rounded-2xl px-4 py-3 ${message.role === "user"
+                          ? "bg-[#e91e63] text-white ml-auto"
+                          : "bg-white text-[#252525] border border-[#252525]/10"
+                          }`}
+                      >
+                        <motion.div
+                          className="prose prose-sm max-w-none text-sm leading-relaxed"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.1 }}
+                        >
+                          <ReactMarkdown
+                            components={{
+                              a: ({ href, children }) => (
+                                <a
+                                  href={href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-[#DF1463] underline hover:opacity-80 transition"
+                                >
+                                  {children}
+                                </a>
+                              ),
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                        </motion.div>
+                      </motion.div>
+
+                      {message.role === "assistant" && index === messages.length - 1 && awaitingFeedback && (
+                        <motion.div
+                          className="flex flex-wrap gap-1 mt-2"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 }}
+                        >
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700 text-xs h-7"
+                            onClick={() => handleFeedback(false)}
+                          >
+                            Não Resolveu
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="bg-[#e91e63] hover:bg-[#d81b60] text-xs h-7"
+                            onClick={() => handleFeedback(true)}
+                          >
+                            Resolveu Meu Problema
+                          </Button>
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            )}
           </div>
         </ScrollArea>
 

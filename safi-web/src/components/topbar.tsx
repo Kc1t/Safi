@@ -29,18 +29,52 @@ import Avatar2 from "@/assets/avatars/avatar-2.png"
 import Avatar3 from "@/assets/avatars/avatar-3.png"
 import Avatar4 from "@/assets/avatars/avatar-4.png"
 import Avatar5 from "@/assets/avatars/avatar-5.png"
+import AvatarKc1t from "@/assets/avatars/avatar-kc1t.png"
 
 export function Topbar() {
   const [userName, setUserName] = useState("Usuário")
   const [contact, setContact] = useState("usuario@gmail.com")
+  const [userAvatar, setUserAvatar] = useState(Avatar1.src)
   const router = useRouter()
+
+  const getAvatarByName = (name: string) => {
+    // Special users check (case insensitive)
+    const specialUsers = ['kc1t', 'kauã miguel', 'kauã', 'kaua miguel', 'kaua']
+    if (specialUsers.includes(name.toLowerCase().trim())) {
+      return AvatarKc1t.src
+    }
+
+    // Get first letter and map to avatar
+    const firstLetter = name.charAt(0).toLowerCase()
+    const avatarMap: { [key: string]: string } = {
+      'a': Avatar1.src, 'b': Avatar1.src, 'c': Avatar1.src, 'd': Avatar1.src,
+      'e': Avatar2.src, 'f': Avatar2.src, 'g': Avatar2.src, 'h': Avatar2.src,
+      'i': Avatar3.src, 'j': Avatar3.src, 'k': Avatar3.src, 'l': Avatar3.src,
+      'm': Avatar4.src, 'n': Avatar4.src, 'o': Avatar4.src, 'p': Avatar4.src,
+      'q': Avatar5.src, 'r': Avatar5.src, 's': Avatar5.src, 't': Avatar5.src,
+      'u': Avatar1.src, 'v': Avatar2.src, 'w': Avatar3.src, 'x': Avatar4.src,
+      'y': Avatar5.src, 'z': Avatar1.src
+    }
+    
+    return avatarMap[firstLetter] || Avatar1.src
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const name = localStorage.getItem("userName")
       const contact = localStorage.getItem("userContact")
-      if (name) setUserName(name)
+      let avatar = localStorage.getItem("userAvatar")
+      
+      if (name) {
+        setUserName(name)
+        const generatedAvatar = getAvatarByName(name)
+        if (!avatar || avatar !== generatedAvatar) {
+          avatar = generatedAvatar
+          localStorage.setItem("userAvatar", avatar)
+        }
+      }
       if (contact) setContact(contact)
+      if (avatar) setUserAvatar(avatar)
     }
   }, [])
 
@@ -65,7 +99,7 @@ export function Topbar() {
             <div className="bg-gradient-to-r from-[#DF1463] to-[#DF1463] p-6 text-white">
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12 border-2 border-white/20">
-                  <AvatarImage src={Avatar4.src} alt={userName} />
+                  <AvatarImage src={userAvatar} alt={userName} />
                   <AvatarFallback className="bg-white/20 text-white font-semibold text-lg">
                     {userInitials}
                   </AvatarFallback>
@@ -105,7 +139,7 @@ export function Topbar() {
                   <span>Meus Tickets (Analista)</span>
                 </Link>
 
-                {/* <div className="border-t pt-2 mt-2">
+                <div className="border-t pt-2 mt-2">
                   <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 px-3">Configurações</p>
                   <div className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-gray-400 rounded-lg cursor-not-allowed opacity-60">
                     <User className="h-5 w-5 text-gray-400" />
@@ -117,16 +151,13 @@ export function Topbar() {
                     <span>Configurações</span>
                     <span className="ml-auto text-xs text-gray-400">(Em breve)</span>
                   </div>
-                </div> */}
+                </div>
               </nav>
             </div>
 
             <div className="border-t bg-gray-50 p-6">
               <div className="text-xs text-muted-foreground">
                 <div className="flex items-center gap-2 mb-2">
-                  {/* <div className="w-6 h-6 bg-[#DF1463] rounded flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">S</span>
-                  </div> */}
                   <span className="font-medium text-gray-900">Sistema Safi v0.1</span>
                 </div>
                 <p className="leading-relaxed">
@@ -158,7 +189,7 @@ export function Topbar() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-2 px-2 py-1.5 h-auto">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={Avatar4.src} alt={userName} />
+                  <AvatarImage src={userAvatar} alt={userName} />
                   <AvatarFallback className="bg-[#DF1463]/20 text-[#DF1463] font-medium">{userInitials}</AvatarFallback>
                 </Avatar>
                 <div className="hidden sm:flex items-center gap-1">
