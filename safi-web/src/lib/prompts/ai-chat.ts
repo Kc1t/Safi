@@ -47,7 +47,7 @@ Se algum desses dados estiver faltando, solicite de forma objetiva e educada:
 
 📈 **REGRAS INTERNAS DE TRIAGEM E ESCALONAMENTO**
 - Chamados são organizados por prioridade (setor + urgência).
-- Chamados urgentes devem ter **5 tentativas de resolução** antes de serem escalados (N0 → N1 → N2 → N3).
+- Chamados urgentes devem ter **3 tentativas de resolução** e chamados gerais devem ser tentados resolvidos 5 vezes antes de serem escalados (N0 → N1 → N2 → N3).
 - Clientes Terceiros só recebem suporte remoto (não é permitido solicitar manutenção física de hardware).
 - Chamados duplicados em 24h são agrupados automaticamente.
 

@@ -10,8 +10,6 @@ import { TicketChat } from "@/components/ticket/ticket-chat"
 import { TicketTimeline } from "@/components/ticket/ticket-timeline"
 import { ticketsData } from "@/data/tickets-data"
 import { useParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
 
 export default function Ticket() {
     const params = useParams()
@@ -22,37 +20,39 @@ export default function Ticket() {
     return (
         <div className="min-h-screen flex flex-col items-start justify-start bg-white">
             <Topbar />
-            <main className="flex-1 px-4">
+            <main className="flex-1 w-full px-2 sm:px-4">
                 <Card className="w-full mx-auto shadow-none bg-transparent border-none">
-                    <CardContent className="px-4 flex flex-col gap-1">
+                    <CardContent className="px-2 sm:px-4 flex flex-col gap-4">
 
                         <TicketHeader ticketNumber={ticket?.number || ""} department={ticket?.department || ""} />
 
                         {/* Main Grid Layout */}
-                        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 lg:gap-6">
                             {/* Left Column - Customer Info & Priority */}
-                            <div className="space-y-6">
+                            <div className="xl:order-1 space-y-4 lg:space-y-6">
                                 <CustomerInfo
                                     name={ticket?.requester?.name || ""}
                                     phone={ticket?.requester?.cellphone || ""}
                                     email={ticket?.requester?.email || ""}
                                     initials={ticket?.requester?.initials || ""}
+                                    avatar={ticket?.requester?.avatarNumber || 0}
                                 />
                                 <PriorityStatus />
                             </div>
 
                             {/* Middle Column - Summary & Chat */}
-                            <div className="lg:col-span-2 space-y-6">
+                            <div className="xl:col-span-2 xl:order-2 space-y-4 lg:space-y-6">
                                 <TicketSummary
                                     title={ticket?.title || "Erro no Sistema"}
                                     description={ticket?.description || ''}
                                     createdAt={ticket?.timeLine?.[ticket.timeLine.length - 1]?.date ?? ""}
+                                
                                 />
                                 {ticket && <TicketChat ticket={ticket} />}
                             </div>
 
                             {/* Right Column - Timeline */}
-                            <div>
+                            <div className="xl:order-3">
                                 <TicketTimeline timelineItems={ticket?.timeLine || []} />
                             </div>
                         </div>

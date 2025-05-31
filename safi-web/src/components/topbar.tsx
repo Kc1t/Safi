@@ -28,6 +28,7 @@ import Avatar1 from "@/assets/avatars/avatar-1.png"
 import Avatar2 from "@/assets/avatars/avatar-2.png"
 import Avatar3 from "@/assets/avatars/avatar-3.png"
 import Avatar4 from "@/assets/avatars/avatar-4.png"
+import Avatar5 from "@/assets/avatars/avatar-5.png"
 
 export function Topbar() {
   const [userName, setUserName] = useState("Usuário")

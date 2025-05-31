@@ -15,6 +15,7 @@ import { useTicketStore } from "@/store/ticketStore"
 import { useAutoSubmitMessage } from "@/hooks/use-auto-submit-message"
 import { AnimatePresence, motion } from "framer-motion"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
+import BlobBg from "@/assets/backgrounds/blob-bg.png"
 import Image from "next/image"
 
 export default function ClientTicket() {
@@ -101,14 +102,18 @@ export default function ClientTicket() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Topbar />
+      <Image
+        src={BlobBg || "/placeholder.svg"}
+        className="object-fit absolute w-full h-full"
+        alt="Blob Background"
+      />
       <div
-        className="flex flex-col w-full max-w-3xl mx-auto border-0 md:border-1 rounded-lg my-2 bg-white overflow-hidden"
+        className="relative z-[10] flex flex-col w-full max-w-3xl mx-auto border-0 md:border-1 rounded-lg my-2 bg-white overflow-hidden"
         style={{
           height: "calc(100vh - 60px)",
           maxHeight: "90vh",
         }}
       >
-        {/* Header */}
         <div className="border-b p-2 sm:p-3 flex-shrink-0">
           <div className="flex items-center gap-2">
             <h2 className="text-base font-medium">Ticket# 2025-CS123</h2>

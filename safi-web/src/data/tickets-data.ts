@@ -13,12 +13,14 @@ export interface Ticket {
         initials: string
         cellphone?: string
         email?: string
+        avatarNumber?: number
     }
     requester?: {
         name?: string
         initials?: string
         cellphone?: string
         email?: string
+        avatarNumber?: number
     }
     timeLine?: {
         id: string
@@ -27,6 +29,7 @@ export interface Ticket {
         date: string
         initials: string
         type: 'user' | 'ai' | 'analyst'
+        avatarNumber?: number
     }[]
     aiDescription?: string
     chatHistory?: {
@@ -35,6 +38,7 @@ export interface Ticket {
         department?: string
         content?: string
         time?: string
+        avatarNumber?: number
     }[]
 }
 
@@ -53,13 +57,15 @@ export const ticketsData: Ticket[] = [
             name: "Leticia Rocha",
             initials: "LR",
             cellphone: "(11) 99876-5432",
-            email: "leticia.rocha@empresa.com"
+            email: "leticia.rocha@empresa.com",
+            avatarNumber: 1
         },
         requester: {
-            name: "Maria Silva",
-            initials: "MS",
+            name: "Giovanna Silva",
+            initials: "GS",
             cellphone: "(11) 91234-5678",
-            email: "maria.silva@empresa.com"
+            email: "giovanna.silva@empresa.com",
+            avatarNumber: 2
         },
         timeLine: [
             {
@@ -68,7 +74,8 @@ export const ticketsData: Ticket[] = [
                 action: "Em Análise",
                 date: "15 Jan",
                 initials: "LR",
-                type: "analyst"
+                type: "analyst",
+                avatarNumber: 1
             },
             {
                 id: "2",
@@ -128,34 +135,37 @@ export const ticketsData: Ticket[] = [
             },
             {
                 id: "9",
-                user: "Maria Silva",
+                user: "Giovanna Silva",
                 action: "Abriu o Chamado",
                 date: "15 Jan",
                 initials: "MS",
-                type: "user"
+                type: "user",
+                avatarNumber: 2
             }
         ],
         chatHistory: [
             {
                 role: "user",
-                name: "Maria Silva",
+                name: "Giovanna Silva",
                 department: "RH",
                 content: "Olá, meu computador não liga após a atualização de ontem. Aparece uma tela azul.",
+                avatarNumber: 2
             },
             {
                 role: "ai",
-                content: "Olá Maria! Entendi que seu computador apresenta tela azul após a atualização. Vou conectar você com nossa analista Leticia. Enquanto isso, você pode tentar desligar completamente o equipamento por 30 segundos?",
+                content: "Olá Giovanna! Entendi que seu computador apresenta tela azul após a atualização. Vou conectar você com nossa analista Leticia. Enquanto isso, você pode tentar desligar completamente o equipamento por 30 segundos?",
             },
             {
                 role: "user",
-                name: "Maria Silva",
+                name: "Giovanna Silva",
                 department: "RH",
                 content: "Tentei isso mas não funcionou. O problema persiste.",
             },
             {
                 role: "analyst",
                 name: "Leticia Rocha",
-                content: "Olá Maria, recebi seu chamado. Vou analisar o problema da tela azul após a atualização.",
+                content: "Olá Giovanna, recebi seu chamado. Vou analisar o problema da tela azul após a atualização.",
+                avatarNumber: 1
             },
         ]
     },
@@ -176,7 +186,8 @@ export const ticketsData: Ticket[] = [
             name: "Carlos Pereira",
             initials: "CP",
             cellphone: "(11) 92345-6789",
-            email: "carlos.pereira@empresa.com"
+            email: "carlos.pereira@empresa.com",
+            avatarNumber: 3
         },
         timeLine: [
             {
@@ -209,7 +220,8 @@ export const ticketsData: Ticket[] = [
                 action: "Abriu o Chamado",
                 date: "14 Jan",
                 initials: "CP",
-                type: "user"
+                type: "user",
+                avatarNumber: 3
             }
         ],
         chatHistory: [
@@ -218,6 +230,7 @@ export const ticketsData: Ticket[] = [
                 name: "Carlos Pereira",
                 department: "Financeiro",
                 content: "O CRM está muito lento hoje, demora mais de 2 minutos para carregar.",
+                avatarNumber: 3
             },
             {
                 role: "ai",
@@ -228,6 +241,7 @@ export const ticketsData: Ticket[] = [
                 name: "Carlos Pereira",
                 department: "Financeiro",
                 content: "Perfeito! Agora está funcionando normalmente. Obrigado!",
+                avatarNumber: 3
             }
         ]
     },
@@ -248,7 +262,8 @@ export const ticketsData: Ticket[] = [
             name: "Roberto Santos",
             initials: "RS",
             cellphone: "(11) 93456-7890",
-            email: "roberto.santos@empresa.com"
+            email: "roberto.santos@empresa.com",
+            avatarNumber: 4
         },
         timeLine: [
             {
@@ -273,7 +288,8 @@ export const ticketsData: Ticket[] = [
                 action: "Abriu o Chamado",
                 date: "13 Jan",
                 initials: "RS",
-                type: "user"
+                type: "user",
+                avatarNumber: 4
             }
         ],
         chatHistory: [
@@ -282,6 +298,7 @@ export const ticketsData: Ticket[] = [
                 name: "Roberto Santos",
                 department: "Logística",
                 content: "As ordens de envio não estão chegando na transportadora. Há algum problema na integração?",
+                avatarNumber: 4
             },
             {
                 role: "ai",
@@ -292,6 +309,7 @@ export const ticketsData: Ticket[] = [
                 name: "Roberto Santos",
                 department: "Logística",
                 content: "Ótimo! Agora as ordens estão sendo enviadas corretamente. Problema resolvido!",
+                avatarNumber: 4
             }
         ]
     },
@@ -308,13 +326,15 @@ export const ticketsData: Ticket[] = [
             name: "Rodrigo Campos",
             initials: "RC",
             cellphone: "(11) 96543-2109",
-            email: "rodrigo.campos@empresa.com"
+            email: "rodrigo.campos@empresa.com",
+            avatarNumber: 5
         },
         requester: {
             name: "Ana Costa",
             initials: "AC",
             cellphone: "(11) 97654-3210",
-            email: "ana.costa@empresa.com"
+            email: "ana.costa@empresa.com",
+            avatarNumber: 1
         },
         timeLine: [
             {
@@ -323,7 +343,8 @@ export const ticketsData: Ticket[] = [
                 action: "Em Investigação",
                 date: "15 Jan",
                 initials: "RC",
-                type: "analyst"
+                type: "analyst",
+                avatarNumber: 5
             },
             {
                 id: "2",
@@ -387,7 +408,8 @@ export const ticketsData: Ticket[] = [
                 action: "Abriu o Chamado",
                 date: "15 Jan",
                 initials: "AC",
-                type: "user"
+                type: "user",
+                avatarNumber: 1
             }
         ],
         chatHistory: [
@@ -396,6 +418,7 @@ export const ticketsData: Ticket[] = [
                 name: "Ana Costa",
                 department: "RH",
                 content: "Vários funcionários estão com problema para acessar o portal. Aparece 'acesso negado'.",
+                avatarNumber: 1
             },
             {
                 role: "ai",
@@ -406,6 +429,7 @@ export const ticketsData: Ticket[] = [
                 name: "Ana Costa",
                 department: "RH",
                 content: "Ok, é urgente pois afeta toda a equipe. Quando teremos uma previsão de resolução?",
+                avatarNumber: 1
             },
             {
                 role: "ai",

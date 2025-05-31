@@ -12,6 +12,35 @@ import DailyReportAI from "./daily-report"
 import { ticketsData } from "@/data/tickets-data"
 import Link from "next/link"
 
+import Avatar1 from "@/assets/avatars/avatar-1.png"
+import Avatar2 from "@/assets/avatars/avatar-2.png"
+import Avatar3 from "@/assets/avatars/avatar-3.png"
+import Avatar4 from "@/assets/avatars/avatar-4.png"
+import Avatar5 from "@/assets/avatars/avatar-5.png"
+import SafiBubble from "@/assets/ai/safi-bubble.png"
+
+const AVATAR_IMAGES = {
+  1: Avatar1,
+  2: Avatar2,
+  3: Avatar3,
+  4: Avatar4,
+  5: Avatar5
+} as const
+
+const getAvatarImage = (avatarNumber?: number) => {
+  if (!avatarNumber || avatarNumber < 1 || avatarNumber > 5) {
+    return Avatar1
+  }
+  return AVATAR_IMAGES[avatarNumber as keyof typeof AVATAR_IMAGES]
+}
+
+const getAssignedToAvatar = (assignedTo: any) => {
+  if (assignedTo.name === "Analista N0 - IA") {
+    return SafiBubble.src
+  }
+  return assignedTo.avatar || getAvatarImage(assignedTo.avatarNumber).src
+}
+
 export function Dashboard() {
   const [activeTab, setActiveTab] = useState("todos")
   const [currentPage, setCurrentPage] = useState(1)
@@ -158,7 +187,7 @@ export function Dashboard() {
                         <div className="flex items-center gap-2 self-start">
                           <Avatar className="h-8 w-8">
                             <AvatarImage
-                              src={ticket.assignedTo.avatar || `/placeholder.svg?height=32&width=32`}
+                              src={getAssignedToAvatar(ticket.assignedTo)}
                               alt={ticket.assignedTo.name}
                             />
                             <AvatarFallback className="text-xs">{ticket.assignedTo.initials}</AvatarFallback>
