@@ -12,7 +12,7 @@ const Header = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isFullscreen, setIsFullscreen] = useState(false)
     const [showVideo, setShowVideo] = useState(false)
-    const videoRef = useRef<HTMLVideoElement>(null)
+    const videoRef = useRef<HTMLIFrameElement>(null)
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -79,11 +79,6 @@ const Header = () => {
 
     const handlePlayClick = () => {
         setShowVideo(true)
-        setTimeout(() => {
-            if (videoRef.current) {
-                videoRef.current.play()
-            }
-        }, 100)
     }
 
     const handleVideoPlay = () => {
@@ -110,7 +105,6 @@ const Header = () => {
     return (
         <>
             <div className="h-full relative" id="hero">
-                {/* Animated Background */}
                 <Image
                     src={GridBg || "/placeholder.svg"}
                     alt="Imagem de fundo"
@@ -127,7 +121,6 @@ const Header = () => {
                             initial="hidden"
                             animate="visible"
                         >
-                            {/* Top Link */}
                             <motion.div
                                 className="flex items-center text-sm text-[#DF1463] hover:text-[#DF1463] font-semibold border px-2 md:px-6 py-2 rounded-lg transition-colors cursor-pointer"
                                 variants={itemVariants}
@@ -140,7 +133,6 @@ const Header = () => {
                                 <span>Quer Abrir um Chamado? Sem Problemas!</span>
                             </motion.div>
 
-                            {/* Main Heading */}
                             <motion.div className="space-y-4" variants={itemVariants}>
                                 <motion.h1
                                     className="text-2xl md:text-5xl lg:text-6xl font-bold text-[#111827] leading-[0.9]"
@@ -203,7 +195,6 @@ const Header = () => {
                                                         priority
                                                     />
 
-                                                    {/* Play Button Overlay */}
                                                     <div className="absolute inset-0 z-[10] flex items-center justify-center">
                                                         <div
                                                             className="relative bg-pink-500 hover:bg-pink-600 transition-all duration-300 rounded-full p-3 md:p-4 lg:p-6 shadow-lg group-hover:scale-110 flex items-center justify-center aspect-square w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
@@ -213,7 +204,6 @@ const Header = () => {
                                                         </div>
                                                     </div>
 
-                                                    {/* Modal trigger overlay */}
                                                     <div
                                                         className="absolute top-4 right-4 z-[15] bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors cursor-pointer"
                                                         onClick={openModal}
@@ -233,19 +223,17 @@ const Header = () => {
                                                     transition={{ duration: 0.3 }}
                                                     className="relative"
                                                 >
-                                                    <video
+                                                    <iframe
                                                         ref={videoRef}
-                                                        className="w-full h-auto"
-                                                        controls
-                                                        poster="/shots-placeholder-2.png"
-                                                        onPlay={handleVideoPlay}
-                                                        onPause={handleVideoPause}
-                                                    >
-                                                        <source src="/placeholder-video.mp4" type="video/mp4" />
-                                                        Seu navegador não suporta o elemento de vídeo.
-                                                    </video>
+                                                        className="w-full h-auto aspect-video"
+                                                        src="https://www.youtube.com/embed/kQQNymAIbOg"
+                                                        title="SAFI - Guia de Abertura de Tickets"
+                                                        frameBorder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowFullScreen
+                                                        onLoad={handleVideoPlay}
+                                                    />
 
-                                                    {/* Modal trigger overlay */}
                                                     <div
                                                         className="absolute top-4 right-4 z-[15] bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-colors cursor-pointer"
                                                         onClick={openModal}
@@ -264,7 +252,6 @@ const Header = () => {
                 </section>
             </div>
 
-            {/* Video Modal */}
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
@@ -274,10 +261,8 @@ const Header = () => {
                         animate="visible"
                         exit="exit"
                     >
-                        {/* Backdrop */}
                         <motion.div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={closeModal} />
 
-                        {/* Modal Content */}
                         <motion.div
                             className="relative w-full max-w-4xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden"
                             variants={modalVariants}
@@ -285,9 +270,8 @@ const Header = () => {
                             animate="visible"
                             exit="exit"
                         >
-                            {/* Modal Header */}
                             <div className="flex items-center justify-between p-4 border-b bg-gray-50">
-                                <h3 className="text-lg font-semibold text-gray-900">Demo do Sistema de Suporte Técnico Inteligente</h3>
+                                <h3 className="md:text-lg font-semibold text-gray-900">Demo do Sistema - Abrindo um Ticket</h3>
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={toggleFullscreen}
@@ -305,23 +289,20 @@ const Header = () => {
                                 </div>
                             </div>
 
-                            {/* Video Container */}
                             <div className={`relative ${isFullscreen ? "h-[80vh]" : "aspect-video"}`}>
-                                <video
-                                    className="w-full h-full object-cover"
-                                    controls
-                                    autoPlay
-                                    poster="/shots-placeholder-2.png"
-                                >
-                                    <source src="/placeholder-video.mp4" type="video/mp4" />
-                                    Seu navegador não suporta o elemento de vídeo.
-                                </video>
+                                <iframe
+                                    className="w-full h-full"
+                                    src="https://www.youtube.com/embed/kQQNymAIbOg?autoplay=1"
+                                    title="SAFI - Guia de Abertura de Tickets"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                />
                             </div>
 
-                            {/* Modal Footer */}
                             <div className="p-4 bg-gray-50 border-t">
                                 <p className="text-sm text-gray-600 text-center">
-                                    Veja como nosso sistema revoluciona o atendimento técnico em farmácias
+                                    Conhecendo a Safi.
                                 </p>
                             </div>
                         </motion.div>
