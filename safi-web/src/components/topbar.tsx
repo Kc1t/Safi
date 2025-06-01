@@ -201,7 +201,7 @@ export function Topbar() {
             <DropdownMenuContent align="end" className="w-56">
               <div className="px-2 py-1.5 text-sm text-gray-900">
                 <div className="font-medium">{userName}</div>
-                <div className="text-xs text-gray-500">usuario@exemplo.com</div>
+                <div className="text-xs text-gray-500">{contact}</div>
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem disabled className="text-gray-400 cursor-not-allowed">
