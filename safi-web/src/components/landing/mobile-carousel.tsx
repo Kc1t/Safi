@@ -81,12 +81,10 @@ export default function MobileCarousel() {
               ))}
             </CarouselContent>
 
-            {/* Navigation buttons - melhor posicionamento para mobile */}
             <CarouselPrevious className="left-2 sm:left-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg cursor-pointer" />
             <CarouselNext className="right-2 sm:right-4 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg cursor-pointer" />
           </Carousel>
 
-          {/* Indicadores de posição */}
           <div className="flex justify-center mt-4 space-x-2">
             {images.map((_, index) => (
               <button

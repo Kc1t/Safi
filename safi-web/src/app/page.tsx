@@ -8,6 +8,7 @@ import MobileCarousel from "@/components/landing/mobile-carousel";
 import MobileFeature from "@/components/landing/mobile-feature";
 import Navbar from "@/components/landing/navbar";
 import SupportForm from "@/components/landing/support-form";
+import VideoCarousel from "@/components/landing/video-carousel";
 import Image from "next/image";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
       <MobileCarousel />
       <FeaturesResume />
       <SupportForm />
+      <VideoCarousel />
       <Footer />
     </div>
   );

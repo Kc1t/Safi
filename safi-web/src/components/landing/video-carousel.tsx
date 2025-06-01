@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
-import { ChevronLeft, ChevronRight, Play, X, Clock } from "lucide-react"
+import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -12,8 +12,6 @@ interface Tutorial {
   id: string
   title: string
   description: string
-  duration: string
-  category: string
   thumbnail: string
   videoUrl: string
 }
@@ -21,57 +19,17 @@ interface Tutorial {
 const tutorials: Tutorial[] = [
   {
     id: "1",
-    title: "Primeiros Passos no Sistema",
-    description: "Aprenda como navegar pela interface principal e configurar sua conta",
-    duration: "5:30",
-    category: "Básico",
-    thumbnail: "/placeholder.svg?height=200&width=350",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    title: "Primeiros Passos",
+    description: "Navegue pela interface e configure sua conta",
+    thumbnail: "/shots-placeholder-2.png",
+    videoUrl: "https://www.youtube.com/embed/kQQNymAIbOg",
   },
   {
     id: "2",
-    title: "Gerenciando Projetos",
-    description: "Como criar, editar e organizar seus projetos de forma eficiente",
-    duration: "8:15",
-    category: "Intermediário",
-    thumbnail: "/placeholder.svg?height=200&width=350",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-  },
-  {
-    id: "3",
-    title: "Colaboração em Equipe",
-    description: "Convide membros, defina permissões e trabalhe em conjunto",
-    duration: "6:45",
-    category: "Avançado",
-    thumbnail: "/placeholder.svg?height=200&width=350",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-  },
-  {
-    id: "4",
-    title: "Relatórios e Analytics",
-    description: "Gere relatórios detalhados e analise métricas importantes",
-    duration: "10:20",
-    category: "Avançado",
-    thumbnail: "/placeholder.svg?height=200&width=350",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-  },
-  {
-    id: "5",
-    title: "Integrações e API",
-    description: "Conecte o sistema com suas ferramentas favoritas",
-    duration: "12:10",
-    category: "Técnico",
-    thumbnail: "/placeholder.svg?height=200&width=350",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-  },
-  {
-    id: "6",
-    title: "Configurações Avançadas",
-    description: "Personalize o sistema de acordo com suas necessidades",
-    duration: "7:55",
-    category: "Avançado",
-    thumbnail: "/placeholder.svg?height=200&width=350",
-    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    title: "Gerenciamento",
+    description: "Crie e organize seus projetos",
+    thumbnail: "/shots-placeholder-3.png",
+    videoUrl: "https://www.youtube.com/embed/RLEUokEqfJ4",
   },
 ]
 
@@ -80,7 +38,7 @@ export default function VideoCarousel() {
   const [selectedVideo, setSelectedVideo] = useState<Tutorial | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [dragOffset, setDragOffset] = useState(0)
-  const [itemsPerView, setItemsPerView] = useState(3)
+  const [itemsPerView, setItemsPerView] = useState(2)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const startPosRef = useRef(0)
@@ -90,7 +48,7 @@ export default function VideoCarousel() {
     const updateItemsPerView = () => {
       if (window.innerWidth < 640) setItemsPerView(1)
       else if (window.innerWidth < 1024) setItemsPerView(2)
-      else setItemsPerView(3)
+      else setItemsPerView(2)
     }
 
     updateItemsPerView()
@@ -118,17 +76,6 @@ export default function VideoCarousel() {
     setSelectedVideo(null)
   }
 
-  const getCategoryColor = (category: string) => {
-    const colors = {
-      Básico: "bg-emerald-500",
-      Intermediário: "bg-blue-500",
-      Avançado: "bg-purple-500",
-      Técnico: "bg-orange-500",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-500"
-  }
-
-  // Touch/Mouse event handlers
   const handleStart = (clientX: number) => {
     setIsDragging(true)
     startPosRef.current = clientX
@@ -162,7 +109,6 @@ export default function VideoCarousel() {
     setDragOffset(0)
   }
 
-  // Touch events
   const handleTouchStart = (e: React.TouchEvent) => {
     handleStart(e.touches[0].clientX)
   }
@@ -175,7 +121,6 @@ export default function VideoCarousel() {
     handleEnd()
   }
 
-  // Mouse events
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
     handleStart(e.clientX)
@@ -196,23 +141,25 @@ export default function VideoCarousel() {
   }
 
   return (
-    <section className="py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+    <section className="w-full flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
+      <div className="max-w-6xl w-full">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Tutoriais do Sistema</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Aprenda a usar todas as funcionalidades com nossos vídeos tutoriais
+          <div className="space-y-2">
+            <p className="text-xs sm:text-sm font-semibold text-pink-500 uppercase tracking-widest">Tutoriais</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">
+              Conheça Melhor Nosso Sistema
+            </h2>
+          </div>
+          <p className="text-gray-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mt-4">
+            Vídeos tutoriais para dominar as funcionalidades do sistema
           </p>
         </div>
 
-        {/* Carousel */}
         <div className="relative">
-          {/* Navigation Buttons */}
           <Button
             variant="outline"
             size="icon"
-            className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md hover:shadow-lg transition-shadow"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg rounded-full"
             onClick={prevSlide}
             disabled={currentIndex === 0}
           >
@@ -222,14 +169,13 @@ export default function VideoCarousel() {
           <Button
             variant="outline"
             size="icon"
-            className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md hover:shadow-lg transition-shadow"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 bg-white/90 hover:bg-white border-2 shadow-lg rounded-full"
             onClick={nextSlide}
             disabled={currentIndex >= maxIndex}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
 
-          {/* Video Grid */}
           <div
             className="overflow-hidden mx-8 sm:mx-12 cursor-grab active:cursor-grabbing"
             ref={containerRef}
@@ -242,52 +188,39 @@ export default function VideoCarousel() {
             onMouseLeave={handleMouseLeave}
           >
             <div
-              className={`flex gap-4 sm:gap-6 transition-transform duration-300 ease-out ${
-                isDragging ? "transition-none" : ""
-              }`}
+              className={`flex gap-4 sm:gap-2 lg:gap-2 transition-transform duration-300 ease-out ${isDragging ? "transition-none" : ""
+                }`}
               style={{
                 transform: `translateX(calc(-${currentIndex * (100 / itemsPerView)}% + ${dragOffset}px))`,
               }}
             >
               {tutorials.map((tutorial) => (
-                <div key={tutorial.id} className="flex-none w-full sm:w-1/2 lg:w-1/3">
-                  <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white border-0 shadow-sm select-none">
-                    <CardContent className="p-0">
-                      {/* Thumbnail */}
-                      <div className="relative overflow-hidden rounded-lg" onClick={() => openVideo(tutorial)}>
+                <div key={tutorial.id} className="flex-none w-full sm:w-1/2 min-h-0 py-5 px-5">
+                  <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 bg-white border shadow-sm select-none h-full p-0">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div
+                        className="relative overflow-hidden rounded-t-lg aspect-video"
+                        onClick={() => openVideo(tutorial)}
+                      >
                         <img
                           src={tutorial.thumbnail || "/placeholder.svg"}
                           alt={tutorial.title}
-                          className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300 pointer-events-none"
+                          className="w-full h-full object-cover transition-transform duration-200 pointer-events-none group-hover:scale-105"
                           draggable={false}
                         />
-                        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300" />
+                        <div className="absolute inset-0 bg-black/5 group-hover:bg-black/15 transition-colors duration-200" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="bg-white/90 rounded-full p-3 group-hover:bg-white group-hover:scale-110 transition-all duration-300">
-                            <Play className="h-5 w-5 text-gray-900 fill-current" />
+                          <div className="bg-pink-500 rounded-full p-3 sm:p-4 transition-all duration-200 group-hover:scale-110 shadow-lg">
+                            <Play className="h-4 w-4 sm:h-5 sm:w-5 text-white fill-white" />
                           </div>
-                        </div>
-
-                        {/* Duration Badge */}
-                        <div className="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {tutorial.duration}
-                        </div>
-
-                        {/* Category Badge */}
-                        <div
-                          className={`absolute top-3 left-3 ${getCategoryColor(tutorial.category)} text-white text-xs px-2 py-1 rounded`}
-                        >
-                          {tutorial.category}
                         </div>
                       </div>
 
-                      {/* Content */}
-                      <div className="p-4">
-                        <h3 className="font-semibold text-base sm:text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-1">
+                      <div className="p-4 sm:p-6 text-center space-y-2 flex-1 flex flex-col justify-center">
+                        <h3 className="font-semibold text-base sm:text-lg text-gray-900 line-clamp-2">
                           {tutorial.title}
                         </h3>
-                        <p className="text-gray-600 text-sm line-clamp-2">{tutorial.description}</p>
+                        <p className="text-gray-600 text-sm sm:text-base line-clamp-2">{tutorial.description}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -297,61 +230,44 @@ export default function VideoCarousel() {
           </div>
         </div>
 
-        {/* Dots Indicator */}
-        <div className="flex justify-center mt-8 gap-2">
+        <div className="flex justify-center mt-6 space-x-2">
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
               key={index}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                index === currentIndex ? "bg-blue-600" : "bg-gray-300 hover:bg-gray-400"
-              }`}
+              className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full transition-all duration-300 ${index === currentIndex ? "bg-pink-500 scale-110" : "bg-gray-300 hover:bg-gray-400"
+                }`}
               onClick={() => setCurrentIndex(index)}
+              aria-label={`Ir para slide ${index + 1}`}
             />
           ))}
         </div>
       </div>
 
-      {/* Video Modal */}
       <Dialog open={!!selectedVideo} onOpenChange={closeVideo}>
-        <DialogContent className="max-w-4xl w-full p-0 bg-black">
+        <DialogContent className="lg:min-w-[40vw] p-0 bg-white">
           <DialogHeader className="p-4 sm:p-6 pb-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <DialogTitle className="text-white text-lg sm:text-xl">{selectedVideo?.title}</DialogTitle>
-                <p className="text-gray-300 mt-1 text-sm sm:text-base">{selectedVideo?.description}</p>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={closeVideo}
-                className="text-white hover:bg-white/10 flex-shrink-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
+            <div className="text-center">
+              <DialogTitle className="text-gray-900 text-lg sm:text-xl">{selectedVideo?.title}</DialogTitle>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">{selectedVideo?.description}</p>
             </div>
           </DialogHeader>
 
           {selectedVideo && (
             <div className="aspect-video">
-              <video src={selectedVideo.videoUrl} controls autoPlay className="w-full h-full">
-                Seu navegador não suporta o elemento de vídeo.
-              </video>
+              <iframe
+                className="w-full h-full rounded-b-md"
+                src={`${selectedVideo.videoUrl}?autoplay=1`}
+                title={selectedVideo.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           )}
 
-          {selectedVideo && (
-            <div className="p-4 sm:p-6 pt-4">
-              <div className="flex items-center gap-3 text-sm text-gray-300">
-                <div className={`${getCategoryColor(selectedVideo.category)} text-white text-xs px-2 py-1 rounded`}>
-                  {selectedVideo.category}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  {selectedVideo.duration}
-                </div>
-              </div>
-            </div>
-          )}
+          {/* <div className="p-4 sm:p-6 pt-4 bg-gray-50 border-t">
+            <p className="text-sm text-gray-600 text-center">Tutorial do Sistema Safi</p>
+          </div> */}
         </DialogContent>
       </Dialog>
     </section>

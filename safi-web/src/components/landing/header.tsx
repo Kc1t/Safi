@@ -274,13 +274,6 @@ const Header = () => {
                                 <h3 className="md:text-lg font-semibold text-gray-900">Demo do Sistema - Abrindo um Ticket</h3>
                                 <div className="flex items-center gap-2">
                                     <button
-                                        onClick={toggleFullscreen}
-                                        className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
-                                        title={isFullscreen ? "Sair do modo tela cheia" : "Modo tela cheia"}
-                                    >
-                                        {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-                                    </button>
-                                    <button
                                         onClick={closeModal}
                                         className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
                                     >
