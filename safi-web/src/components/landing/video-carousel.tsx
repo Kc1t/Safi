@@ -177,7 +177,7 @@ export default function VideoCarousel() {
           </Button>
 
           <div
-            className="overflow-hidden mx-8 sm:mx-12 cursor-grab active:cursor-grabbing"
+            className="overflow-hidden mx-4 sm:mx-6 cursor-grab active:cursor-grabbing"
             ref={containerRef}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}

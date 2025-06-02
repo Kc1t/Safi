@@ -1,5 +1,6 @@
 import ChatbotWidget from "@/components/landing/chatbot-widget";
 import DestktopFeature from "@/components/landing/desktop-feature";
+import FeaturesDemo from "@/components/landing/features-demo";
 import FeaturesResume from "@/components/landing/features-resume";
 import FeaturesStart from "@/components/landing/features-start";
 import Footer from "@/components/landing/footer";
@@ -26,6 +27,7 @@ export default function Home() {
       <MobileCarousel />
       <FeaturesResume />
       <SupportForm />
+      <FeaturesDemo />
       <VideoCarousel />
       <Footer />
     </div>

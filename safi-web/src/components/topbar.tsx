@@ -10,6 +10,7 @@ import {
   Ticket,
   User,
   Settings,
+  ArrowLeft,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -183,6 +184,16 @@ export function Topbar() {
 
         {/* Right side actions */}
         <div className="flex items-center gap-2 ml-auto">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="hidden lg:flex items-center gap-1 text-gray-900 hover:text-black hover:bg-gray-100 px-2 py-1"
+            onClick={() => router.push("/")}
+          >
+            <ArrowLeft className="h-3 w-3" />
+            <span className="text-xs">Voltar</span>
+          </Button>
+
           <NotificationPopover />
 
           <DropdownMenu>

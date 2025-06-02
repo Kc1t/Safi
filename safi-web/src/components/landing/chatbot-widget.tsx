@@ -40,7 +40,6 @@ export default function ChatbotWidget() {
         setIsOpen(!isOpen)
     }
 
-    // Função para setar o input ao clicar na sugestão
     const handleSuggestionClick = (suggestion: string) => {
         handleInputChange({ target: { value: suggestion } } as React.ChangeEvent<HTMLInputElement>)
     }
@@ -56,7 +55,6 @@ export default function ChatbotWidget() {
                 </div>
             </div>
 
-            {/* Modal Backdrop with animation */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
