@@ -225,6 +225,7 @@ export default function ClientTicket() {
                 ))}
               </AnimatePresence>
             )}
+            <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
 
