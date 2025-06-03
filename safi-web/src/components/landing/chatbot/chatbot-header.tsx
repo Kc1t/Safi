@@ -51,6 +51,7 @@ export function ChatbotHeader({ onToggle, isExpanded, onExpandToggle }: ChatbotH
                         <Button
                             variant="ghost"
                             size="sm"
+                            id="close-widget-button"
                             onClick={onToggle}
                             className="text-white hover:bg-white/20 hover:border-white/60 border border-white/30 hover:text-white h-8 w-8 p-0 transition-all duration-200"
                         >
