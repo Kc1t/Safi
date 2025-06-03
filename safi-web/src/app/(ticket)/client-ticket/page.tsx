@@ -206,6 +206,7 @@ export default function ClientTicket() {
                             size="sm"
                             className="text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700 text-xs h-7"
                             onClick={() => handleFeedback(false)}
+                            id="ticket-feedback-no"
                           >
                             Não Resolveu
                           </Button>
@@ -213,6 +214,7 @@ export default function ClientTicket() {
                             size="sm"
                             className="bg-[#e91e63] hover:bg-[#d81b60] text-xs h-7"
                             onClick={() => handleFeedback(true)}
+                            id="ticket-feedback-yes"
                           >
                             Resolveu Meu Problema
                           </Button>
@@ -240,10 +242,12 @@ export default function ClientTicket() {
               placeholder="Escreva suas Dúvidas"
               className="flex-1 bg-white focus:ring-0 focus:outline-none text-[#252525] placeholder:text-[#475569] py-2 px-4 rounded-full border-[#CBD5E1] h-9 text-sm"
               disabled={isLoading || awaitingFeedback}
+              id="ticket-input"
             />
             <Button
               type="submit"
               size="icon"
+              id="ticket-submit-button"
               className="bg-[#e91e63] hover:bg-[#d81b60] text-white border-0 rounded-full h-9 w-9 p-0 shadow-md hover:shadow-lg transition-all duration-200 flex-shrink-0 disabled:opacity-50"
               disabled={isLoading || !input.trim() || awaitingFeedback}
             >

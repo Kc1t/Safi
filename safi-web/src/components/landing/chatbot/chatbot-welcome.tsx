@@ -55,6 +55,7 @@ export function ChatbotWelcome({ SafiBubble, suggestions, handleSuggestionClick 
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 + index * 0.1 }}
                         onClick={() => handleSuggestionClick(suggestion)}
+                        id={`chatbot-suggestion-${index}`}
                     >
                         {suggestion}
                     </motion.button>

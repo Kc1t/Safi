@@ -50,6 +50,7 @@ export default function ChatbotWidget() {
                 <div
                     className="relative w-full h-full cursor-pointer transition-all duration-300 hover:scale-95"
                     onClick={toggleChat}
+                    id="chat-widget-toggle"
                 >
                     <Image src={SafiBubble || "/placeholder.svg"} className="object-cover w-full h-full" alt="Safi Bubble" />
                 </div>
@@ -224,10 +225,12 @@ export default function ChatbotWidget() {
                                                     placeholder="Escreva Algo..."
                                                     className="flex-1 bg-white focus:ring-0 focus:outline-none text-[#252525] placeholder:text-[#475569] py-4 px-6 rounded-full border-[#CBD5E1] border-1 h-full w-full"
                                                     disabled={isLoading}
+                                                    id="chat-widget-input"
                                                 />
                                             </div>
                                             <Button
                                                 type="submit"
+                                                id="chat-widget-submit"
                                                 disabled={isLoading || !input.trim()}
                                                 className="bg-[#DF1463] hover:bg-[#DF1463]/90 text-white border-0 rounded-full h-12 w-12 p-0 shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 flex-shrink-0 text-2xl"
                                             >
