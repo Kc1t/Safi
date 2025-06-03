@@ -152,6 +152,7 @@ export default function SupportForm() {
                                     type="submit"
                                     className="bg-[#DF1463] hover:bg-pink-600 text-white px-8 py-3 rounded-lg font-medium w-full lg:w-auto"
                                     disabled={!ticket.concordo || isLoading}
+                                    id="submit-button"
                                 >
                                     {isLoading ? (
                                         <div className="flex items-center gap-2">
