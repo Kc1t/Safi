@@ -26,8 +26,8 @@ export default function Home() {
       {/* <MobileFeature /> */}
       <MobileCarousel />
       <FeaturesResume />
-      <SupportForm />
       <FeaturesDemo />
+      <SupportForm />
       <VideoCarousel />
       <Footer />
     </div>
