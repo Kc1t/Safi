@@ -1,97 +1,203 @@
-# SAFI – Sistema de Apoio Farmacêutico Inteligente
+<a id="readme-top"></a>
 
-Sistema de suporte técnico farmacêutico com integração de Inteligência Artificial (IA), desenvolvido como parte do Projeto Integrado Multidisciplinar (PIM III) do curso de Análise e Desenvolvimento de Sistemas – Universidade Paulista (UNIP).
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/kc1t/Safi">
+    <img src="./safi-assets/logo.png" alt="Logo" width="180" >
+  </a>
 
-## 📌 Descrição do Projeto
+  <h3 align="center">SAFI – Sistema de Apoio Farmacêutico Inteligente</h3>
 
-O SAFI visa centralizar a gestão de chamados técnicos em uma empresa farmacêutica, aplicando IA para triagem, categorização, priorização e resposta automatizada a incidentes. Além de modernizar o suporte técnico, o sistema atende aos requisitos de escalabilidade, segurança (LGPD) e usabilidade em ambientes multiplataforma (desktop, web, mobile).
 
-## 🎯 Objetivos
+  <p align="center">
+    Sistema de suporte técnico farmacêutico com integração de IA desenvolvido para o PIM III - UNIP.
+    <br />
+    <a href="#sobre-o-projeto" target="_blank">Ver Documentação Completa</a>
+    ·
+    <a href="https://github.com/kc1t/Safi/issues" target="_blank">Reportar Erro</a>
+    ·
+    <a href="https://github.com/kc1t/Safi/issues" target="_blank">Solicitar Features</a>
+  </p>
+</div>
 
-### Objetivo Geral
-Planejar e desenvolver um sistema de suporte interno com foco em sustentabilidade, escalabilidade e eficiência organizacional.
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Sumário</summary>
+  <ol>
+    <li>
+      <a href="#sobre-o-projeto">Sobre o Projeto</a>
+      <ul>
+        <li><a href="#funcionalidades">Funcionalidades</a></li>
+        <li><a href="#feito-com">Tecnologias Utilizadas</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#começando">Começando</a>
+      <ul>
+        <li><a href="#pré-requisitos">Pré-requisitos</a></li>
+        <li><a href="#instalação">Instalação</a></li>
+      </ul>
+    </li>
+    <li><a href="#tutorial-do-sistema">Tutorial do Sistema</a></li>
+    <li><a href="#equipe">Equipe</a></li>
+    <li><a href="#licença">Licença</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ol>
+</details>
 
-### Objetivos Específicos
-- Levantamento e modelagem de requisitos.
-- Criação de artefatos UML (caso de uso, classe, sequência).
-- Prototipação de interfaces (desktop, web, mobile).
-- Integração com serviços de IA para triagem/classificação.
-- Estruturação do banco de dados (MS SQL Server).
-- Garantia de conformidade com a LGPD.
+## Sobre o Projeto
 
-## 🧠 Tecnologias
+<div id="sobre-o-projeto"></div>
 
-- **Frontend Web**: HTML + hospedagem na Vercel
-- **Frontend Desktop**: C# com Windows Forms/WPF
-- **Frontend Mobile**: Android
-- **Backend**: API RESTful em EC2 (AWS)
-- **Banco de Dados**: MS SQL Server via RDS (AWS)
-- **IA**: Gemini (Google) via API
-- **Monitoramento**: Amazon CloudWatch (migrando para Grafana/Prometheus)
-- **Arquitetura**: Cloud-native (multiplataforma + alta disponibilidade)
+O SAFI (Sistema de Apoio Farmacêutico Inteligente) é um projeto acadêmico desenvolvido como parte do Projeto Integrado Multidisciplinar III (PIM III) do curso de Análise e Desenvolvimento de Sistemas da Universidade Paulista (UNIP).
 
-## 🧱 Principais Funcionalidades
+O sistema centraliza a gestão de chamados técnicos em ambientes farmacêuticos, utilizando Inteligência Artificial para automatizar processos de triagem, categorização e priorização de incidentes. Com foco em modernização do suporte técnico, o projeto atende aos requisitos de escalabilidade, segurança (LGPD) e usabilidade multiplataforma.
 
-- Registro e categorização de chamados
-- Triagem automatizada com IA (N0)
-- Priorização por criticidade e origem (N1/N2/N3)
-- Sugestão de soluções baseada em base de conhecimento
-- Interface administrativa completa
-- Feedback do usuário e reabertura de chamados
-- Roteamento dinâmico e controle de SLA
+### Objetivos do Projeto
 
-## 🔒 LGPD & Segurança
+**Objetivo Geral:** Planejar e desenvolver um sistema de suporte interno com foco em sustentabilidade, escalabilidade e eficiência organizacional.
 
-- Análise automática de termos sensíveis
-- Criptografia de dados sensíveis
-- Controle de acesso por perfis
-- Monitoramento de logs e rastreabilidade
-- Coleta mínima e validação automática de conteúdo
+**Objetivos Específicos:**
+- Levantamento e modelagem de requisitos
+- Criação de artefatos UML (caso de uso, classe, sequência)
+- Prototipação de interfaces multiplataforma
+- Integração com serviços de IA para triagem automática
+- Estruturação de banco de dados robusto
+- Garantia de conformidade com a LGPD
 
-## 📊 Requisitos Funcionais Essenciais (RF)
+### Hospedagem
 
-- [RF001] Registro de Chamados
-- [RF002] Triagem com IA
-- [RF003] Categorização Automática
-- [RF004] Sugestão de Soluções
-- [RF005] Encaminhamento por Nível
-- [RF009] Acompanhamento em Tempo Real
-- [RF014] Controle de SLA
+O sistema está distribuído em múltiplas plataformas:
+- **Frontend Web:** Hospedado na Vercel
+- **API Backend:** Hospedado em EC2 (AWS)
+- **Banco de Dados:** MS SQL Server via RDS (AWS)
 
-## ⚙️ Requisitos Não Funcionais (NF)
+<div id="funcionalidades"></div>
 
-- [NF001] Interface Desktop em C#
-- [NF002] Banco MS SQL Server
-- [NF003] Conformidade LGPD
-- [NF006] Desempenho (< 3s)
-- [NF007] Escalabilidade para 600+ usuários
-- [NF010] Multiplataforma
-- [NF013] Uptime ≥ 99,5%
+### Funcionalidades
 
-## 🛠️ Execução Técnica
+**Principais Features**
+- [x] Registro e categorização de chamados
+- [x] Triagem automatizada com IA (Gemini API)
+- [x] Priorização por criticidade e origem
+- [x] Sugestão de soluções baseada em base de conhecimento
+- [x] Interface administrativa completa
+- [x] Controle de SLA e monitoramento em tempo real
 
-- Scripts de criação e povoamento do banco no diretório `/database/scripts`
-- Diagrama ER e UML disponíveis em `/docs/diagrams`
-- Protótipos de UI em `/ui/prototypes`
-- Integração com IA documentada em `/docs/ia-integration.md`
+**Recursos Avançados**
+- [x] Análise automática de conformidade LGPD
+- [x] Roteamento dinâmico de chamados
+- [x] Feedback do usuário e reabertura
+- [x] Criptografia de dados sensíveis
+- [x] Monitoramento com CloudWatch
 
-## 🧪 Testes
+<div id="feito-com"></div>
 
-- Plano de testes detalhado disponível em `/tests/test-plan.md`
-- Cobertura de casos críticos e validação de regras de negócio
+### Feito com
 
-## 👥 Equipe
+**Frontend (PIM III - Atual):**
+- HTML/CSS/JavaScript
+- Bootstrap para responsividade
+- Prototipação de interfaces multiplataforma
 
-- Eduardo Pires Ferreira da Silva
-- Felippe Alves Reder
-- Giovanna Pereira de Oliveira
-- Kauã Miguel da Cunha
-- Paulo Henrique do Santos Miliano
-- Raphael de Lima Feitosa
+**Backend e Infraestrutura (A desenvolver no próximo PIM):**
+- C# (Windows Forms/WPF) para Desktop
+- Android (Mobile)
+- API RESTful
+- MS SQL Server via RDS (AWS)
+- Hospedagem: EC2 (AWS)
+- Google Gemini API para triagem e categorização
+- Monitoramento: Amazon CloudWatch
 
-## 📄 Licença
+**Arquitetura Planejada:**
+Cloud-native com alta disponibilidade e escalabilidade
 
-Projeto acadêmico sem fins comerciais. Uso restrito à apresentação institucional da UNIP.
+<p align="right">(<a href="#readme-top">Voltar ao Topo</a>)</p>
 
----
+## Começando
+
+### Pré-requisitos
+
+**Para visualizar o projeto atual:**
+- Navegador moderno com suporte a HTML5
+
+**Para desenvolvimento futuro (próximo PIM):**
+- .NET Framework 4.7.2 ou superior
+- Visual Studio 2019+
+- SQL Server Management Studio
+- Conta AWS (para serviços cloud)
+- Android Studio (para desenvolvimento mobile)
+
+### Instalação
+
+Clone o repositório:
+```bash
+git clone https://github.com/kc1t/Safi.git
+```
+
+#### Frontend Web (Atual)
+```bash
+cd web-frontend
+# Abrir index.html no navegador
+# Ou hospedar em servidor web local
+```
+
+#### Desenvolvimentos Futuros (Próximo PIM)
+```bash
+# Backend API
+cd backend
+# Configurar connection string no appsettings.json
+# Executar migrations do banco de dados
+dotnet ef database update
+dotnet run
+
+# Frontend Desktop
+cd desktop-app
+# Abrir no Visual Studio
+# Configurar endpoints da API
+# Build e executar
+```
+
+<p align="right">(<a href="#readme-top">Voltar ao Topo</a>)</p>
+
+## Tutorial do Sistema
+
+O SAFI oferece interfaces intuitivas para diferentes perfis de usuário:
+
+- **Usuários:** Abertura e acompanhamento de chamados
+- **Técnicos:** Gestão e resolução de incidentes  
+- **Administradores:** Controle completo do sistema e relatórios
+
+*Documentação detalhada e vídeos tutoriais em desenvolvimento.*
+
+<p align="right">(<a href="#readme-top">Voltar ao Topo</a>)</p>
+
+## Equipe
+
+Este projeto foi desenvolvido pelos seguintes estudantes da UNIP:
+
+- **Eduardo Pires Ferreira da Silva**
+- **Felippe Alves Reder**
+- **Giovanna Pereira de Oliveira**
+- **Kauã Miguel da Cunha**
+- **Paulo Henrique do Santos Miliano**
+- **Raphael de Lima Feitosa**
+
+<p align="right">(<a href="#readme-top">Voltar ao Topo</a>)</p>
+
+## Licença
+
+Projeto acadêmico sem fins comerciais desenvolvido para a Universidade Paulista (UNIP). Uso restrito à apresentação institucional e avaliação acadêmica.
+
+<p align="right">(<a href="#readme-top">Voltar ao Topo</a>)</p>
+
+## Contato
+
+**Projeto SAFI** - Universidade Paulista (UNIP)
+PIM III - Análise e Desenvolvimento de Sistemas
+
+Repositório: [https://github.com/kc1t/Safi](https://github.com/kc1t/Safi)
+
+<p align="right">(<a href="#readme-top">Voltar ao Topo</a>)</p>
 
