@@ -46,6 +46,12 @@
   </ol>
 </details>
 
+
+
+https://github.com/user-attachments/assets/5205a0b7-9034-4199-8cb9-10e348b84811
+
+
+
 ## Sobre o Projeto
 
 <div id="sobre-o-projeto"></div>
@@ -97,8 +103,7 @@ O sistema está distribuído em múltiplas plataformas:
 ### Feito com
 
 **Frontend (PIM III - Atual):**
-- HTML/CSS/JavaScript
-- Bootstrap para responsividade
+- HTML/CSS/JavaScript (NextJs)
 - Prototipação de interfaces multiplataforma
 
 **Backend e Infraestrutura (A desenvolver no próximo PIM):**
@@ -139,8 +144,8 @@ git clone https://github.com/kc1t/Safi.git
 #### Frontend Web (Atual)
 ```bash
 cd web-frontend
-# Abrir index.html no navegador
-# Ou hospedar em servidor web local
+# npm i
+# npm run dev 
 ```
 
 #### Desenvolvimentos Futuros (Próximo PIM)
