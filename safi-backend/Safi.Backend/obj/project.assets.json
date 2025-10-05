@@ -5,9 +5,7 @@
   },
   "libraries": {},
   "projectFileDependencyGroups": {
-    "net9.0": [
-      "Microsoft.AspNetCore.OpenApi"
-    ]
+    "net9.0": []
   },
   "packageFolders": {
     "C:\\Users\\kauam\\.nuget\\packages\\": {},
@@ -53,12 +51,6 @@
     "frameworks": {
       "net9.0": {
         "targetAlias": "net9.0",
-        "dependencies": {
-          "Microsoft.AspNetCore.OpenApi": {
-            "target": "Package",
-            "version": "(, )"
-          }
-        },
         "imports": [
           "net461",
           "net462",
@@ -81,26 +73,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1604",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "A dependência do projeto Microsoft.AspNetCore.OpenApi não contém nenhum limite inferior inclusivo. Inclua um limite inferior na versão de dependência para assegurar resultados de restauração coerentes.",
-      "libraryId": "Microsoft.AspNetCore.OpenApi",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v9.0"
-      ]
-    },
-    {
-      "code": "NU1100",
-      "level": "Error",
-      "message": "Não foi possível resolver 'Microsoft.AspNetCore.OpenApi ' para 'net9.0'.",
-      "libraryId": "Microsoft.AspNetCore.OpenApi",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
+  }
 }

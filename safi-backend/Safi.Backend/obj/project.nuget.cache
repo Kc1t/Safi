@@ -1,32 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IRPmU8AjITg=",
-  "success": false,
+  "dgSpecHash": "ThqWUXa0GAw=",
+  "success": true,
   "projectFilePath": "C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
   "expectedPackageFiles": [],
-  "logs": [
-    {
-      "code": "NU1604",
-      "level": "Warning",
-      "message": "A dependência do projeto Microsoft.AspNetCore.OpenApi não contém nenhum limite inferior inclusivo. Inclua um limite inferior na versão de dependência para assegurar resultados de restauração coerentes.",
-      "projectPath": "C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
-      "libraryId": "Microsoft.AspNetCore.OpenApi",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v9.0"
-      ]
-    },
-    {
-      "code": "NU1100",
-      "level": "Error",
-      "message": "Não foi possível resolver 'Microsoft.AspNetCore.OpenApi ' para 'net9.0'.",
-      "projectPath": "C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
-      "filePath": "C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
-      "libraryId": "Microsoft.AspNetCore.OpenApi",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
+  "logs": []
 }
