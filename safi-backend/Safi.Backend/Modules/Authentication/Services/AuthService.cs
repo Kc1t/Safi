@@ -193,7 +193,7 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<AuthResponse?> RefreshTokenAsync(RefreshTokenRequest request)
+    public Task<AuthResponse?> RefreshTokenAsync(RefreshTokenRequest request)
     {
         try
         {
@@ -208,21 +208,21 @@ public class AuthService : IAuthService
 
             _logger.LogInformation("Refresh token realizado com sucesso");
 
-            return new AuthResponse
+            return Task.FromResult<AuthResponse?>(new AuthResponse
             {
                 Token = token,
                 RefreshToken = refreshToken,
                 ExpiresAt = DateTime.UtcNow.AddMinutes(15)
-            };
+            });
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro durante refresh token");
-            return null;
+            return Task.FromResult<AuthResponse?>(null);
         }
     }
 
-    public async Task<bool> LogoutAsync(int userId)
+    public Task<bool> LogoutAsync(int userId)
     {
         try
         {
@@ -231,27 +231,27 @@ public class AuthService : IAuthService
             // TODO: Implementar invalidação de tokens
             // Por enquanto, apenas loga o logout
             
-            return true;
+            return Task.FromResult(true);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro durante logout para usuário: {UserId}", userId);
-            return false;
+            return Task.FromResult(false);
         }
     }
 
-    public async Task<bool> ValidateTokenAsync(string token)
+    public Task<bool> ValidateTokenAsync(string token)
     {
         try
         {
             // TODO: Implementar validação JWT real
             // Por enquanto, aceita qualquer token não vazio
-            return !string.IsNullOrEmpty(token);
+            return Task.FromResult(!string.IsNullOrEmpty(token));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro durante validação de token");
-            return false;
+            return Task.FromResult(false);
         }
     }
 

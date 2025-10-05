@@ -15,11 +15,13 @@ public class AIController : ControllerBase
 {
     private readonly IAIService _aiService;
     private readonly ILogger<AIController> _logger;
+    private readonly IConfiguration _configuration;
 
-    public AIController(IAIService aiService, ILogger<AIController> logger)
+    public AIController(IAIService aiService, ILogger<AIController> logger, IConfiguration configuration)
     {
         _aiService = aiService;
         _logger = logger;
+        _configuration = configuration;
     }
 
     /// <summary>
@@ -145,65 +147,179 @@ public class AIController : ControllerBase
     }
 
     /// <summary>
-    /// Testar integração com IA
+    /// Teste simples com mensagem direta para API Gemini
     /// </summary>
-    /// <param name="request">Dados para teste</param>
-    /// <returns>Resultado do teste</returns>
-    [HttpPost("test")]
+    /// <param name="message">Mensagem para enviar à IA</param>
+    /// <returns>Resposta da IA</returns>
+    [HttpPost("simple-test")]
     [Microsoft.AspNetCore.Authorization.Authorize]
-    public async Task<IActionResult> TestAI([FromBody] AIAnalysisRequest request)
+    public async Task<IActionResult> SimpleTest([FromBody] SimpleTestRequest request)
     {
         try
         {
-            _logger.LogInformation("Teste de IA solicitado para: {Title}", request.Title);
+            _logger.LogInformation("Teste simples solicitado: {Message}", request.Message);
 
-            var analysis = await _aiService.AnalyzeTicketAsync(request);
+            // Criar request de análise com a mensagem
+            var analysisRequest = new AIAnalysisRequest
+            {
+                Title = request.Message,
+                Description = request.Message
+            };
+
+            var analysis = await _aiService.AnalyzeTicketAsync(analysisRequest);
             
             if (analysis != null)
             {
                 return Ok(new
                 {
-                    message = "Teste de IA realizado com sucesso",
-                    analysis = analysis,
+                    message = "Teste realizado com sucesso",
+                    userMessage = request.Message,
+                    aiResponse = new
+                    {
+                        category = analysis.SuggestedCategory,
+                        priority = analysis.SuggestedPriority,
+                        confidence = analysis.Confidence,
+                        reasoning = analysis.Reasoning,
+                        processingTime = analysis.ProcessingTimeMs
+                    },
                     timestamp = DateTime.UtcNow
                 });
             }
             else
             {
-                return BadRequest(new { message = "Falha no teste de IA" });
+                return BadRequest(new { message = "Falha no teste simples" });
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro durante teste de IA");
+            _logger.LogError(ex, "Erro durante teste simples");
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
 
     /// <summary>
-    /// Verificar status da IA
+    /// Obter estatísticas do sistema de IA
     /// </summary>
-    /// <returns>Status do serviço</returns>
-    [HttpGet("status")]
+    /// <returns>Estatísticas do sistema</returns>
+    [HttpGet("stats")]
     [Microsoft.AspNetCore.Authorization.Authorize]
-    public async Task<IActionResult> GetAIStatus()
+    public async Task<IActionResult> GetAIStats()
     {
         try
         {
             var isAvailable = await _aiService.IsServiceAvailableAsync();
             
+            // Verificar se está em modo mock
+            var useMockOnly = _configuration.GetValue<bool>("ExternalServices:GeminiApi:UseMockOnly", false);
+            
             return Ok(new
             {
+                service = useMockOnly ? "Mock AI Service" : "Gemini API",
                 isAvailable = isAvailable,
-                service = "Gemini API",
+                mode = useMockOnly ? "development" : "production",
                 timestamp = DateTime.UtcNow,
-                message = isAvailable ? "Serviço de IA disponível" : "Serviço de IA indisponível"
+                features = new
+                {
+                    retryWithBackoff = !useMockOnly,
+                    circuitBreaker = !useMockOnly,
+                    responseCache = true,
+                    rateLimiting = !useMockOnly,
+                    mockAnalysis = true
+                },
+                message = useMockOnly 
+                    ? "Sistema de IA em modo desenvolvimento (mock apenas)" 
+                    : (isAvailable ? "Sistema de IA operacional" : "Sistema de IA com limitações temporárias")
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro ao verificar status da IA");
+            _logger.LogError(ex, "Erro ao obter estatísticas da IA");
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
+
+    /// <summary>
+    /// Chat simples com IA - apenas HTTP
+    /// </summary>
+    /// <param name="message">Mensagem do usuário</param>
+    /// <returns>Resposta da IA</returns>
+    [HttpPost("chat")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> SimpleChat([FromBody] SimpleChatRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("Chat simples solicitado: {Message}", request.Message);
+
+            // Criar request de análise
+            var analysisRequest = new AIAnalysisRequest
+            {
+                Title = request.Message,
+                Description = request.Message
+            };
+
+            // Analisar com IA
+            var analysis = await _aiService.AnalyzeTicketAsync(analysisRequest);
+            
+            if (analysis != null)
+            {
+                // Gerar resposta baseada na análise
+                string response = GenerateResponse(analysis);
+                
+                return Ok(new
+                {
+                    message = response,
+                    analysis = analysis,
+                    timestamp = DateTime.UtcNow,
+                    type = "ai_response"
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    message = "Desculpe, não consegui processar sua mensagem no momento.",
+                    timestamp = DateTime.UtcNow,
+                    type = "error"
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro no chat simples");
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
+
+    /// <summary>
+    /// Gerar resposta baseada na análise
+    /// </summary>
+    private string GenerateResponse(AIAnalysisResponse analysis)
+    {
+        return analysis.SuggestedCategory switch
+        {
+            "Hardware" => $"🔧 Identifiquei um problema de hardware. Com base na análise, sugiro verificar os componentes físicos do equipamento. Prioridade: {analysis.SuggestedPriority}",
+            "Software" => $"💻 Problema de software detectado. Vamos resolver isso passo a passo. Recomendo verificar atualizações e configurações. Prioridade: {analysis.SuggestedPriority}",
+            "Rede" => $"🌐 Problema de conectividade identificado. Vou guiá-lo através das verificações de rede. Prioridade: {analysis.SuggestedPriority}",
+            "Email" => $"📧 Problema de email detectado. Vamos verificar as configurações da sua conta e servidor. Prioridade: {analysis.SuggestedPriority}",
+            "Autenticação" => $"🔐 Problema de acesso identificado. Vou ajudá-lo a resolver questões de login e senha. Prioridade: {analysis.SuggestedPriority}",
+            _ => $"📋 Analisei sua solicitação. Com base na análise, sugiro uma abordagem personalizada para seu caso. Prioridade: {analysis.SuggestedPriority}"
+        };
+    }
+}
+
+/// <summary>
+/// Request simples para chat
+/// </summary>
+public class SimpleChatRequest
+{
+    public string Message { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Request para teste simples
+/// </summary>
+public class SimpleTestRequest
+{
+    public string Message { get; set; } = string.Empty;
 }

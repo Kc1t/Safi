@@ -128,12 +128,48 @@ Content-Type: application/json
   "description": "Após a última atualização do Windows, o computador não inicia corretamente e exibe tela azul de erro. Já tentei reiniciar várias vezes mas o problema persiste."
 }
 
-### 17. Criar Tabela de Chat (Temporário)
+### 17. Chat Simples com IA (HTTP apenas)
+POST {{Safi.Backend_HostAddress}}/api/ai/chat
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "message": "Meu computador não liga mais"
+}
+
+### 18. Chat Simples - Problema de Email
+POST {{Safi.Backend_HostAddress}}/api/ai/chat
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "message": "Email não está funcionando, não consigo enviar mensagens"
+}
+
+### 19. Chat Simples - Problema de Rede
+POST {{Safi.Backend_HostAddress}}/api/ai/chat
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "message": "Internet muito lenta, páginas demoram para carregar"
+}
+
+### 20. Chat Simples - Problema de Software
+POST {{Safi.Backend_HostAddress}}/api/ai/chat
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "message": "Programa travando constantemente, preciso reiniciar sempre"
+}
+
+### 21. Criar Tabela de Chat (Temporário)
 POST {{Safi.Backend_HostAddress}}/api/database/create-chat-table
 Authorization: Bearer {{AuthToken}}
 Accept: application/json
 
-### 18. Verificar Tabela de Chat
+### 22. Verificar Tabela de Chat
 GET {{Safi.Backend_HostAddress}}/api/database/check-chat-table
 Authorization: Bearer {{AuthToken}}
 Accept: application/json
