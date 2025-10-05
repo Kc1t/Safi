@@ -17,3 +17,4 @@ if ($LASTEXITCODE -eq 0) {
 } else {
     Write-Host "Erro na compilação!" -ForegroundColor Red
 }
+

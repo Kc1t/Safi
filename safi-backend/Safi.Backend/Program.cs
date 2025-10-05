@@ -11,6 +11,7 @@ using Safi.Backend.Infrastructure.Data.Repositories;
 using Safi.Backend.Modules.Authentication.Services;
 using Safi.Backend.Modules.Tickets.Services;
 using Safi.Backend.Infrastructure.Data;
+using Safi.Backend.Infrastructure.Middleware;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -102,19 +103,24 @@ if (app.Environment.IsDevelopment())
     
     // Usar Scalar para interface gráfica do OpenAPI
     app.MapScalarApiReference();
+    
+    // Scalar personalizado com configuração completa
+    app.MapGet("/scalar-custom", () => Results.File("wwwroot/scalar-custom.html", "text/html"));
 }
 
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 
+// Middleware para endpoints públicos (deve vir antes da autenticação)
+app.UseMiddleware<PublicEndpointMiddleware>();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-// Ensure database is created and seeded (comentado para não executar sempre)
-/*
+// Ensure database is created and seeded (habilitado temporariamente)
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -125,6 +131,5 @@ using (var scope = app.Services.CreateScope())
     // Popular com dados iniciais
     await SeedData.SeedAsync(context);
 }
-*/
 
 app.Run();

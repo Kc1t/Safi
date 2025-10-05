@@ -58,6 +58,12 @@ public interface IAuthService
     /// <param name="email">Email do usuário</param>
     /// <returns>Usuário encontrado ou null</returns>
     Task<User?> GetUserByEmailAsync(string email);
+
+    /// <summary>
+    /// Lista todos os usuários (apenas para debug)
+    /// </summary>
+    /// <returns>Lista de usuários</returns>
+    Task<IEnumerable<User>> GetAllUsersAsync();
 }
 
 /// <summary>
@@ -68,15 +74,18 @@ public class AuthService : IAuthService
     private readonly IRepository<User> _userRepository;
     private readonly IRepository<Department> _departmentRepository;
     private readonly ILogger<AuthService> _logger;
+    private readonly IConfiguration _configuration;
 
     public AuthService(
         IRepository<User> userRepository,
         IRepository<Department> departmentRepository,
-        ILogger<AuthService> logger)
+        ILogger<AuthService> logger,
+        IConfiguration configuration)
     {
         _userRepository = userRepository;
         _departmentRepository = departmentRepository;
         _logger = logger;
+        _configuration = configuration;
     }
 
     public async Task<AuthResponse?> LoginAsync(LoginRequest request)
@@ -110,7 +119,15 @@ public class AuthService : IAuthService
             {
                 Token = token,
                 RefreshToken = refreshToken,
-                ExpiresAt = DateTime.UtcNow.AddMinutes(15)
+                ExpiresAt = DateTime.UtcNow.AddMinutes(15),
+                User = new UserInfo
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    UserType = user.UserType.ToString(),
+                    AnalystLevel = user.AnalystLevel?.ToString()
+                }
             };
         }
         catch (Exception ex)
@@ -158,7 +175,15 @@ public class AuthService : IAuthService
             {
                 Token = token,
                 RefreshToken = refreshToken,
-                ExpiresAt = DateTime.UtcNow.AddMinutes(15)
+                ExpiresAt = DateTime.UtcNow.AddMinutes(15),
+                User = new UserInfo
+                {
+                    Id = createdUser.Id,
+                    Name = createdUser.Name,
+                    Email = createdUser.Email,
+                    UserType = createdUser.UserType.ToString(),
+                    AnalystLevel = createdUser.AnalystLevel?.ToString()
+                }
             };
         }
         catch (Exception ex)
@@ -232,14 +257,77 @@ public class AuthService : IAuthService
 
     public async Task<User?> GetUserByEmailAsync(string email)
     {
-        return await _userRepository.FirstOrDefaultAsync(u => u.Email == email);
+        _logger.LogInformation("Buscando usuário por email: {Email}", email);
+        
+        var user = await _userRepository.FirstOrDefaultAsync(u => u.Email == email);
+        
+        if (user != null)
+        {
+            _logger.LogInformation("Usuário encontrado: {UserId} - {UserName} - {UserEmail}", user.Id, user.Name, user.Email);
+        }
+        else
+        {
+            _logger.LogWarning("Usuário não encontrado para email: {Email}", email);
+        }
+        
+        return user;
+    }
+
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        _logger.LogInformation("Buscando todos os usuários");
+        
+        var users = await _userRepository.GetAllAsync();
+        
+        _logger.LogInformation("Total de usuários encontrados: {Count}", users.Count());
+        
+        return users;
     }
 
     private string GenerateJwtToken(User? user)
     {
-        // TODO: Implementar geração JWT real
-        // Por enquanto, retorna um token mock
-        return $"mock_jwt_token_{user?.Id ?? 0}_{DateTime.UtcNow.Ticks}";
+        if (user == null)
+        {
+            return $"mock_jwt_token_0_{DateTime.UtcNow.Ticks}";
+        }
+
+        try
+        {
+            var jwtSettings = _configuration.GetSection("JwtSettings");
+            var secretKey = jwtSettings["SecretKey"] ?? "default_secret_key_for_development";
+            var issuer = jwtSettings["Issuer"] ?? "SAFI";
+            var audience = jwtSettings["Audience"] ?? "SAFI";
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(secretKey);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("UserType", user.UserType.ToString()),
+                new Claim("DepartmentId", user.DepartmentId?.ToString() ?? ""),
+                new Claim("AnalystLevel", user.AnalystLevel?.ToString() ?? "")
+            };
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao gerar JWT token para usuário: {UserId}", user.Id);
+            return $"mock_jwt_token_{user.Id}_{DateTime.UtcNow.Ticks}";
+        }
     }
 
     private string GenerateRefreshToken()

@@ -10,3 +10,4 @@ if %ERRORLEVEL% EQU 0 (
     echo Erro na compilacao!
     pause
 )
+

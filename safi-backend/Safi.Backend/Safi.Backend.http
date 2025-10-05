@@ -1,27 +1,78 @@
 @Safi.Backend_HostAddress = http://localhost:5080
+@AuthToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI3IiwidW5pcXVlX25hbWUiOiJ0ZXN0ZSIsImVtYWlsIjoidGVzdGVAZ21haWwuY29tIiwiVXNlclR5cGUiOiJDb21tb24iLCJEZXBhcnRtZW50SWQiOiIiLCJBbmFseXN0TGV2ZWwiOiIiLCJuYmYiOjE3NTk2ODE1NDcsImV4cCI6MTc1OTY4MjQ0NywiaWF0IjoxNzU5NjgxNTQ3LCJpc3MiOiJTQUZJLUJhY2tlbmQiLCJhdWQiOiJTQUZJLVVzZXJzIn0.HTM0ZWY2MX4oaCUCvJSxsUKuxdWHkHYAbXEB_ctG3Pk
 
-### Teste Health Check
-GET {{Safi.Backend_HostAddress}}/api/Health
+### 1. Health Check
+GET {{Safi.Backend_HostAddress}}/api/health
 Accept: application/json
 
-### Teste Health Check Detalhado
-GET {{Safi.Backend_HostAddress}}/api/Health/health
+### 2. Login (copie o token da resposta e cole na linha 2)
+POST {{Safi.Backend_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@safi.com",
+  "password": "123456"
+}
+
+### 2.1. Registrar Novo Usuário
+POST {{Safi.Backend_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "João Silva",
+  "email": "joao.silva@empresa.com",
+  "password": "123456",
+  "confirmPassword": "123456"
+}
+
+### 3. Listar Tickets (PÚBLICO - sem token necessário)
+GET {{Safi.Backend_HostAddress}}/api/tickets
 Accept: application/json
 
-### Teste Controller de Teste
-GET {{Safi.Backend_HostAddress}}/api/Test
+### 4. Criar Ticket Público (PÚBLICO - sem token necessário)
+POST {{Safi.Backend_HostAddress}}/api/tickets/public
+Content-Type: application/json
+
+{
+  "requesterName": "João Silva",
+  "requesterEmail": "joao.silva@empresa.com",
+  "companyName": "Empresa ABC Ltda",
+  "title": "Problema de acesso ao sistema",
+  "description": "Estou tentando acessar o sistema mas recebo erro 500. Já tentei limpar o cache do navegador mas o problema persiste."
+}
+
+### 5. Criar Ticket Público - Exemplo 2
+POST {{Safi.Backend_HostAddress}}/api/tickets/public
+Content-Type: application/json
+
+{
+  "requesterName": "Maria Santos",
+  "requesterEmail": "maria.santos@techcorp.com",
+  "companyName": "TechCorp Solutions",
+  "title": "Erro ao imprimir documentos",
+  "description": "A impressora não está respondendo. Testei com outros documentos e o problema persiste. Já reiniciei a impressora mas não resolveu."
+}
+
+### 6. Teste de Autenticação (PRECISA de token)
+GET {{Safi.Backend_HostAddress}}/api/tickets/me
+Authorization: Bearer {{AuthToken}}
 Accept: application/json
 
-### Teste Controller de Teste com ID
-GET {{Safi.Backend_HostAddress}}/api/Test/123
+### 7. Listar Tickets com Token (se quiser testar com autenticação)
+GET {{Safi.Backend_HostAddress}}/api/tickets
+Authorization: Bearer {{AuthToken}}
 Accept: application/json
 
-### Documentação OpenAPI
-GET {{Safi.Backend_HostAddress}}/openapi/v1.json
+### 8. Debug - Listar Usuários (para verificar se existem)
+GET {{Safi.Backend_HostAddress}}/api/auth/debug/users
 Accept: application/json
 
-### Documentação Scalar
+### 9. Documentação Scalar (padrão)
 GET {{Safi.Backend_HostAddress}}/scalar/v1
+Accept: text/html
+
+### 10. Documentação Scalar (personalizada com auth)
+GET {{Safi.Backend_HostAddress}}/scalar-custom
 Accept: text/html
 
 ###

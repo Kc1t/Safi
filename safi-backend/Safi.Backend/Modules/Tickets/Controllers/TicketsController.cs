@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Safi.Backend.Modules.Tickets.DTOs;
 using Safi.Backend.Modules.Tickets.Services;
+using Safi.Backend.Shared.Attributes;
 
 namespace Safi.Backend.Modules.Tickets.Controllers;
 
@@ -27,7 +28,7 @@ public class TicketsController : ControllerBase
     /// <param name="request">Dados do ticket público</param>
     /// <returns>Ticket criado com ID</returns>
     [HttpPost("public")]
-    [Microsoft.AspNetCore.Authorization.AllowAnonymous]
+    [IsPublic]
     public async Task<IActionResult> CreatePublicTicket([FromBody] PublicTicketRequest request)
     {
         try
@@ -64,7 +65,7 @@ public class TicketsController : ControllerBase
     /// <param name="request">Filtros de busca</param>
     /// <returns>Lista paginada de tickets</returns>
     [HttpGet]
-    [Microsoft.AspNetCore.Authorization.Authorize]
+    [IsPublic]
     public async Task<IActionResult> GetTickets([FromQuery] TicketListRequest request)
     {
         try
@@ -111,6 +112,7 @@ public class TicketsController : ControllerBase
     /// <param name="id">ID do ticket</param>
     /// <returns>Detalhes completos do ticket</returns>
     [HttpGet("{id}")]
+    [IsPublic]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetTicket(int id)
     {
@@ -167,6 +169,7 @@ public class TicketsController : ControllerBase
     /// <param name="request">Dados de atualização</param>
     /// <returns>Ticket atualizado</returns>
     [HttpPut("{id}")]
+    [IsPublic]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> UpdateTicket(int id, [FromBody] UpdateTicketRequest request)
     {
@@ -203,10 +206,36 @@ public class TicketsController : ControllerBase
     }
 
     /// <summary>
+    /// Endpoint protegido para teste de autenticação
+    /// </summary>
+    /// <returns>Informações do usuário autenticado</returns>
+    [HttpGet("me")]
+    [IsPublic]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public IActionResult GetCurrentUser()
+    {
+        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        var userName = User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+        var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+        var userType = User.FindFirst("UserType")?.Value;
+
+        return Ok(new
+        {
+            message = "Usuário autenticado com sucesso!",
+            userId = userId,
+            userName = userName,
+            userEmail = userEmail,
+            userType = userType,
+            timestamp = DateTime.UtcNow
+        });
+    }
+
+    /// <summary>
     /// Obter estatísticas de tickets
     /// </summary>
     /// <returns>Estatísticas dos tickets</returns>
     [HttpGet("statistics")]
+    [IsPublic]
     [Microsoft.AspNetCore.Authorization.Authorize]
     public async Task<IActionResult> GetStatistics()
     {

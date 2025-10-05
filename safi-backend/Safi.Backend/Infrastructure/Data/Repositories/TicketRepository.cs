@@ -15,6 +15,15 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
     {
     }
 
+    public override async Task<Ticket?> GetByIdAsync(int id)
+    {
+        return await _dbSet
+            .Include(t => t.User)
+            .Include(t => t.AssignedTo)
+            .Include(t => t.IssueType)
+            .FirstOrDefaultAsync(t => t.Id == id);
+    }
+
     public async Task<IEnumerable<Ticket>> GetByStatusAsync(TicketStatus status)
     {
         return await _dbSet

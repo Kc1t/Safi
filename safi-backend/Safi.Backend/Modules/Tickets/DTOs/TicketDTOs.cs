@@ -10,6 +10,7 @@ public class PublicTicketRequest
     /// <summary>
     /// Nome do usuário
     /// </summary>
+    /// <example>João Silva</example>
     [Required(ErrorMessage = "Nome é obrigatório")]
     [MinLength(2, ErrorMessage = "Nome deve ter pelo menos 2 caracteres")]
     public string RequesterName { get; set; } = string.Empty;
@@ -17,6 +18,7 @@ public class PublicTicketRequest
     /// <summary>
     /// Email do usuário
     /// </summary>
+    /// <example>joao.silva@empresa.com</example>
     [Required(ErrorMessage = "Email é obrigatório")]
     [EmailAddress(ErrorMessage = "Email deve ter formato válido")]
     public string RequesterEmail { get; set; } = string.Empty;
@@ -24,6 +26,7 @@ public class PublicTicketRequest
     /// <summary>
     /// Empresa do usuário
     /// </summary>
+    /// <example>Empresa ABC Ltda</example>
     [Required(ErrorMessage = "Empresa é obrigatória")]
     [MinLength(2, ErrorMessage = "Empresa deve ter pelo menos 2 caracteres")]
     public string CompanyName { get; set; } = string.Empty;
@@ -31,6 +34,7 @@ public class PublicTicketRequest
     /// <summary>
     /// Título do ticket
     /// </summary>
+    /// <example>Problema de acesso ao sistema</example>
     [Required(ErrorMessage = "Título é obrigatório")]
     [MinLength(5, ErrorMessage = "Título deve ter pelo menos 5 caracteres")]
     public string Title { get; set; } = string.Empty;
@@ -38,6 +42,7 @@ public class PublicTicketRequest
     /// <summary>
     /// Descrição detalhada do problema
     /// </summary>
+    /// <example>Estou tentando acessar o sistema mas recebo erro 500. Já tentei limpar o cache do navegador mas o problema persiste.</example>
     [Required(ErrorMessage = "Descrição é obrigatória")]
     [MinLength(10, ErrorMessage = "Descrição deve ter pelo menos 10 caracteres")]
     public string Description { get; set; } = string.Empty;
@@ -51,6 +56,7 @@ public class CreateTicketRequest
     /// <summary>
     /// Título do ticket
     /// </summary>
+    /// <example>Erro ao imprimir documentos</example>
     [Required(ErrorMessage = "Título é obrigatório")]
     [MinLength(5, ErrorMessage = "Título deve ter pelo menos 5 caracteres")]
     public string Title { get; set; } = string.Empty;
@@ -58,6 +64,7 @@ public class CreateTicketRequest
     /// <summary>
     /// Descrição detalhada do problema
     /// </summary>
+    /// <example>A impressora não está respondendo. Testei com outros documentos e o problema persiste. Já reiniciei a impressora mas não resolveu.</example>
     [Required(ErrorMessage = "Descrição é obrigatória")]
     [MinLength(10, ErrorMessage = "Descrição deve ter pelo menos 10 caracteres")]
     public string Description { get; set; } = string.Empty;
@@ -65,11 +72,13 @@ public class CreateTicketRequest
     /// <summary>
     /// Prioridade do ticket
     /// </summary>
+    /// <example>High</example>
     public string Priority { get; set; } = "Medium";
 
     /// <summary>
     /// ID do tipo de problema
     /// </summary>
+    /// <example>2</example>
     [Required(ErrorMessage = "Tipo de problema é obrigatório")]
     public int IssueTypeId { get; set; }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "safi-api-tester",
+  "version": "1.0.0",
+  "description": "Script para testar a API SAFI com autenticação",
+  "main": "test-api.js",
+  "scripts": {
+    "test": "node test-api.js",
+    "test:login": "node -e \"require('./test-api').login().then(console.log).catch(console.error)\"",
+    "test:protected": "node -e \"require('./test-api').login().then(token => require('./test-api').testProtectedRoute(token)).catch(console.error)\"",
+    "test:tickets": "node -e \"require('./test-api').login().then(token => require('./test-api').listTickets(token)).catch(console.error)\""
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "keywords": [
+    "api",
+    "test",
+    "authentication",
+    "jwt",
+    "safi"
+  ],
+  "author": "SAFI Team",
+  "license": "MIT"
+}

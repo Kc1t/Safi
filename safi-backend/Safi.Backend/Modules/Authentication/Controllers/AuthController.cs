@@ -138,4 +138,39 @@ public class AuthController : ControllerBase
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
+
+    /// <summary>
+    /// Endpoint de debug para listar usuários (apenas para desenvolvimento)
+    /// </summary>
+    /// <returns>Lista de usuários</returns>
+    [HttpGet("debug/users")]
+    public async Task<IActionResult> GetUsersDebug()
+    {
+        try
+        {
+            var users = await _authService.GetAllUsersAsync();
+            
+            var response = users.Select(u => new
+            {
+                id = u.Id,
+                name = u.Name,
+                email = u.Email,
+                userType = u.UserType.ToString(),
+                departmentId = u.DepartmentId,
+                createdAt = u.CreatedAt
+            });
+
+            return Ok(new
+            {
+                message = "Usuários encontrados",
+                count = users.Count(),
+                users = response
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao listar usuários para debug");
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
 }
