@@ -1,6 +1,19 @@
 @Safi.Backend_HostAddress = http://localhost:5080
 
-GET {{Safi.Backend_HostAddress}}/weatherforecast/
+### Teste Hello World
+GET {{Safi.Backend_HostAddress}}/api/hello
+Accept: application/json
+
+### Teste Health Check
+GET {{Safi.Backend_HostAddress}}/api/hello/health
+Accept: application/json
+
+### Teste Weather Forecast
+GET {{Safi.Backend_HostAddress}}/weatherforecast
+Accept: application/json
+
+### Documentação OpenAPI
+GET {{Safi.Backend_HostAddress}}/openapi/v1.json
 Accept: application/json
 
 ###

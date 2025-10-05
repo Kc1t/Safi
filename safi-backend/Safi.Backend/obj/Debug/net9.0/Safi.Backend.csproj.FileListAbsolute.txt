@@ -26,3 +26,9 @@ C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\ne
 C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\Safi.Backend.pdb
 C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\Safi.Backend.genruntimeconfig.cache
 C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\ref\Safi.Backend.dll
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\Safi.Backend.csproj.AssemblyReference.cache
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\Safi.Backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\bin\Debug\net9.0\Scalar.AspNetCore.dll
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\Safi.Bac.059B5FB1.Up2Date
