@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFI - Sistema de Tickets</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 80vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .login-form {
+            padding: 3rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #7c3aed;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .dashboard {
+            display: none;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tickets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .ticket-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #7c3aed;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-id {
+            background: #7c3aed;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .ticket-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-open { background: #dbeafe; color: #1e40af; }
+        .status-inprogress { background: #fef3c7; color: #d97706; }
+        .status-pending { background: #f3e8ff; color: #7c3aed; }
+        .status-resolved { background: #d1fae5; color: #059669; }
+        .status-closed { background: #f3f4f6; color: #6b7280; }
+
+        .ticket-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .ticket-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ticket-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .ticket-priority {
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .priority-low { background: #d1fae5; color: #059669; }
+        .priority-medium { background: #fef3c7; color: #d97706; }
+        .priority-high { background: #fed7d7; color: #e53e3e; }
+        .priority-urgent { background: #fbb6ce; color: #be185d; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .modal-body {
+            line-height: 1.6;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section h3 {
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .modal-section p {
+            color: #6b7280;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid #fecaca;
+        }
+
+        .success {
+            background: #f0fdf4;
+            color: #16a34a;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid #bbf7d0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translate(-50%, -60%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .login-form {
+                padding: 2rem;
+            }
+            
+            .tickets-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-ticket-alt"></i> SAFI</h1>
+            <p>Sistema de Atendimento e Fechamento Inteligente</p>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="login-form">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #374151;">Entrar no Sistema</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required placeholder="Sua senha">
+                </div>
+                <button type="submit" class="btn" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+            <div id="loginError" class="error" style="display: none;"></div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <div class="dashboard-header">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <div id="userName">Usuário</div>
+                        <div id="userEmail" style="color: #6b7280; font-size: 0.9rem;">email@exemplo.com</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+
+            <h2 style="margin-bottom: 1.5rem; color: #374151;">
+                <i class="fas fa-list"></i> Tickets Atribuídos
+            </h2>
+
+            <div id="ticketsContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando tickets...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Detalhes do Ticket</h2>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Conteúdo será inserido dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5080';
+        let currentUser = null;
+        let authToken = null;
+
+        // Elementos DOM
+        const loginForm = document.getElementById('loginForm');
+        const dashboard = document.getElementById('dashboard');
+        const loginFormElement = document.getElementById('loginFormElement');
+        const loginError = document.getElementById('loginError');
+        const ticketsContainer = document.getElementById('ticketsContainer');
+        const ticketModal = document.getElementById('ticketModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+
+        // Event Listeners
+        loginFormElement.addEventListener('submit', handleLogin);
+
+        // Função de Login
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+            loginError.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.token) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    
+                    // Salvar token no localStorage
+                    localStorage.setItem('authToken', authToken);
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    showDashboard();
+                    await loadTickets();
+                } else {
+                    throw new Error(data.message || 'Erro no login');
+                }
+            } catch (error) {
+                loginError.textContent = error.message;
+                loginError.style.display = 'block';
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
+            }
+        }
+
+        // Mostrar Dashboard
+        function showDashboard() {
+            loginForm.style.display = 'none';
+            dashboard.style.display = 'block';
+            
+            // Atualizar informações do usuário
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+        }
+
+        // Carregar Tickets
+        async function loadTickets() {
+            ticketsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Carregando tickets...</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/tickets`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayTickets(data.tickets || []);
+                } else {
+                    throw new Error(data.message || 'Erro ao carregar tickets');
+                }
+            } catch (error) {
+                ticketsContainer.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Erro ao carregar tickets: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Exibir Tickets
+        function displayTickets(tickets) {
+            if (tickets.length === 0) {
+                ticketsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Nenhum ticket encontrado</h3>
+                        <p>Não há tickets atribuídos a você no momento.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const ticketsHTML = tickets.map(ticket => `
+                <div class="ticket-card" onclick="openTicketModal(${ticket.id})">
+                    <div class="ticket-header">
+                        <span class="ticket-id">#${ticket.id}</span>
+                        <span class="ticket-status status-${ticket.status.toLowerCase()}">${getStatusText(ticket.status)}</span>
+                    </div>
+                    <h3 class="ticket-title">${ticket.title}</h3>
+                    <p class="ticket-description">${ticket.detailing || 'Sem descrição disponível'}</p>
+                    <div class="ticket-meta">
+                        <span class="ticket-priority priority-${ticket.priority.toLowerCase()}">${getPriorityText(ticket.priority)}</span>
+                        <span><i class="fas fa-calendar"></i> ${formatDate(ticket.createdAt)}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            ticketsContainer.innerHTML = `<div class="tickets-grid">${ticketsHTML}</div>`;
+        }
+
+        // Abrir Modal do Ticket
+        async function openTicketModal(ticketId) {
+            try {
+                const response = await fetch(`${API_BASE}/api/tickets/${ticketId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const ticket = await response.json();
+
+                if (response.ok) {
+                    modalTitle.textContent = `Ticket #${ticket.id}`;
+                    modalBody.innerHTML = `
+                        <div class="modal-section">
+                            <h3><i class="fas fa-heading"></i> Título</h3>
+                            <p>${ticket.title}</p>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3><i class="fas fa-align-left"></i> Descrição</h3>
+                            <p>${ticket.detailing || 'Sem descrição disponível'}</p>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3><i class="fas fa-info-circle"></i> Informações</h3>
+                            <p><strong>Status:</strong> <span class="ticket-status status-${ticket.status.toLowerCase()}">${getStatusText(ticket.status)}</span></p>
+                            <p><strong>Prioridade:</strong> <span class="ticket-priority priority-${ticket.priority.toLowerCase()}">${getPriorityText(ticket.priority)}</span></p>
+                            <p><strong>Tipo de Problema:</strong> ${ticket.issueType || 'N/A'}</p>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3><i class="fas fa-user"></i> Usuário</h3>
+                            <p><strong>Nome:</strong> ${ticket.user?.name || 'N/A'}</p>
+                            <p><strong>Email:</strong> ${ticket.user?.email || 'N/A'}</p>
+                        </div>
+                        
+                        ${ticket.assignedTo ? `
+                        <div class="modal-section">
+                            <h3><i class="fas fa-user-tie"></i> Atribuído Para</h3>
+                            <p><strong>Nome:</strong> ${ticket.assignedTo.name}</p>
+                            <p><strong>Email:</strong> ${ticket.assignedTo.email}</p>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="modal-section">
+                            <h3><i class="fas fa-clock"></i> Datas</h3>
+                            <p><strong>Criado em:</strong> ${formatDateTime(ticket.createdAt)}</p>
+                            <p><strong>Atualizado em:</strong> ${formatDateTime(ticket.updatedAt)}</p>
+                            ${ticket.resolvedAt ? `<p><strong>Resolvido em:</strong> ${formatDateTime(ticket.resolvedAt)}</p>` : ''}
+                        </div>
+                    `;
+                    
+                    ticketModal.style.display = 'block';
+                } else {
+                    throw new Error(ticket.message || 'Erro ao carregar detalhes do ticket');
+                }
+            } catch (error) {
+                alert(`Erro ao carregar ticket: ${error.message}`);
+            }
+        }
+
+        // Fechar Modal
+        function closeModal() {
+            ticketModal.style.display = 'none';
+        }
+
+        // Fechar modal clicando fora
+        ticketModal.addEventListener('click', (e) => {
+            if (e.target === ticketModal) {
+                closeModal();
+            }
+        });
+
+        // Logout
+        function logout() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            
+            loginForm.style.display = 'block';
+            dashboard.style.display = 'none';
+            
+            // Limpar formulário
+            loginFormElement.reset();
+            loginError.style.display = 'none';
+        }
+
+        // Funções Utilitárias
+        function getStatusText(status) {
+            const statusMap = {
+                'Open': 'Aberto',
+                'InProgress': 'Em Progresso',
+                'Pending': 'Pendente',
+                'Resolved': 'Resolvido',
+                'Closed': 'Fechado'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getPriorityText(priority) {
+            const priorityMap = {
+                'Low': 'Baixa',
+                'Medium': 'Média',
+                'High': 'Alta',
+                'Urgent': 'Urgente'
+            };
+            return priorityMap[priority] || priority;
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('pt-BR');
+        }
+
+        function formatDateTime(dateString) {
+            return new Date(dateString).toLocaleString('pt-BR');
+        }
+
+        // Verificar se já está logado
+        window.addEventListener('load', () => {
+            const savedToken = localStorage.getItem('authToken');
+            const savedUser = localStorage.getItem('currentUser');
+            
+            if (savedToken && savedUser) {
+                authToken = savedToken;
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+                loadTickets();
+            }
+        });
+    </script>
+</body>
+</html>

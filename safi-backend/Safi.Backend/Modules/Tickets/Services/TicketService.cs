@@ -66,6 +66,41 @@ public interface ITicketService
     Task<bool> UpdateTicketStatusAsync(int id, TicketStatus status, int userId);
 
     /// <summary>
+    /// Escalona um ticket para outro nível
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <param name="request">Dados do escalonamento</param>
+    /// <param name="userId">ID do usuário que está escalonando</param>
+    /// <returns>True se escalonado com sucesso</returns>
+    Task<bool> EscalateTicketAsync(int ticketId, EscalateTicketRequest request, int userId);
+
+    /// <summary>
+    /// Encerra um ticket
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <param name="request">Dados do encerramento</param>
+    /// <param name="userId">ID do usuário que está encerrando</param>
+    /// <returns>True se encerrado com sucesso</returns>
+    Task<bool> CloseTicketAsync(int ticketId, CloseTicketRequest request, int userId);
+
+    /// <summary>
+    /// Adiciona mensagem ao chat do ticket
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <param name="request">Dados da mensagem</param>
+    /// <param name="userId">ID do usuário que está enviando</param>
+    /// <returns>Mensagem criada</returns>
+    Task<ChatMessageResponse?> AddChatMessageAsync(int ticketId, ChatMessageRequest request, int userId);
+
+    /// <summary>
+    /// Obtém histórico de chat do ticket
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <returns>Lista de mensagens</returns>
+    Task<IEnumerable<ChatMessageResponse>> GetChatHistoryAsync(int ticketId);
+}
+
+    /// <summary>
     /// Atribui um ticket a um analista
     /// </summary>
     /// <param name="id">ID do ticket</param>
@@ -370,6 +405,194 @@ public class TicketService : ITicketService
         {
             _logger.LogError(ex, "Erro ao deletar ticket: {TicketId}", id);
             return false;
+        }
+    }
+
+    public async Task<bool> EscalateTicketAsync(int ticketId, EscalateTicketRequest request, int userId)
+    {
+        try
+        {
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+            if (ticket == null)
+                return false;
+
+            // Atualizar status para "Em Progresso" se estiver aberto
+            if (ticket.Status == TicketStatus.Open)
+            {
+                ticket.Status = TicketStatus.InProgress;
+            }
+
+            // Atualizar prioridade baseada no nível de escalonamento
+            switch (request.TargetLevel)
+            {
+                case 2:
+                    ticket.Priority = TicketPriority.High;
+                    break;
+                case 3:
+                    ticket.Priority = TicketPriority.Urgent;
+                    break;
+            }
+
+            ticket.UpdatedAt = DateTime.UtcNow;
+
+            // Adicionar histórico
+            var history = new TicketHistory
+            {
+                TicketId = ticketId,
+                ChangedById = userId,
+                ChangeDescription = $"Escalonado para N{request.TargetLevel}: {request.Reason}",
+                ChangeType = "escalation",
+                OldValue = $"N{request.TargetLevel - 1}",
+                NewValue = $"N{request.TargetLevel}",
+                ChangedAt = DateTime.UtcNow
+            };
+
+            _context.TicketHistory.Add(history);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Ticket {TicketId} escalonado para N{Level} por usuário {UserId}", 
+                ticketId, request.TargetLevel, userId);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao escalonar ticket: {TicketId}", ticketId);
+            return false;
+        }
+    }
+
+    public async Task<bool> CloseTicketAsync(int ticketId, CloseTicketRequest request, int userId)
+    {
+        try
+        {
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+            if (ticket == null)
+                return false;
+
+            // Atualizar status baseado no tipo de resolução
+            switch (request.ResolutionType.ToLower())
+            {
+                case "resolved":
+                    ticket.Status = TicketStatus.Resolved;
+                    break;
+                case "closed":
+                    ticket.Status = TicketStatus.Closed;
+                    break;
+                case "cancelled":
+                    ticket.Status = TicketStatus.Closed; // Pode criar um status específico se necessário
+                    break;
+                default:
+                    ticket.Status = TicketStatus.Resolved;
+                    break;
+            }
+
+            ticket.UpdatedAt = DateTime.UtcNow;
+            ticket.ResolvedAt = DateTime.UtcNow;
+
+            // Adicionar histórico
+            var history = new TicketHistory
+            {
+                TicketId = ticketId,
+                ChangedById = userId,
+                ChangeDescription = $"Ticket encerrado: {request.Resolution}",
+                ChangeType = "closure",
+                OldValue = ticket.Status.ToString(),
+                NewValue = request.ResolutionType,
+                ChangedAt = DateTime.UtcNow
+            };
+
+            _context.TicketHistory.Add(history);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Ticket {TicketId} encerrado por usuário {UserId}", ticketId, userId);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao encerrar ticket: {TicketId}", ticketId);
+            return false;
+        }
+    }
+
+    public async Task<ChatMessageResponse?> AddChatMessageAsync(int ticketId, ChatMessageRequest request, int userId)
+    {
+        try
+        {
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+            if (ticket == null)
+                return null;
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return null;
+
+            var chatMessage = new TicketChatHistory
+            {
+                TicketId = ticketId,
+                UserId = userId,
+                Message = request.Message,
+                MessageType = request.MessageType,
+                IsInternal = request.IsInternal,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.TicketChatHistory.Add(chatMessage);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Mensagem de chat adicionada ao ticket {TicketId} por usuário {UserId}", 
+                ticketId, userId);
+
+            return new ChatMessageResponse
+            {
+                Id = chatMessage.Id,
+                TicketId = chatMessage.TicketId,
+                UserId = chatMessage.UserId,
+                UserName = user.Name,
+                UserEmail = user.Email,
+                UserType = user.UserType.ToString(),
+                Message = chatMessage.Message,
+                MessageType = chatMessage.MessageType,
+                CreatedAt = chatMessage.CreatedAt,
+                IsInternal = chatMessage.IsInternal
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao adicionar mensagem de chat ao ticket: {TicketId}", ticketId);
+            return null;
+        }
+    }
+
+    public async Task<IEnumerable<ChatMessageResponse>> GetChatHistoryAsync(int ticketId)
+    {
+        try
+        {
+            var chatHistory = await _context.TicketChatHistory
+                .Where(ch => ch.TicketId == ticketId)
+                .Include(ch => ch.User)
+                .OrderBy(ch => ch.CreatedAt)
+                .ToListAsync();
+
+            return chatHistory.Select(ch => new ChatMessageResponse
+            {
+                Id = ch.Id,
+                TicketId = ch.TicketId,
+                UserId = ch.UserId,
+                UserName = ch.User.Name,
+                UserEmail = ch.User.Email,
+                UserType = ch.User.UserType.ToString(),
+                Message = ch.Message,
+                MessageType = ch.MessageType,
+                CreatedAt = ch.CreatedAt,
+                IsInternal = ch.IsInternal
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter histórico de chat do ticket: {TicketId}", ticketId);
+            return Enumerable.Empty<ChatMessageResponse>();
         }
     }
 }

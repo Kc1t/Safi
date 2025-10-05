@@ -15,6 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketMessage> TicketMessages { get; set; }
     public DbSet<TicketHistory> TicketHistory { get; set; }
+    public DbSet<TicketChatHistory> TicketChatHistory { get; set; }
     public DbSet<IssueType> IssueTypes { get; set; }
     public DbSet<Department> Departments { get; set; }
 

@@ -80,6 +80,8 @@ public static class SeedData
     /// <summary>
     /// Popula tipos de problemas iniciais
     /// </summary>
+    /// 
+
     private static async Task SeedIssueTypesAsync(ApplicationDbContext context)
     {
         var issueTypes = new List<IssueType>
