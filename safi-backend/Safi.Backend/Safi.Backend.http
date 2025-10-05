@@ -113,4 +113,29 @@ GET {{Safi.Backend_HostAddress}}/api/tickets/1/chat
 Authorization: Bearer {{AuthToken}}
 Accept: application/json
 
+### 15. Testar IA - Status
+GET {{Safi.Backend_HostAddress}}/api/ai/status
+Authorization: Bearer {{AuthToken}}
+Accept: application/json
+
+### 16. Testar IA - Análise
+POST {{Safi.Backend_HostAddress}}/api/ai/test
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "title": "Computador não liga após atualização",
+  "description": "Após a última atualização do Windows, o computador não inicia corretamente e exibe tela azul de erro. Já tentei reiniciar várias vezes mas o problema persiste."
+}
+
+### 17. Criar Tabela de Chat (Temporário)
+POST {{Safi.Backend_HostAddress}}/api/database/create-chat-table
+Authorization: Bearer {{AuthToken}}
+Accept: application/json
+
+### 18. Verificar Tabela de Chat
+GET {{Safi.Backend_HostAddress}}/api/database/check-chat-table
+Authorization: Bearer {{AuthToken}}
+Accept: application/json
+
 ###

@@ -143,4 +143,67 @@ public class AIController : ControllerBase
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
+
+    /// <summary>
+    /// Testar integração com IA
+    /// </summary>
+    /// <param name="request">Dados para teste</param>
+    /// <returns>Resultado do teste</returns>
+    [HttpPost("test")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> TestAI([FromBody] AIAnalysisRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("Teste de IA solicitado para: {Title}", request.Title);
+
+            var analysis = await _aiService.AnalyzeTicketAsync(request);
+            
+            if (analysis != null)
+            {
+                return Ok(new
+                {
+                    message = "Teste de IA realizado com sucesso",
+                    analysis = analysis,
+                    timestamp = DateTime.UtcNow
+                });
+            }
+            else
+            {
+                return BadRequest(new { message = "Falha no teste de IA" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro durante teste de IA");
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
+
+    /// <summary>
+    /// Verificar status da IA
+    /// </summary>
+    /// <returns>Status do serviço</returns>
+    [HttpGet("status")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> GetAIStatus()
+    {
+        try
+        {
+            var isAvailable = await _aiService.IsServiceAvailableAsync();
+            
+            return Ok(new
+            {
+                isAvailable = isAvailable,
+                service = "Gemini API",
+                timestamp = DateTime.UtcNow,
+                message = isAvailable ? "Serviço de IA disponível" : "Serviço de IA indisponível"
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao verificar status da IA");
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
 }

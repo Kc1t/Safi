@@ -27,19 +27,32 @@ public class AIService : IAIService
         {
             _logger.LogInformation("Iniciando análise de IA para ticket: {Title}", request.Title);
 
-            // TODO: Implementar integração real com Gemini API
-            // Por enquanto, retorna análise mock baseada em palavras-chave
+            var startTime = DateTime.UtcNow;
+            
+            // Tentar usar Gemini API real primeiro
+            var geminiResponse = await AnalyzeWithGeminiAsync(request);
+            if (geminiResponse != null)
+            {
+                var processingTime = (DateTime.UtcNow - startTime).TotalMilliseconds;
+                geminiResponse.ProcessingTimeMs = (int)processingTime;
+                
+                _logger.LogInformation("Análise de IA concluída com Gemini para ticket: {Title}", request.Title);
+                return geminiResponse;
+            }
+
+            // Fallback para análise mock se Gemini falhar
+            _logger.LogWarning("Gemini API indisponível, usando análise mock para ticket: {Title}", request.Title);
             
             var response = new AIAnalysisResponse
             {
                 SuggestedCategory = AnalyzeCategory(request.Title, request.Description),
                 SuggestedPriority = AnalyzePriority(request.Title, request.Description),
                 Confidence = 0.75f,
-                Reasoning = "Análise baseada em palavras-chave (implementação mock)",
-                ProcessingTimeMs = 150
+                Reasoning = "Análise baseada em palavras-chave (fallback mock)",
+                ProcessingTimeMs = (int)(DateTime.UtcNow - startTime).TotalMilliseconds
             };
 
-            _logger.LogInformation("Análise de IA concluída para ticket: {Title}", request.Title);
+            _logger.LogInformation("Análise de IA concluída (mock) para ticket: {Title}", request.Title);
             return response;
         }
         catch (Exception ex)
@@ -119,6 +132,118 @@ public class AIService : IAIService
             return false;
         }
     }
+
+    #region Integração com Gemini API
+
+    private async Task<AIAnalysisResponse?> AnalyzeWithGeminiAsync(AIAnalysisRequest request)
+    {
+        try
+        {
+            var apiKey = _configuration["ExternalServices:GeminiApi:ApiKey"];
+            var baseUrl = _configuration["ExternalServices:GeminiApi:BaseUrl"];
+            var modelId = _configuration["ExternalServices:GeminiApi:ModelId"] ?? "gemini-2.5-flash-image";
+            var generateContentApi = _configuration["ExternalServices:GeminiApi:GenerateContentApi"] ?? "streamGenerateContent";
+            
+            if (string.IsNullOrEmpty(apiKey) || apiKey == "YOUR_GEMINI_API_KEY_HERE")
+            {
+                _logger.LogWarning("Chave da API Gemini não configurada");
+                return null;
+            }
+
+            var prompt = $@"
+Analise o seguinte ticket de suporte e forneça uma análise estruturada:
+
+Título: {request.Title}
+Descrição: {request.Description}
+
+Por favor, analise e responda em formato JSON com as seguintes informações:
+- suggestedCategory: Categoria mais apropriada (Autenticação, Email, Hardware, Rede, Software, Outros)
+- suggestedPriority: Prioridade (Low, Medium, High, Urgent)
+- confidence: Nível de confiança (0.0 a 1.0)
+- reasoning: Explicação da análise
+
+Responda APENAS com o JSON, sem texto adicional.
+";
+
+            var geminiRequest = new
+            {
+                contents = new[]
+                {
+                    new
+                    {
+                        role = "user",
+                        parts = new[]
+                        {
+                            new { text = prompt }
+                        }
+                    }
+                },
+                generationConfig = new
+                {
+                    temperature = 0.1,
+                    topK = 1,
+                    topP = 1,
+                    maxOutputTokens = 500,
+                    responseModalities = new[] { "TEXT" }
+                }
+            };
+
+            var jsonContent = JsonSerializer.Serialize(geminiRequest);
+            var content = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("x-goog-api-key", apiKey);
+
+            var response = await _httpClient.PostAsync($"{baseUrl}/models/{modelId}:{generateContentApi}?key={apiKey}", content);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var geminiResponse = JsonSerializer.Deserialize<GeminiResponse>(responseContent);
+                
+                if (geminiResponse?.candidates?.Length > 0)
+                {
+                    var candidate = geminiResponse.candidates[0];
+                    if (candidate.content?.parts?.Length > 0)
+                    {
+                        var responseText = candidate.content.parts[0].text;
+                        
+                        // Tentar extrair JSON da resposta
+                        var jsonStart = responseText.IndexOf('{');
+                        var jsonEnd = responseText.LastIndexOf('}');
+                        
+                        if (jsonStart >= 0 && jsonEnd > jsonStart)
+                        {
+                            var jsonText = responseText.Substring(jsonStart, jsonEnd - jsonStart + 1);
+                            var analysis = JsonSerializer.Deserialize<GeminiAnalysisResponse>(jsonText);
+                            
+                            return new AIAnalysisResponse
+                            {
+                                SuggestedCategory = analysis?.suggestedCategory ?? "Outros",
+                                SuggestedPriority = analysis?.suggestedPriority ?? "Medium",
+                                Confidence = analysis?.confidence ?? 0.5f,
+                                Reasoning = analysis?.reasoning ?? "Análise realizada pela IA Gemini"
+                            };
+                        }
+                    }
+                }
+            }
+            else
+            {
+                _logger.LogError("Erro na API Gemini: {StatusCode} - {ReasonPhrase}", 
+                    response.StatusCode, response.ReasonPhrase);
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao chamar API Gemini");
+            return null;
+        }
+    }
+
+    #endregion
 
     #region Métodos Mock (para desenvolvimento)
 
