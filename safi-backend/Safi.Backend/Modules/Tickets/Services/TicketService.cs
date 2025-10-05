@@ -3,6 +3,8 @@ using Safi.Backend.Core.Enums;
 using Safi.Backend.Core.Interfaces;
 using Safi.Backend.Modules.Tickets.DTOs;
 using Microsoft.Extensions.Logging;
+using Safi.Backend.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Safi.Backend.Modules.Tickets.Services;
 
@@ -98,7 +100,6 @@ public interface ITicketService
     /// <param name="ticketId">ID do ticket</param>
     /// <returns>Lista de mensagens</returns>
     Task<IEnumerable<ChatMessageResponse>> GetChatHistoryAsync(int ticketId);
-}
 
     /// <summary>
     /// Atribui um ticket a um analista
@@ -159,6 +160,7 @@ public class TicketService : ITicketService
     private readonly IRepository<TicketMessage> _messageRepository;
     private readonly IRepository<TicketHistory> _historyRepository;
     private readonly ILogger<TicketService> _logger;
+    private readonly ApplicationDbContext _context;
 
     public TicketService(
         ITicketRepository ticketRepository,
@@ -166,7 +168,8 @@ public class TicketService : ITicketService
         IRepository<IssueType> issueTypeRepository,
         IRepository<TicketMessage> messageRepository,
         IRepository<TicketHistory> historyRepository,
-        ILogger<TicketService> logger)
+        ILogger<TicketService> logger,
+        ApplicationDbContext context)
     {
         _ticketRepository = ticketRepository;
         _userRepository = userRepository;
@@ -174,6 +177,7 @@ public class TicketService : ITicketService
         _messageRepository = messageRepository;
         _historyRepository = historyRepository;
         _logger = logger;
+        _context = context;
     }
 
     public async Task<Ticket?> CreatePublicTicketAsync(PublicTicketRequest request)

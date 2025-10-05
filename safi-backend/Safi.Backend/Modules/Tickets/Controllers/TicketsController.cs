@@ -273,4 +273,156 @@ public class TicketsController : ControllerBase
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
+
+    /// <summary>
+    /// Escalonar ticket para outro nível
+    /// </summary>
+    /// <param name="id">ID do ticket</param>
+    /// <param name="request">Dados do escalonamento</param>
+    /// <returns>Resultado do escalonamento</returns>
+    [HttpPost("{id}/escalate")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> EscalateTicket(int id, [FromBody] EscalateTicketRequest request)
+    {
+        try
+        {
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "1");
+            
+            _logger.LogInformation("Escalonamento do ticket solicitado: {TicketId}", id);
+
+            var success = await _ticketService.EscalateTicketAsync(id, request, userId);
+            
+            if (success)
+            {
+                _logger.LogInformation("Ticket escalonado com sucesso: {TicketId}", id);
+                return Ok(new
+                {
+                    message = "Ticket escalonado com sucesso",
+                    ticketId = id,
+                    targetLevel = request.TargetLevel,
+                    reason = request.Reason
+                });
+            }
+            else
+            {
+                _logger.LogWarning("Falha ao escalonar ticket: {TicketId}", id);
+                return BadRequest(new { message = "Falha ao escalonar ticket" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao escalonar ticket: {TicketId}", id);
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
+
+    /// <summary>
+    /// Encerrar ticket
+    /// </summary>
+    /// <param name="id">ID do ticket</param>
+    /// <param name="request">Dados do encerramento</param>
+    /// <returns>Resultado do encerramento</returns>
+    [HttpPost("{id}/close")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> CloseTicket(int id, [FromBody] CloseTicketRequest request)
+    {
+        try
+        {
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "1");
+            
+            _logger.LogInformation("Encerramento do ticket solicitado: {TicketId}", id);
+
+            var success = await _ticketService.CloseTicketAsync(id, request, userId);
+            
+            if (success)
+            {
+                _logger.LogInformation("Ticket encerrado com sucesso: {TicketId}", id);
+                return Ok(new
+                {
+                    message = "Ticket encerrado com sucesso",
+                    ticketId = id,
+                    resolution = request.Resolution,
+                    resolutionType = request.ResolutionType
+                });
+            }
+            else
+            {
+                _logger.LogWarning("Falha ao encerrar ticket: {TicketId}", id);
+                return BadRequest(new { message = "Falha ao encerrar ticket" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao encerrar ticket: {TicketId}", id);
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
+
+    /// <summary>
+    /// Adicionar mensagem ao chat do ticket
+    /// </summary>
+    /// <param name="id">ID do ticket</param>
+    /// <param name="request">Dados da mensagem</param>
+    /// <returns>Mensagem criada</returns>
+    [HttpPost("{id}/chat")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> AddChatMessage(int id, [FromBody] ChatMessageRequest request)
+    {
+        try
+        {
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "1");
+            
+            _logger.LogInformation("Adicionando mensagem ao chat do ticket: {TicketId}", id);
+
+            var message = await _ticketService.AddChatMessageAsync(id, request, userId);
+            
+            if (message != null)
+            {
+                _logger.LogInformation("Mensagem adicionada com sucesso ao ticket: {TicketId}", id);
+                return Ok(message);
+            }
+            else
+            {
+                _logger.LogWarning("Falha ao adicionar mensagem ao ticket: {TicketId}", id);
+                return BadRequest(new { message = "Falha ao adicionar mensagem" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao adicionar mensagem ao ticket: {TicketId}", id);
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
+
+    /// <summary>
+    /// Obter histórico de chat do ticket
+    /// </summary>
+    /// <param name="id">ID do ticket</param>
+    /// <returns>Histórico de mensagens</returns>
+    [HttpGet("{id}/chat")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> GetChatHistory(int id)
+    {
+        try
+        {
+            _logger.LogInformation("Obtendo histórico de chat do ticket: {TicketId}", id);
+
+            var chatHistory = await _ticketService.GetChatHistoryAsync(id);
+            
+            _logger.LogInformation("Histórico de chat obtido para ticket: {TicketId}, {Count} mensagens", 
+                id, chatHistory.Count());
+
+            return Ok(new
+            {
+                ticketId = id,
+                messages = chatHistory,
+                totalMessages = chatHistory.Count()
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter histórico de chat do ticket: {TicketId}", id);
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
 }

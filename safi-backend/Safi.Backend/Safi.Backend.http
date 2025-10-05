@@ -75,4 +75,42 @@ Accept: text/html
 GET {{Safi.Backend_HostAddress}}/scalar-custom
 Accept: text/html
 
+### 11. Escalonar Ticket
+POST {{Safi.Backend_HostAddress}}/api/tickets/1/escalate
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "reason": "Problema complexo que requer análise especializada",
+  "targetLevel": 2,
+  "assignedToUserId": 2
+}
+
+### 12. Encerrar Ticket
+POST {{Safi.Backend_HostAddress}}/api/tickets/1/close
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "resolution": "Problema resolvido através de atualização de drivers",
+  "resolutionType": "resolved",
+  "notes": "Cliente confirmou que o problema foi solucionado"
+}
+
+### 13. Adicionar Mensagem ao Chat
+POST {{Safi.Backend_HostAddress}}/api/tickets/1/chat
+Authorization: Bearer {{AuthToken}}
+Content-Type: application/json
+
+{
+  "message": "Olá! Estou analisando o problema da tela azul. Você pode me enviar uma foto do erro?",
+  "messageType": "analyst",
+  "isInternal": false
+}
+
+### 14. Obter Histórico de Chat
+GET {{Safi.Backend_HostAddress}}/api/tickets/1/chat
+Authorization: Bearer {{AuthToken}}
+Accept: application/json
+
 ###

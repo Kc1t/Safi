@@ -105,6 +105,112 @@ async function testIndividualTicket(token) {
     }
 }
 
+// Função para testar operações de chat
+async function testChatOperations(token) {
+    try {
+        console.log('\n💬 Testando operações de chat...');
+        
+        // 1. Adicionar mensagem
+        console.log('📝 Adicionando mensagem...');
+        const messageData = {
+            message: 'Olá! Estou analisando o problema. Você pode me enviar mais detalhes?',
+            messageType: 'analyst',
+            isInternal: false
+        };
+        
+        const addResponse = await axios.post(`${BASE_URL}/api/tickets/1/chat`, messageData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        
+        console.log('✅ Mensagem adicionada!');
+        console.log('👤 De:', addResponse.data.userName);
+        console.log('💬 Mensagem:', addResponse.data.message);
+        
+        // 2. Obter histórico
+        console.log('\n📜 Obtendo histórico de chat...');
+        const historyResponse = await axios.get(`${BASE_URL}/api/tickets/1/chat`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+            }
+        });
+        
+        console.log('✅ Histórico obtido!');
+        console.log('📊 Total de mensagens:', historyResponse.data.totalMessages);
+        
+        if (historyResponse.data.messages && historyResponse.data.messages.length > 0) {
+            console.log('💬 Última mensagem:', historyResponse.data.messages[historyResponse.data.messages.length - 1].message);
+        }
+        
+        return historyResponse.data;
+    } catch (error) {
+        console.error('❌ Erro nas operações de chat:', error.response?.data || error.message);
+        throw error;
+    }
+}
+
+// Função para testar escalonamento
+async function testEscalation(token) {
+    try {
+        console.log('\n⬆️ Testando escalonamento...');
+        
+        const escalationData = {
+            reason: 'Problema complexo que requer análise especializada de nível 2',
+            targetLevel: 2,
+            assignedToUserId: 2
+        };
+        
+        const response = await axios.post(`${BASE_URL}/api/tickets/1/escalate`, escalationData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        
+        console.log('✅ Ticket escalonado com sucesso!');
+        console.log('📊 Resposta:', JSON.stringify(response.data, null, 2));
+        
+        return response.data;
+    } catch (error) {
+        console.error('❌ Erro ao escalonar ticket:', error.response?.data || error.message);
+        throw error;
+    }
+}
+
+// Função para testar encerramento
+async function testClosure(token) {
+    try {
+        console.log('\n🔒 Testando encerramento...');
+        
+        const closureData = {
+            resolution: 'Problema resolvido através de atualização de drivers',
+            resolutionType: 'resolved',
+            notes: 'Cliente confirmou que o problema foi solucionado'
+        };
+        
+        const response = await axios.post(`${BASE_URL}/api/tickets/1/close`, closureData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+        
+        console.log('✅ Ticket encerrado com sucesso!');
+        console.log('📊 Resposta:', JSON.stringify(response.data, null, 2));
+        
+        return response.data;
+    } catch (error) {
+        console.error('❌ Erro ao encerrar ticket:', error.response?.data || error.message);
+        throw error;
+    }
+}
+
 // Função para criar um ticket
 async function createTicket(token) {
     try {
@@ -152,7 +258,13 @@ async function main() {
         // 4. Testar endpoint individual
         await testIndividualTicket(token);
         
-        // 5. Criar ticket (opcional)
+        // 5. Testar chat
+        await testChatOperations(token);
+        
+        // 6. Testar escalonamento
+        await testEscalation(token);
+        
+        // 7. Criar ticket (opcional)
         // await createTicket(token);
         
         console.log('\n🎉 Script executado com sucesso!');
@@ -173,5 +285,8 @@ module.exports = {
     testProtectedRoute,
     listTickets,
     testIndividualTicket,
+    testChatOperations,
+    testEscalation,
+    testClosure,
     createTicket
 };

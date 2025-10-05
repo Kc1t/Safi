@@ -10,6 +10,7 @@ using Safi.Backend.Core.Interfaces;
 using Safi.Backend.Infrastructure.Data.Repositories;
 using Safi.Backend.Modules.Authentication.Services;
 using Safi.Backend.Modules.Tickets.Services;
+using Safi.Backend.Modules.AI.Services;
 using Safi.Backend.Infrastructure.Data;
 using Safi.Backend.Infrastructure.Middleware;
 
@@ -69,8 +70,18 @@ builder.Services.AddAuthorization();
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
 
-// Add FluentValidation (comentado temporariamente)
+// FluentValidation removido temporariamente - não é essencial para funcionamento básico
 // builder.Services.AddFluentValidationAutoValidation();
+// builder.Services.AddFluentValidationClientsideAdapters();
+// Validators comentados temporariamente - dependem do FluentValidation
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.Authentication.DTOs.RefreshTokenRequest>, Safi.Backend.Modules.Authentication.Validators.RefreshTokenRequestValidator>();
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.Tickets.DTOs.PublicTicketRequest>, Safi.Backend.Modules.Tickets.Validators.PublicTicketRequestValidator>();
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.Tickets.DTOs.CreateTicketRequest>, Safi.Backend.Modules.Tickets.Validators.CreateTicketRequestValidator>();
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.Tickets.DTOs.UpdateTicketRequest>, Safi.Backend.Modules.Tickets.Validators.UpdateTicketRequestValidator>();
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.Tickets.DTOs.TicketListRequest>, Safi.Backend.Modules.Tickets.Validators.TicketListRequestValidator>();
+// Validators do AI também comentados temporariamente
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.AI.DTOs.AIAnalysisRequest>, Safi.Backend.Modules.AI.Validators.AIAnalysisRequestValidator>();
+// builder.Services.AddScoped<FluentValidation.IValidator<Safi.Backend.Modules.AI.DTOs.AIResponseRequest>, Safi.Backend.Modules.AI.Validators.AIResponseRequestValidator>();
 
 // Add Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -79,6 +90,10 @@ builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 // Add Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IAIService, AIService>();
+
+// Add HttpClient for AI Service
+builder.Services.AddHttpClient<IAIService, AIService>();
 
 // Add CORS
 builder.Services.AddCors(options =>
