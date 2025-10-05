@@ -1,19 +1,27 @@
 @Safi.Backend_HostAddress = http://localhost:5080
 
-### Teste Hello World
-GET {{Safi.Backend_HostAddress}}/api/hello
-Accept: application/json
-
 ### Teste Health Check
-GET {{Safi.Backend_HostAddress}}/api/hello/health
+GET {{Safi.Backend_HostAddress}}/api/Health
 Accept: application/json
 
-### Teste Weather Forecast
-GET {{Safi.Backend_HostAddress}}/weatherforecast
+### Teste Health Check Detalhado
+GET {{Safi.Backend_HostAddress}}/api/Health/health
+Accept: application/json
+
+### Teste Controller de Teste
+GET {{Safi.Backend_HostAddress}}/api/Test
+Accept: application/json
+
+### Teste Controller de Teste com ID
+GET {{Safi.Backend_HostAddress}}/api/Test/123
 Accept: application/json
 
 ### Documentação OpenAPI
 GET {{Safi.Backend_HostAddress}}/openapi/v1.json
 Accept: application/json
+
+### Documentação Scalar
+GET {{Safi.Backend_HostAddress}}/scalar/v1
+Accept: text/html
 
 ###
