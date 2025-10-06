@@ -185,6 +185,11 @@ public class TicketListRequest
     public int? IssueTypeId { get; set; }
 
     /// <summary>
+    /// Nível de suporte (N1, N2, N3)
+    /// </summary>
+    public string? SupportLevel { get; set; }
+
+    /// <summary>
     /// Termo de busca
     /// </summary>
     public string? SearchTerm { get; set; }
@@ -232,6 +237,28 @@ public class AssignTicketRequest
     /// Comentário sobre a atribuição
     /// </summary>
     public string? Comment { get; set; }
+}
+
+/// <summary>
+/// DTO para escalonamento de ticket
+/// </summary>
+public class EscalateTicketRequest
+{
+    /// <summary>
+    /// Novo nível de suporte (N1, N2, N3)
+    /// </summary>
+    [Required(ErrorMessage = "Nível de suporte é obrigatório")]
+    public string SupportLevel { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Comentário sobre o escalonamento
+    /// </summary>
+    public string? Comment { get; set; }
+
+    /// <summary>
+    /// ID do analista para atribuir (opcional)
+    /// </summary>
+    public int? AssignToAnalystId { get; set; }
 }
 
 /// <summary>
@@ -320,6 +347,11 @@ public class TicketSummary
     /// Prioridade
     /// </summary>
     public string Priority { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Nível de suporte
+    /// </summary>
+    public string SupportLevel { get; set; } = string.Empty;
 
     /// <summary>
     /// Nome do usuário

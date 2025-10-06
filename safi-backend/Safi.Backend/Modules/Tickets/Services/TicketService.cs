@@ -67,14 +67,6 @@ public interface ITicketService
     /// <returns>True se atualizado com sucesso</returns>
     Task<bool> UpdateTicketStatusAsync(int id, TicketStatus status, int userId);
 
-    /// <summary>
-    /// Escalona um ticket para outro nível
-    /// </summary>
-    /// <param name="ticketId">ID do ticket</param>
-    /// <param name="request">Dados do escalonamento</param>
-    /// <param name="userId">ID do usuário que está escalonando</param>
-    /// <returns>True se escalonado com sucesso</returns>
-    Task<bool> EscalateTicketAsync(int ticketId, EscalateTicketRequest request, int userId);
 
     /// <summary>
     /// Encerra um ticket
@@ -109,6 +101,15 @@ public interface ITicketService
     /// <param name="userId">ID do usuário que está atribuindo</param>
     /// <returns>True se atribuído com sucesso</returns>
     Task<bool> AssignTicketAsync(int id, int analystId, int userId);
+
+    /// <summary>
+    /// Escalona um ticket para outro nível
+    /// </summary>
+    /// <param name="id">ID do ticket</param>
+    /// <param name="request">Dados do escalonamento</param>
+    /// <param name="userId">ID do usuário que está escalonando</param>
+    /// <returns>True se escalonado com sucesso</returns>
+    Task<bool> EscalateTicketAsync(int id, EscalateTicketRequest request, int userId);
 
     /// <summary>
     /// Adiciona uma mensagem a um ticket
@@ -285,31 +286,40 @@ public class TicketService : ITicketService
     {
         TicketStatus? status = null;
         TicketPriority? priority = null;
+        AnalystLevel? supportLevel = null;
 
         if (!string.IsNullOrEmpty(request.Status) && Enum.TryParse<TicketStatus>(request.Status, true, out var parsedStatus))
             status = parsedStatus;
 
         if (!string.IsNullOrEmpty(request.Priority) && Enum.TryParse<TicketPriority>(request.Priority, true, out var parsedPriority))
             priority = parsedPriority;
+
+        if (!string.IsNullOrEmpty(request.SupportLevel) && Enum.TryParse<AnalystLevel>(request.SupportLevel, true, out var parsedSupportLevel))
+            supportLevel = parsedSupportLevel;
 
         return await _ticketRepository.GetFilteredAsync(
             status: status,
             priority: priority,
             userId: request.UserId,
             assignedTo: request.AssignedTo,
-            issueTypeId: request.IssueTypeId);
+            issueTypeId: request.IssueTypeId,
+            supportLevel: supportLevel);
     }
 
     public async Task<(IEnumerable<Ticket> Tickets, int TotalCount)> GetTicketsPaginatedAsync(TicketListRequest request)
     {
         TicketStatus? status = null;
         TicketPriority? priority = null;
+        AnalystLevel? supportLevel = null;
 
         if (!string.IsNullOrEmpty(request.Status) && Enum.TryParse<TicketStatus>(request.Status, true, out var parsedStatus))
             status = parsedStatus;
 
         if (!string.IsNullOrEmpty(request.Priority) && Enum.TryParse<TicketPriority>(request.Priority, true, out var parsedPriority))
             priority = parsedPriority;
+
+        if (!string.IsNullOrEmpty(request.SupportLevel) && Enum.TryParse<AnalystLevel>(request.SupportLevel, true, out var parsedSupportLevel))
+            supportLevel = parsedSupportLevel;
 
         return await _ticketRepository.GetPaginatedAsync(
             pageNumber: request.PageNumber,
@@ -318,7 +328,8 @@ public class TicketService : ITicketService
             priority: priority,
             userId: request.UserId,
             assignedTo: request.AssignedTo,
-            issueTypeId: request.IssueTypeId);
+            issueTypeId: request.IssueTypeId,
+            supportLevel: supportLevel);
     }
 
     public async Task<Ticket?> UpdateTicketAsync(int id, UpdateTicketRequest request, int userId)
@@ -354,6 +365,51 @@ public class TicketService : ITicketService
     public async Task<bool> AssignTicketAsync(int id, int analystId, int userId)
     {
         return await _ticketRepository.AssignTicketAsync(id, analystId);
+    }
+
+    public async Task<bool> EscalateTicketAsync(int id, EscalateTicketRequest request, int userId)
+    {
+        try
+        {
+            var ticket = await _ticketRepository.GetByIdAsync(id);
+            if (ticket == null)
+                return false;
+
+            var newLevel = Enum.Parse<AnalystLevel>(request.SupportLevel);
+            var oldLevel = ticket.SupportLevel;
+            
+            ticket.SupportLevel = newLevel;
+            ticket.UpdatedAt = DateTime.UtcNow;
+
+            // Se foi especificado um analista para atribuir
+            if (request.AssignToAnalystId.HasValue)
+            {
+                ticket.AssignedToId = request.AssignToAnalystId.Value;
+            }
+
+            await _ticketRepository.UpdateAsync(ticket);
+
+            // Adicionar mensagem de escalonamento
+            var escalationMessage = new TicketMessage
+            {
+                TicketId = id,
+                SenderId = userId,
+                Message = $"Ticket escalonado de {oldLevel} para {newLevel}. {request.Comment ?? ""}",
+                CreatedAt = DateTime.UtcNow,
+                IsInternal = true,
+                IsAiMessage = false,
+                MessageType = "escalation"
+            };
+            await _messageRepository.AddAsync(escalationMessage);
+
+            _logger.LogInformation("Ticket {TicketId} escalonado de {OldLevel} para {NewLevel}", id, oldLevel, newLevel);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao escalonar ticket: {TicketId}", id);
+            return false;
+        }
     }
 
     public async Task<TicketMessage?> AddMessageAsync(int ticketId, AddMessageRequest request, int userId)
@@ -412,59 +468,6 @@ public class TicketService : ITicketService
         }
     }
 
-    public async Task<bool> EscalateTicketAsync(int ticketId, EscalateTicketRequest request, int userId)
-    {
-        try
-        {
-            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
-            if (ticket == null)
-                return false;
-
-            // Atualizar status para "Em Progresso" se estiver aberto
-            if (ticket.Status == TicketStatus.Open)
-            {
-                ticket.Status = TicketStatus.InProgress;
-            }
-
-            // Atualizar prioridade baseada no nível de escalonamento
-            switch (request.TargetLevel)
-            {
-                case 2:
-                    ticket.Priority = TicketPriority.High;
-                    break;
-                case 3:
-                    ticket.Priority = TicketPriority.Urgent;
-                    break;
-            }
-
-            ticket.UpdatedAt = DateTime.UtcNow;
-
-            // Adicionar histórico
-            var history = new TicketHistory
-            {
-                TicketId = ticketId,
-                ChangedById = userId,
-                ChangeDescription = $"Escalonado para N{request.TargetLevel}: {request.Reason}",
-                ChangeType = "escalation",
-                OldValue = $"N{request.TargetLevel - 1}",
-                NewValue = $"N{request.TargetLevel}",
-                ChangedAt = DateTime.UtcNow
-            };
-
-            _context.TicketHistory.Add(history);
-            await _context.SaveChangesAsync();
-
-            _logger.LogInformation("Ticket {TicketId} escalonado para N{Level} por usuário {UserId}", 
-                ticketId, request.TargetLevel, userId);
-
-            return true;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Erro ao escalonar ticket: {TicketId}", ticketId);
-            return false;
-        }
-    }
 
     public async Task<bool> CloseTicketAsync(int ticketId, CloseTicketRequest request, int userId)
     {

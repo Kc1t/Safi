@@ -64,6 +64,12 @@ public class Ticket
     public int? AssignedToId { get; set; }
 
     /// <summary>
+    /// Nível de suporte do ticket (N1, N2, N3)
+    /// </summary>
+    [Column("SUPPORT_LEVEL")]
+    public AnalystLevel SupportLevel { get; set; } = AnalystLevel.Level1;
+
+    /// <summary>
     /// Data de criação do ticket
     /// </summary>
     [Column("CREATED_AT")]

@@ -274,47 +274,6 @@ public class TicketsController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Escalonar ticket para outro nível
-    /// </summary>
-    /// <param name="id">ID do ticket</param>
-    /// <param name="request">Dados do escalonamento</param>
-    /// <returns>Resultado do escalonamento</returns>
-    [HttpPost("{id}/escalate")]
-    [Microsoft.AspNetCore.Authorization.Authorize]
-    public async Task<IActionResult> EscalateTicket(int id, [FromBody] EscalateTicketRequest request)
-    {
-        try
-        {
-            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "1");
-            
-            _logger.LogInformation("Escalonamento do ticket solicitado: {TicketId}", id);
-
-            var success = await _ticketService.EscalateTicketAsync(id, request, userId);
-            
-            if (success)
-            {
-                _logger.LogInformation("Ticket escalonado com sucesso: {TicketId}", id);
-                return Ok(new
-                {
-                    message = "Ticket escalonado com sucesso",
-                    ticketId = id,
-                    targetLevel = request.TargetLevel,
-                    reason = request.Reason
-                });
-            }
-            else
-            {
-                _logger.LogWarning("Falha ao escalonar ticket: {TicketId}", id);
-                return BadRequest(new { message = "Falha ao escalonar ticket" });
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Erro ao escalonar ticket: {TicketId}", id);
-            return StatusCode(500, new { message = "Erro interno do servidor" });
-        }
-    }
 
     /// <summary>
     /// Encerrar ticket
@@ -422,6 +381,48 @@ public class TicketsController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao obter histórico de chat do ticket: {TicketId}", id);
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
+
+    /// <summary>
+    /// Escalona um ticket para outro nível de suporte
+    /// </summary>
+    /// <param name="id">ID do ticket</param>
+    /// <param name="request">Dados do escalonamento</param>
+    /// <returns>Resultado do escalonamento</returns>
+    [HttpPost("{id}/escalate")]
+    [Microsoft.AspNetCore.Authorization.Authorize]
+    public async Task<IActionResult> EscalateTicket(int id, [FromBody] EscalateTicketRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("Escalonando ticket: {TicketId} para nível: {SupportLevel}", id, request.SupportLevel);
+
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+            
+            var success = await _ticketService.EscalateTicketAsync(id, request, userId);
+            
+            if (success)
+            {
+                _logger.LogInformation("Ticket {TicketId} escalonado com sucesso para {SupportLevel}", id, request.SupportLevel);
+                return Ok(new
+                {
+                    message = "Ticket escalonado com sucesso",
+                    ticketId = id,
+                    newSupportLevel = request.SupportLevel,
+                    escalatedAt = DateTime.UtcNow
+                });
+            }
+            else
+            {
+                _logger.LogWarning("Falha ao escalonar ticket: {TicketId}", id);
+                return BadRequest(new { message = "Não foi possível escalonar o ticket" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao escalonar ticket: {TicketId}", id);
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }

@@ -84,7 +84,8 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
         TicketPriority? priority = null,
         int? userId = null,
         int? assignedTo = null,
-        int? issueTypeId = null)
+        int? issueTypeId = null,
+        AnalystLevel? supportLevel = null)
     {
         var query = _dbSet.AsQueryable();
 
@@ -102,6 +103,9 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
 
         if (issueTypeId.HasValue)
             query = query.Where(t => t.IssueTypeId == issueTypeId.Value);
+
+        if (supportLevel.HasValue)
+            query = query.Where(t => t.SupportLevel == supportLevel.Value);
 
         return await query
             .Include(t => t.User)
@@ -118,7 +122,8 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
         TicketPriority? priority = null,
         int? userId = null,
         int? assignedTo = null,
-        int? issueTypeId = null)
+        int? issueTypeId = null,
+        AnalystLevel? supportLevel = null)
     {
         var query = _dbSet.AsQueryable();
 
@@ -136,6 +141,9 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
 
         if (issueTypeId.HasValue)
             query = query.Where(t => t.IssueTypeId == issueTypeId.Value);
+
+        if (supportLevel.HasValue)
+            query = query.Where(t => t.SupportLevel == supportLevel.Value);
 
         var totalCount = await query.CountAsync();
 

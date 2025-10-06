@@ -51,13 +51,15 @@ public interface ITicketRepository : IRepository<Ticket>
     /// <param name="userId">ID do usuário (opcional)</param>
     /// <param name="assignedTo">ID do analista atribuído (opcional)</param>
     /// <param name="issueTypeId">ID do tipo de problema (opcional)</param>
+    /// <param name="supportLevel">Nível de suporte (opcional)</param>
     /// <returns>Lista de tickets filtrados</returns>
     Task<IEnumerable<Ticket>> GetFilteredAsync(
         TicketStatus? status = null,
         TicketPriority? priority = null,
         int? userId = null,
         int? assignedTo = null,
-        int? issueTypeId = null);
+        int? issueTypeId = null,
+        AnalystLevel? supportLevel = null);
 
     /// <summary>
     /// Obtém tickets com paginação
@@ -69,6 +71,7 @@ public interface ITicketRepository : IRepository<Ticket>
     /// <param name="userId">ID do usuário (opcional)</param>
     /// <param name="assignedTo">ID do analista atribuído (opcional)</param>
     /// <param name="issueTypeId">ID do tipo de problema (opcional)</param>
+    /// <param name="supportLevel">Nível de suporte (opcional)</param>
     /// <returns>Lista paginada de tickets</returns>
     Task<(IEnumerable<Ticket> Tickets, int TotalCount)> GetPaginatedAsync(
         int pageNumber,
@@ -77,7 +80,8 @@ public interface ITicketRepository : IRepository<Ticket>
         TicketPriority? priority = null,
         int? userId = null,
         int? assignedTo = null,
-        int? issueTypeId = null);
+        int? issueTypeId = null,
+        AnalystLevel? supportLevel = null);
 
     /// <summary>
     /// Obtém estatísticas de tickets

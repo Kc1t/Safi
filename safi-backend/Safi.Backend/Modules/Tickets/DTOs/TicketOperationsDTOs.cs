@@ -2,20 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Safi.Backend.Modules.Tickets.DTOs;
 
-/// <summary>
-/// DTO para escalonamento de ticket
-/// </summary>
-public class EscalateTicketRequest
-{
-    [Required]
-    [StringLength(500)]
-    public string Reason { get; set; } = string.Empty;
-
-    [Required]
-    public int TargetLevel { get; set; } // 1, 2, 3 (N1, N2, N3)
-
-    public int? AssignedToUserId { get; set; } // Opcional, se não especificado, será atribuído automaticamente
-}
 
 /// <summary>
 /// DTO para encerramento de ticket
