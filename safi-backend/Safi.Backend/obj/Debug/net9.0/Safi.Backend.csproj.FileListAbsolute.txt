@@ -174,3 +174,5 @@ C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\ne
 C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\ref\Safi.Backend.dll
 C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\bin\Debug\net9.0\Safi.Backend.staticwebassets.runtime.json
 C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\obj\Debug\net9.0\compressed\c8ttvxf1uf-4l5ua7h1gz.gz
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\kauam\Documents\Github\Unip\Safi\safi-backend\Safi.Backend\bin\Debug\net9.0\System.Net.WebSockets.WebSocketProtocol.dll

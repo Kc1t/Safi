@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Safi.Backend.Modules.Tickets.DTOs;
 using Safi.Backend.Modules.Tickets.Services;
 using Safi.Backend.Shared.Attributes;
+using Microsoft.AspNetCore.SignalR;
+using Safi.Backend.Modules.AI.Hubs;
 
 namespace Safi.Backend.Modules.Tickets.Controllers;
 
@@ -15,11 +17,13 @@ public class TicketsController : ControllerBase
 {
     private readonly ITicketService _ticketService;
     private readonly ILogger<TicketsController> _logger;
+    private readonly IHubContext<ChatHub> _hubContext;
 
-    public TicketsController(ITicketService ticketService, ILogger<TicketsController> logger)
+    public TicketsController(ITicketService ticketService, ILogger<TicketsController> logger, IHubContext<ChatHub> hubContext)
     {
         _ticketService = ticketService;
         _logger = logger;
+        _hubContext = hubContext;
     }
 
     /// <summary>
@@ -406,6 +410,16 @@ public class TicketsController : ControllerBase
             if (success)
             {
                 _logger.LogInformation("Ticket {TicketId} escalonado com sucesso para {SupportLevel}", id, request.SupportLevel);
+                
+                // Notificar via WebSocket
+                await _hubContext.Clients.Group($"ticket-{id}").SendAsync("TicketEscalated", new
+                {
+                    ticketId = id,
+                    newLevel = request.SupportLevel,
+                    message = request.Comment ?? "Ticket escalonado",
+                    timestamp = DateTime.UtcNow
+                });
+                
                 return Ok(new
                 {
                     message = "Ticket escalonado com sucesso",

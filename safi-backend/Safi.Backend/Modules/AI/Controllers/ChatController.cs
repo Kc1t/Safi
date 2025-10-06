@@ -8,198 +8,133 @@ namespace Safi.Backend.Modules.AI.Controllers;
 
 [ApiController]
 [Route("api/ai/chat")]
+[Authorize]
 public class ChatController : ControllerBase
 {
-    private readonly IAIService _aiService;
+    private readonly IChatService _chatService;
     private readonly ILogger<ChatController> _logger;
-    private static readonly Dictionary<string, List<ChatMessage>> _conversations = new();
 
-    public ChatController(IAIService aiService, ILogger<ChatController> logger)
+    public ChatController(IChatService chatService, ILogger<ChatController> logger)
     {
-        _aiService = aiService;
+        _chatService = chatService;
         _logger = logger;
     }
 
     /// <summary>
-    /// Iniciar uma nova conversa
+    /// Inicia uma nova conversa de chat para um ticket específico
     /// </summary>
-    [HttpPost("start")]
-    [Authorize]
-    public IActionResult StartConversation()
+    [HttpPost("start/{ticketId}")]
+    public async Task<IActionResult> StartChat(int ticketId)
     {
         try
         {
-            var conversationId = Guid.NewGuid().ToString();
-            _conversations[conversationId] = new List<ChatMessage>();
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
             
-            _logger.LogInformation("Nova conversa iniciada: {ConversationId}", conversationId);
+            var sessionId = await _chatService.StartChatSessionAsync(ticketId, userId);
             
-            return Ok(new
-            {
-                conversationId = conversationId,
-                message = "Conversa iniciada com sucesso",
-                timestamp = DateTime.UtcNow
+            _logger.LogInformation("Nova sessão de chat iniciada: {SessionId} para ticket: {TicketId}", sessionId, ticketId);
+            
+            return Ok(new { 
+                sessionId, 
+                ticketId,
+                message = "Nova conversa iniciada com a IA para este ticket!" 
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro ao iniciar conversa");
-            return StatusCode(500, new { message = "Erro interno do servidor" });
+            _logger.LogError(ex, "Erro ao iniciar chat para ticket: {TicketId}", ticketId);
+            return BadRequest(new { message = "Erro ao iniciar conversa" });
         }
     }
 
     /// <summary>
-    /// Enviar mensagem para a conversa
+    /// Envia uma mensagem para a IA e recebe uma resposta, mantendo o contexto da conversa.
     /// </summary>
-    [HttpPost("{conversationId}/message")]
-    [Authorize]
-    public async Task<IActionResult> SendMessage(string conversationId, [FromBody] ChatMessageRequest request)
+    [HttpPost("{sessionId}/send")]
+    public async Task<IActionResult> SendMessage(string sessionId, [FromBody] ChatMessageRequest request)
     {
         try
         {
-            if (!_conversations.ContainsKey(conversationId))
+            if (string.IsNullOrWhiteSpace(request.Message))
             {
-                return NotFound(new { message = "Conversa não encontrada" });
+                return BadRequest(new { message = "A mensagem não pode ser vazia." });
             }
 
-            var conversation = _conversations[conversationId];
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
             
-            // Adicionar mensagem do usuário
-            var userMessage = new ChatMessage
-            {
-                Role = "user",
-                Content = request.Message,
-                Timestamp = DateTime.UtcNow
-            };
-            conversation.Add(userMessage);
+            _logger.LogInformation("Mensagem recebida para sessão {SessionId}: {Message}", sessionId, request.Message);
 
-            // Preparar contexto para a IA
-            var context = BuildContextFromHistory(conversation);
+            var aiResponse = await _chatService.SendMessageAsync(sessionId, request.Message, userId);
             
-            // Chamar IA
-            var aiRequest = new AIResponseRequest
+            if (aiResponse != null)
             {
-                TicketId = 0, // Chat não tem ticket específico
-                IssueType = "Chat",
-                UserMessage = request.Message
-            };
-            var aiResponse = await _aiService.GenerateResponseSuggestionAsync(aiRequest);
-            
-            // Adicionar resposta da IA
-            var aiMessage = new ChatMessage
-            {
-                Role = "assistant",
-                Content = aiResponse?.SuggestedResponse ?? "Desculpe, não consegui processar sua mensagem.",
-                Timestamp = DateTime.UtcNow
-            };
-            conversation.Add(aiMessage);
+                _logger.LogInformation("Resposta da IA para sessão {SessionId}: {Response}", sessionId, aiResponse.Message);
 
-            _logger.LogInformation("Mensagem processada para conversa: {ConversationId}", conversationId);
-            
-            return Ok(new
-            {
-                conversationId = conversationId,
-                userMessage = request.Message,
-                aiResponse = aiMessage.Content,
-                timestamp = DateTime.UtcNow,
-                messageCount = conversation.Count
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Erro ao processar mensagem para conversa: {ConversationId}", conversationId);
-            return StatusCode(500, new { message = "Erro interno do servidor" });
-        }
-    }
-
-    /// <summary>
-    /// Obter histórico da conversa
-    /// </summary>
-    [HttpGet("{conversationId}/history")]
-    [Authorize]
-    public IActionResult GetHistory(string conversationId)
-    {
-        try
-        {
-            if (!_conversations.ContainsKey(conversationId))
-            {
-                return NotFound(new { message = "Conversa não encontrada" });
+                return Ok(new { 
+                    sessionId, 
+                    userMessage = request.Message,
+                    aiResponse = aiResponse
+                });
             }
-
-            var conversation = _conversations[conversationId];
-            
-            return Ok(new
+            else
             {
-                conversationId = conversationId,
-                messages = conversation,
-                messageCount = conversation.Count,
-                timestamp = DateTime.UtcNow
-            });
+                return BadRequest(new { message = "Erro ao processar mensagem" });
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro ao obter histórico da conversa: {ConversationId}", conversationId);
+            _logger.LogError(ex, "Erro ao enviar mensagem para sessão: {SessionId}", sessionId);
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
 
     /// <summary>
-    /// Listar conversas ativas
+    /// Retorna o histórico completo de uma sessão de chat.
     /// </summary>
-    [HttpGet("conversations")]
-    [Authorize]
-    public IActionResult GetActiveConversations()
+    [HttpGet("{sessionId}/history")]
+    public async Task<IActionResult> GetChatHistory(string sessionId)
     {
         try
         {
-            var conversations = _conversations.Select(kvp => new
-            {
-                conversationId = kvp.Key,
-                messageCount = kvp.Value.Count,
-                lastMessage = kvp.Value.LastOrDefault()?.Timestamp
-            }).ToList();
+            var history = await _chatService.GetChatHistoryAsync(sessionId);
             
-            return Ok(new
-            {
-                conversations = conversations,
-                totalConversations = conversations.Count,
-                timestamp = DateTime.UtcNow
+            return Ok(new { 
+                sessionId, 
+                history = history,
+                totalMessages = history.Count()
             });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Erro ao listar conversas");
+            _logger.LogError(ex, "Erro ao obter histórico para sessão: {SessionId}", sessionId);
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
 
-    private string BuildContextFromHistory(List<ChatMessage> history)
+    /// <summary>
+    /// Retorna o histórico de chat de um ticket específico
+    /// </summary>
+    [HttpGet("ticket/{ticketId}/history")]
+    public async Task<IActionResult> GetTicketChatHistory(int ticketId)
     {
-        var context = new StringBuilder();
-        context.AppendLine("Contexto da conversa:");
-        
-        foreach (var message in history.TakeLast(10)) // Últimas 10 mensagens
+        try
         {
-            context.AppendLine($"{message.Role}: {message.Content}");
+            var history = await _chatService.GetTicketChatHistoryAsync(ticketId);
+            
+            return Ok(new { 
+                ticketId, 
+                history = history,
+                totalMessages = history.Count()
+            });
         }
-        
-        return context.ToString();
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter histórico de chat do ticket: {TicketId}", ticketId);
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
     }
 }
 
-/// <summary>
-/// Mensagem de chat
-/// </summary>
-public class ChatMessage
-{
-    public string Role { get; set; } = string.Empty; // "user" ou "assistant"
-    public string Content { get; set; } = string.Empty;
-    public DateTime Timestamp { get; set; }
-}
-
-/// <summary>
-/// Request para enviar mensagem
-/// </summary>
 public class ChatMessageRequest
 {
     public string Message { get; set; } = string.Empty;

@@ -67,6 +67,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add Authorization
 builder.Services.AddAuthorization();
 
+// Add SignalR
+builder.Services.AddSignalR();
+
 // Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -91,6 +94,7 @@ builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAIService, AIService>();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 // Add HttpClient for AI Service
 builder.Services.AddHttpClient<IAIService, AIService>();
@@ -134,6 +138,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map SignalR Hub
+app.MapHub<Safi.Backend.Modules.AI.Hubs.ChatHub>("/chatHub");
 
 // Ensure database is created and seeded (habilitado temporariamente)
 using (var scope = app.Services.CreateScope())

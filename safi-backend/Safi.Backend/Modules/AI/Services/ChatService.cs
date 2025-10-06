@@ -1,0 +1,279 @@
+using Safi.Backend.Core.Entities;
+using Safi.Backend.Core.Interfaces;
+using Safi.Backend.Modules.AI.DTOs;
+using Safi.Backend.Modules.Tickets.DTOs;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+
+namespace Safi.Backend.Modules.AI.Services;
+
+/// <summary>
+/// Interface para serviço de chat persistente
+/// </summary>
+public interface IChatService
+{
+    /// <summary>
+    /// Inicia uma nova conversa de chat para um ticket
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <param name="userId">ID do usuário</param>
+    /// <returns>ID da sessão de chat</returns>
+    Task<string> StartChatSessionAsync(int ticketId, int userId);
+
+    /// <summary>
+    /// Envia uma mensagem no chat
+    /// </summary>
+    /// <param name="sessionId">ID da sessão</param>
+    /// <param name="message">Mensagem do usuário</param>
+    /// <param name="userId">ID do usuário</param>
+    /// <returns>Resposta da IA</returns>
+    Task<ChatMessageResponse?> SendMessageAsync(string sessionId, string message, int userId);
+
+    /// <summary>
+    /// Obtém o histórico de chat de uma sessão
+    /// </summary>
+    /// <param name="sessionId">ID da sessão</param>
+    /// <returns>Histórico de mensagens</returns>
+    Task<IEnumerable<ChatMessageResponse>> GetChatHistoryAsync(string sessionId);
+
+    /// <summary>
+    /// Obtém o histórico de chat de um ticket
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <returns>Histórico de mensagens</returns>
+    Task<IEnumerable<ChatMessageResponse>> GetTicketChatHistoryAsync(int ticketId);
+}
+
+/// <summary>
+/// Implementação do serviço de chat persistente
+/// </summary>
+public class ChatService : IChatService
+{
+    private readonly IRepository<TicketChatHistory> _chatRepository;
+    private readonly IRepository<Ticket> _ticketRepository;
+    private readonly IRepository<User> _userRepository;
+    private readonly IAIService _aiService;
+    private readonly ILogger<ChatService> _logger;
+
+    public ChatService(
+        IRepository<TicketChatHistory> chatRepository,
+        IRepository<Ticket> ticketRepository,
+        IRepository<User> userRepository,
+        IAIService aiService,
+        ILogger<ChatService> logger)
+    {
+        _chatRepository = chatRepository;
+        _ticketRepository = ticketRepository;
+        _userRepository = userRepository;
+        _aiService = aiService;
+        _logger = logger;
+    }
+
+    public async Task<string> StartChatSessionAsync(int ticketId, int userId)
+    {
+        try
+        {
+            // Verificar se o ticket existe
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+            if (ticket == null)
+            {
+                _logger.LogWarning("Ticket não encontrado: {TicketId}", ticketId);
+                throw new ArgumentException("Ticket não encontrado");
+            }
+
+            // Verificar se o usuário existe
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                _logger.LogWarning("Usuário não encontrado: {UserId}", userId);
+                throw new ArgumentException("Usuário não encontrado");
+            }
+
+            // Gerar ID da sessão
+            var sessionId = Guid.NewGuid().ToString();
+            
+            // Adicionar mensagem de boas-vindas
+            var welcomeMessage = new TicketChatHistory
+            {
+                TicketId = ticketId,
+                UserId = userId,
+                Message = "Conversa iniciada com a IA",
+                MessageType = "system",
+                CreatedAt = DateTime.UtcNow,
+                IsInternal = false
+            };
+
+            await _chatRepository.AddAsync(welcomeMessage);
+
+            _logger.LogInformation("Sessão de chat iniciada: {SessionId} para ticket: {TicketId}", sessionId, ticketId);
+            return sessionId;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao iniciar sessão de chat para ticket: {TicketId}", ticketId);
+            throw;
+        }
+    }
+
+    public async Task<ChatMessageResponse?> SendMessageAsync(string sessionId, string message, int userId)
+    {
+        try
+        {
+            // Por enquanto, vamos usar o ticketId como parte do sessionId
+            // Em uma implementação mais robusta, teríamos uma tabela de sessões
+            if (!int.TryParse(sessionId.Split('-')[0], out int ticketId))
+            {
+                throw new ArgumentException("SessionId inválido");
+            }
+
+            // Verificar se o ticket existe
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+            if (ticket == null)
+            {
+                _logger.LogWarning("Ticket não encontrado: {TicketId}", ticketId);
+                return null;
+            }
+
+            // Verificar se o usuário existe
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                _logger.LogWarning("Usuário não encontrado: {UserId}", userId);
+                return null;
+            }
+
+            // Salvar mensagem do usuário
+            var userMessage = new TicketChatHistory
+            {
+                TicketId = ticketId,
+                UserId = userId,
+                Message = message,
+                MessageType = "user",
+                CreatedAt = DateTime.UtcNow,
+                IsInternal = false
+            };
+
+            await _chatRepository.AddAsync(userMessage);
+
+            // Obter contexto do histórico de chat
+            var chatHistory = await GetTicketChatHistoryAsync(ticketId);
+            var context = BuildContextFromHistory(chatHistory);
+
+            // Chamar IA para gerar resposta
+            var aiRequest = new AIResponseRequest
+            {
+                TicketId = ticketId,
+                IssueType = ticket.IssueType?.Name ?? "Geral",
+                UserMessage = message
+            };
+
+            var aiResponse = await _aiService.GenerateResponseSuggestionAsync(aiRequest);
+
+            if (aiResponse != null)
+            {
+                // Salvar resposta da IA
+                var aiMessage = new TicketChatHistory
+                {
+                    TicketId = ticketId,
+                    UserId = userId, // Ou um usuário sistema específico
+                    Message = aiResponse.SuggestedResponse,
+                    MessageType = "ai",
+                    CreatedAt = DateTime.UtcNow,
+                    IsInternal = false
+                };
+
+                await _chatRepository.AddAsync(aiMessage);
+
+                _logger.LogInformation("Mensagem processada para sessão: {SessionId}", sessionId);
+
+                return new ChatMessageResponse
+                {
+                    Id = aiMessage.Id,
+                    TicketId = ticketId,
+                    UserId = userId,
+                    UserName = user.Name,
+                    UserEmail = user.Email,
+                    UserType = "AI",
+                    Message = aiResponse.SuggestedResponse,
+                    MessageType = "ai",
+                    CreatedAt = aiMessage.CreatedAt,
+                    IsInternal = false
+                };
+            }
+
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao enviar mensagem para sessão: {SessionId}", sessionId);
+            return null;
+        }
+    }
+
+    public async Task<IEnumerable<ChatMessageResponse>> GetChatHistoryAsync(string sessionId)
+    {
+        try
+        {
+            if (!int.TryParse(sessionId.Split('-')[0], out int ticketId))
+            {
+                return Enumerable.Empty<ChatMessageResponse>();
+            }
+
+            return await GetTicketChatHistoryAsync(ticketId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter histórico de chat para sessão: {SessionId}", sessionId);
+            return Enumerable.Empty<ChatMessageResponse>();
+        }
+    }
+
+    public async Task<IEnumerable<ChatMessageResponse>> GetTicketChatHistoryAsync(int ticketId)
+    {
+        try
+        {
+            var chatHistory = await _chatRepository.GetAllAsync();
+            var ticketChats = chatHistory
+                .Where(ch => ch.TicketId == ticketId)
+                .OrderBy(ch => ch.CreatedAt)
+                .ToList();
+
+            var result = new List<ChatMessageResponse>();
+
+            foreach (var chat in ticketChats)
+            {
+                var user = await _userRepository.GetByIdAsync(chat.UserId);
+                result.Add(new ChatMessageResponse
+                {
+                    Id = chat.Id,
+                    TicketId = chat.TicketId,
+                    UserId = chat.UserId,
+                    UserName = user?.Name ?? "Sistema",
+                    UserEmail = user?.Email ?? "sistema@safi.com",
+                    UserType = chat.MessageType == "ai" ? "AI" : user?.UserType.ToString() ?? "Sistema",
+                    Message = chat.Message,
+                    MessageType = chat.MessageType,
+                    CreatedAt = chat.CreatedAt,
+                    IsInternal = chat.IsInternal
+                });
+            }
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter histórico de chat do ticket: {TicketId}", ticketId);
+            return Enumerable.Empty<ChatMessageResponse>();
+        }
+    }
+
+    private string BuildContextFromHistory(IEnumerable<ChatMessageResponse> history)
+    {
+        var context = new System.Text.StringBuilder();
+        foreach (var msg in history.TakeLast(10)) // Últimas 10 mensagens para contexto
+        {
+            context.AppendLine($"{msg.UserType}: {msg.Message}");
+        }
+        return context.ToString();
+    }
+}
