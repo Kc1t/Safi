@@ -108,6 +108,15 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
+    
+    // CORS específico para SignalR
+    options.AddPolicy("SignalRCors", policy =>
+    {
+        policy.WithOrigins("http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
@@ -129,7 +138,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowAll");
+// CORS deve vir antes de UseAuthentication
+app.UseCors("SignalRCors");
 
 // Middleware para endpoints públicos (deve vir antes da autenticação)
 app.UseMiddleware<PublicEndpointMiddleware>();

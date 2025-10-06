@@ -42,6 +42,12 @@ public interface IChatService
     /// <param name="ticketId">ID do ticket</param>
     /// <returns>Histórico de mensagens</returns>
     Task<IEnumerable<ChatMessageResponse>> GetTicketChatHistoryAsync(int ticketId);
+
+    /// <summary>
+    /// Obtém todas as salas de chat ativas
+    /// </summary>
+    /// <returns>Lista de salas ativas</returns>
+    Task<IEnumerable<ActiveChatRoom>> GetActiveChatRoomsAsync();
 }
 
 /// <summary>
@@ -267,6 +273,68 @@ public class ChatService : IChatService
         }
     }
 
+    public async Task<IEnumerable<ActiveChatRoom>> GetActiveChatRoomsAsync()
+    {
+        try
+        {
+            // Obter todos os tickets que têm mensagens de chat recentes (últimas 24 horas)
+            var recentChats = await _chatRepository.GetAllAsync();
+            var recentTickets = recentChats
+                .Where(ch => ch.CreatedAt >= DateTime.UtcNow.AddHours(-24))
+                .Select(ch => ch.TicketId)
+                .Distinct()
+                .ToList();
+
+            var activeRooms = new List<ActiveChatRoom>();
+
+            foreach (var ticketId in recentTickets)
+            {
+                var ticket = await _ticketRepository.GetByIdAsync(ticketId);
+                if (ticket == null) continue;
+
+                var user = await _userRepository.GetByIdAsync(ticket.UserId);
+                var assignedUser = ticket.AssignedToId.HasValue ? 
+                    await _userRepository.GetByIdAsync(ticket.AssignedToId.Value) : null;
+
+                // Obter última mensagem
+                var lastMessage = recentChats
+                    .Where(ch => ch.TicketId == ticketId)
+                    .OrderByDescending(ch => ch.CreatedAt)
+                    .FirstOrDefault();
+
+                // Contar mensagens não lidas (simplificado - todas as mensagens da IA são "não lidas")
+                var unreadCount = recentChats
+                    .Where(ch => ch.TicketId == ticketId && ch.MessageType == "ai")
+                    .Count();
+
+                activeRooms.Add(new ActiveChatRoom
+                {
+                    TicketId = ticketId,
+                    TicketTitle = ticket.Title,
+                    TicketStatus = ticket.Status.ToString(),
+                    TicketPriority = ticket.Priority.ToString(),
+                    SupportLevel = ticket.SupportLevel.ToString(),
+                    UserName = user?.Name ?? "Usuário Desconhecido",
+                    UserEmail = user?.Email ?? "",
+                    AssignedToName = assignedUser?.Name ?? "Não atribuído",
+                    LastMessage = lastMessage?.Message ?? "Nenhuma mensagem",
+                    LastMessageType = lastMessage?.MessageType ?? "system",
+                    LastMessageTime = lastMessage?.CreatedAt ?? ticket.CreatedAt,
+                    UnreadCount = unreadCount,
+                    CreatedAt = ticket.CreatedAt,
+                    UpdatedAt = ticket.UpdatedAt ?? ticket.CreatedAt
+                });
+            }
+
+            return activeRooms.OrderByDescending(r => r.LastMessageTime);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter salas de chat ativas");
+            return Enumerable.Empty<ActiveChatRoom>();
+        }
+    }
+
     private string BuildContextFromHistory(IEnumerable<ChatMessageResponse> history)
     {
         var context = new System.Text.StringBuilder();
@@ -276,4 +344,25 @@ public class ChatService : IChatService
         }
         return context.ToString();
     }
+}
+
+/// <summary>
+/// DTO para sala de chat ativa
+/// </summary>
+public class ActiveChatRoom
+{
+    public int TicketId { get; set; }
+    public string TicketTitle { get; set; } = string.Empty;
+    public string TicketStatus { get; set; } = string.Empty;
+    public string TicketPriority { get; set; } = string.Empty;
+    public string SupportLevel { get; set; } = string.Empty;
+    public string UserName { get; set; } = string.Empty;
+    public string UserEmail { get; set; } = string.Empty;
+    public string AssignedToName { get; set; } = string.Empty;
+    public string LastMessage { get; set; } = string.Empty;
+    public string LastMessageType { get; set; } = string.Empty;
+    public DateTime LastMessageTime { get; set; }
+    public int UnreadCount { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

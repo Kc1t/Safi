@@ -133,6 +133,31 @@ public class ChatController : ControllerBase
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
+
+    /// <summary>
+    /// Lista todas as salas de chat ativas
+    /// </summary>
+    [HttpGet("rooms/active")]
+    public async Task<IActionResult> GetActiveChatRooms()
+    {
+        try
+        {
+            var activeRooms = await _chatService.GetActiveChatRoomsAsync();
+            
+            _logger.LogInformation("Lista de {Count} salas ativas retornada", activeRooms.Count());
+            
+            return Ok(new { 
+                rooms = activeRooms,
+                totalRooms = activeRooms.Count(),
+                timestamp = DateTime.UtcNow
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter lista de salas ativas");
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
 }
 
 public class ChatMessageRequest

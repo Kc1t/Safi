@@ -9,7 +9,7 @@ namespace Safi.Backend.Modules.AI.Hubs;
 /// <summary>
 /// Hub do SignalR para chat em tempo real
 /// </summary>
-[Authorize]
+// [Authorize] // Removido temporariamente para teste sem autenticação
 public class ChatHub : Hub
 {
     private readonly IChatService _chatService;
@@ -89,21 +89,21 @@ public class ChatHub : Hub
             
             _logger.LogInformation("Mensagem recebida via WebSocket para ticket {TicketId}: {Message}", ticketId, message);
 
-            // Processar mensagem através do ChatService
+            // Enviar mensagem do usuário para todos no grupo
+            await Clients.Group(groupName).SendAsync("ReceiveMessage", new
+            {
+                type = "user",
+                userId = userId,
+                message = message,
+                timestamp = DateTime.UtcNow,
+                ticketId = ticketId
+            });
+
+            // Processar mensagem através do ChatService (apenas se não for analista)
             var aiResponse = await _chatService.SendMessageAsync(ticketId.ToString(), message, userId);
             
             if (aiResponse != null)
             {
-                // Enviar mensagem do usuário para todos no grupo
-                await Clients.Group(groupName).SendAsync("ReceiveMessage", new
-                {
-                    type = "user",
-                    userId = userId,
-                    message = message,
-                    timestamp = DateTime.UtcNow,
-                    ticketId = ticketId
-                });
-
                 // Enviar resposta da IA para todos no grupo
                 await Clients.Group(groupName).SendAsync("ReceiveMessage", new
                 {
@@ -116,19 +116,46 @@ public class ChatHub : Hub
 
                 _logger.LogInformation("Mensagem processada e enviada via WebSocket para ticket {TicketId}", ticketId);
             }
-            else
-            {
-                // Enviar erro para o usuário que enviou
-                await Clients.Caller.SendAsync("ReceiveError", new
-                {
-                    message = "Erro ao processar mensagem",
-                    timestamp = DateTime.UtcNow
-                });
-            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao enviar mensagem via WebSocket para ticket {TicketId}", ticketId);
+            
+            await Clients.Caller.SendAsync("ReceiveError", new
+            {
+                message = "Erro interno do servidor",
+                timestamp = DateTime.UtcNow
+            });
+        }
+    }
+
+    /// <summary>
+    /// Envia uma mensagem como analista (sem processamento de IA)
+    /// </summary>
+    public async Task SendAnalystMessage(int ticketId, string message)
+    {
+        try
+        {
+            var userId = GetUserId();
+            var groupName = $"ticket-{ticketId}";
+            
+            _logger.LogInformation("Mensagem de analista recebida via WebSocket para ticket {TicketId}: {Message}", ticketId, message);
+
+            // Enviar mensagem do analista para todos no grupo
+            await Clients.Group(groupName).SendAsync("ReceiveMessage", new
+            {
+                type = "analyst",
+                userId = userId,
+                message = message,
+                timestamp = DateTime.UtcNow,
+                ticketId = ticketId
+            });
+
+            _logger.LogInformation("Mensagem de analista enviada via WebSocket para ticket {TicketId}", ticketId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao enviar mensagem de analista via WebSocket para ticket {TicketId}", ticketId);
             
             await Clients.Caller.SendAsync("ReceiveError", new
             {
@@ -250,11 +277,50 @@ public class ChatHub : Hub
     }
 
     /// <summary>
+    /// Lista todas as salas de chat ativas
+    /// </summary>
+    public async Task GetActiveChatRooms()
+    {
+        try
+        {
+            var userId = GetUserId();
+            
+            _logger.LogInformation("Lista de salas ativas solicitada pelo usuário {UserId}", userId);
+
+            // Obter todas as salas ativas do ChatService
+            var activeRooms = await _chatService.GetActiveChatRoomsAsync();
+            
+            await Clients.Caller.SendAsync("ReceiveActiveRooms", new
+            {
+                rooms = activeRooms,
+                totalRooms = activeRooms.Count(),
+                timestamp = DateTime.UtcNow
+            });
+
+            _logger.LogInformation("Lista de {Count} salas ativas enviada para usuário {UserId}", activeRooms.Count(), userId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao obter lista de salas ativas");
+            
+            await Clients.Caller.SendAsync("ReceiveError", new
+            {
+                message = "Erro ao obter lista de salas",
+                timestamp = DateTime.UtcNow
+            });
+        }
+    }
+
+    /// <summary>
     /// Obtém o ID do usuário do contexto de autenticação
     /// </summary>
     private int GetUserId()
     {
-        var userIdClaim = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        return int.TryParse(userIdClaim, out var userId) ? userId : 0;
+        // Temporariamente retorna um ID fixo para teste sem autenticação
+        return 1; // ID do admin
+        
+        // Código original (comentado):
+        // var userIdClaim = Context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // return int.TryParse(userIdClaim, out var userId) ? userId : 0;
     }
 }

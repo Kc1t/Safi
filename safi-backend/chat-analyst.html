@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFI - Chat Analista</title>
+    <script src="https://unpkg.com/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .chat-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .header {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .connection-status {
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-indicator.connected { background-color: #4CAF50; }
+        .status-indicator.disconnected { background-color: #f44336; }
+        .status-indicator.connecting { background-color: #ffeb3b; }
+        .chat-window {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 60vh;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .message.user {
+            background-color: #2575fc;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .message.ai {
+            background-color: #6a11cb;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .message.analyst {
+            background-color: #ff9800;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .message.system {
+            background-color: rgba(255, 255, 255, 0.1);
+            align-self: center;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .message-input {
+            display: flex;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .message-input input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1em;
+            margin-right: 10px;
+            outline: none;
+        }
+        .message-input input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .message-input button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+        }
+        .message-input button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .login-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: #333;
+        }
+        .login-box h2 {
+            margin-top: 0;
+            color: #ff9800;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .login-box button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+        }
+        .ticket-info {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <h2>SAFI - Área do Analista</h2>
+            <p>Digite o ID da sessão para entrar no chat:</p>
+            <input type="text" id="sessionIdInput" placeholder="ID da Sessão (ex: 1-1234567890)">
+            <br>
+            <button id="connectButton">Conectar ao Chat</button>
+        </div>
+    </div>
+
+    <div class="chat-container" style="display: none;">
+        <div class="header">SAFI - Chat Analista</div>
+        <div class="ticket-info" id="ticketInfo">
+            <strong>Ticket:</strong> <span id="ticketIdDisplay">N/A</span> | 
+            <strong>Sessão:</strong> <span id="sessionIdDisplay">N/A</span>
+        </div>
+        <div class="connection-status">
+            <div>
+                <span id="statusIndicator" class="status-indicator connecting"></span>
+                <span id="statusText">Conectando...</span>
+            </div>
+            <span id="userCount">Usuários: 0</span>
+        </div>
+        <div class="chat-window" id="chatWindow">
+            <!-- Messages will be appended here -->
+        </div>
+        <div class="message-input">
+            <input type="text" id="chatInput" placeholder="Digite sua resposta como analista..." disabled>
+            <button id="sendMessageButton" disabled>Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:5080';
+        let connection = null;
+        let sessionId = '';
+        let ticketId = 0;
+        let userCount = 0;
+
+        const loginOverlay = document.getElementById('loginOverlay');
+        const connectButton = document.getElementById('connectButton');
+        const sessionIdInput = document.getElementById('sessionIdInput');
+        const chatContainer = document.querySelector('.chat-container');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageButton = document.getElementById('sendMessageButton');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const ticketIdDisplay = document.getElementById('ticketIdDisplay');
+        const sessionIdDisplay = document.getElementById('sessionIdDisplay');
+        const userCountDisplay = document.getElementById('userCount');
+
+        connectButton.addEventListener('click', async () => {
+            try {
+                sessionId = sessionIdInput.value.trim();
+                if (!sessionId) {
+                    alert('Digite um ID de sessão válido');
+                    return;
+                }
+
+                // Extrair ticketId do sessionId (formato: ticketId-timestamp)
+                const parts = sessionId.split('-');
+                if (parts.length < 2) {
+                    alert('ID de sessão inválido. Formato esperado: ticketId-timestamp');
+                    return;
+                }
+                ticketId = parseInt(parts[0]);
+
+                await connectWebSocket();
+                loginOverlay.style.display = 'none';
+                chatContainer.style.display = 'flex';
+                chatInput.disabled = false;
+                sendMessageButton.disabled = false;
+                chatInput.focus();
+            } catch (error) {
+                alert('Erro ao conectar: ' + error.message);
+                console.error('Connection Error:', error);
+            }
+        });
+
+        sendMessageButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        async function connectWebSocket() {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl(`${BASE_URL}/chatHub`)
+                .build();
+
+            // Event handlers
+            connection.on("ReceiveMessage", (data) => {
+                appendMessage(data.type, data.message, data.timestamp);
+            });
+
+            connection.on("ReceiveChatHistory", (data) => {
+                chatWindow.innerHTML = '';
+                data.history.forEach(msg => {
+                    appendMessage(msg.messageType, msg.message, msg.createdAt);
+                });
+            });
+
+            connection.on("ReceiveError", (data) => {
+                appendMessage('system', `Erro: ${data.message}`, data.timestamp);
+            });
+
+            connection.on("UserJoined", (data) => {
+                userCount++;
+                updateUserCount();
+                appendMessage('system', `Usuário conectado ao chat`, data.timestamp);
+            });
+
+            connection.on("UserLeft", (data) => {
+                userCount = Math.max(0, userCount - 1);
+                updateUserCount();
+                appendMessage('system', `Usuário desconectado do chat`, data.timestamp);
+            });
+
+            connection.on("TicketEscalated", (data) => {
+                appendMessage('system', `Ticket escalonado para ${data.newLevel}: ${data.message}`, data.timestamp);
+            });
+
+            connection.on("TicketStatusChanged", (data) => {
+                appendMessage('system', `Status alterado para ${data.newStatus}: ${data.message}`, data.timestamp);
+            });
+
+            // Connection status
+            connection.onclose(() => {
+                updateConnectionStatus('disconnected', 'Desconectado');
+            });
+
+            connection.onreconnecting(() => {
+                updateConnectionStatus('connecting', 'Reconectando...');
+            });
+
+            connection.onreconnected(() => {
+                updateConnectionStatus('connected', 'Conectado');
+            });
+
+            // Start connection
+            await connection.start();
+            updateConnectionStatus('connected', 'Conectado');
+            
+            // Join ticket chat
+            await connection.invoke("JoinTicketChat", ticketId);
+            ticketIdDisplay.textContent = ticketId;
+            sessionIdDisplay.textContent = sessionId;
+            
+            // Get chat history
+            await connection.invoke("GetChatHistory", ticketId);
+        }
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message || !connection) return;
+
+            chatInput.value = '';
+            sendMessageButton.disabled = true;
+
+            try {
+                // Enviar como analista (sem processamento de IA)
+                await connection.invoke("SendAnalystMessage", ticketId, message);
+            } catch (error) {
+                console.error('Send Message Error:', error);
+                appendMessage('system', 'Erro ao enviar mensagem', new Date());
+            } finally {
+                sendMessageButton.disabled = false;
+                chatInput.focus();
+            }
+        }
+
+        function appendMessage(type, content, timestamp) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', type);
+            
+            const time = new Date(timestamp).toLocaleTimeString();
+            const typeLabel = type === 'user' ? '👤 Cliente' : 
+                             type === 'ai' ? '🤖 IA' : 
+                             type === 'analyst' ? '👨‍💼 Analista' : 'ℹ️ Sistema';
+            
+            messageDiv.innerHTML = `
+                <div><strong>${typeLabel}:</strong> ${content}</div>
+                <div style="font-size: 0.8em; opacity: 0.7; margin-top: 5px;">${time}</div>
+            `;
+            
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function updateConnectionStatus(status, text) {
+            statusIndicator.className = `status-indicator ${status}`;
+            statusText.textContent = text;
+        }
+
+        function updateUserCount() {
+            userCountDisplay.textContent = `Usuários: ${userCount}`;
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (connection) {
+                connection.stop();
+            }
+        });
+    </script>
+</body>
+</html>
