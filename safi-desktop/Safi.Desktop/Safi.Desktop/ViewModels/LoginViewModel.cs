@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Safi.Desktop.ViewModels
 {
-    public class LoginViewModel : BindableObject
+    public partial class LoginViewModel : BindableObject
     {
         private string _email;
         public string Email
@@ -63,12 +63,9 @@ namespace Safi.Desktop.ViewModels
             }
         }
 
-
         private async Task Registration()
         {
-            //implementar tela de registro
-            await Application.Current.MainPage.DisplayAlert("Registrar", "", "OK");
+            await Application.Current.MainPage.Navigation.PushAsync(new Views.RegisterPage());
         }
-
     }
 }

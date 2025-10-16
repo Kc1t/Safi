@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Safi.Desktop.ViewModels"
+             x:Class="Safi.Desktop.Views.RegisterPage"
+             BackgroundColor="#FAFAFA">
+
+
+    <ScrollView>
+        <Grid RowDefinitions="*, Auto, *">
+
+
+
+            <Frame Grid.Row="1"
+                   Margin="30"
+                   Padding="25"
+                   CornerRadius="20"
+                   BackgroundColor="White"
+                   BorderColor="Gray"
+                   HasShadow="True"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+
+                <VerticalStackLayout Spacing="18">
+
+                    <Image Source="safi.png"
+                           WidthRequest="100"
+                           HeightRequest="100"
+                           HorizontalOptions="Center"
+                           Margin="0, 0, 0, -45"
+                           Aspect="AspectFit"
+                           Grid.Row="0"
+                />
+
+                    <Label Text="Crie sua conta"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="Black"
+                           HorizontalOptions="Center" />
+
+                    <Entry Placeholder="Nome"
+                           Text="{Binding Name}"
+                           TextColor="Black"
+                           PlaceholderColor="#999"
+                           HeightRequest="45" />
+
+                    <Entry Placeholder="E-mail"
+                           Text="{Binding Email}"
+                           TextColor="Black"
+                           PlaceholderColor="#999"
+                           HeightRequest="45" />
+
+                    <Entry Placeholder="Senha"
+                           Text="{Binding Password}"
+                           TextColor="Black"
+                           PlaceholderColor="#999"
+                           HeightRequest="45"
+                           IsPassword="True"
+                           />
+
+                    <Entry Placeholder="Confirmar senha"
+                           Text="{Binding ConfirmPassword}"
+                           TextColor="Black"
+                           PlaceholderColor="#999"
+                           HeightRequest="45"
+                           IsPassword="True"
+                           />
+
+                    <Button Text="Registrar"
+                            BackgroundColor="#E91E63"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            HeightRequest="45"
+                            CornerRadius="12"
+                            Command="{Binding RegisterCommand}" />
+
+                    <Button Text="Voltar"
+                            BackgroundColor="White"
+                            TextColor="Black"
+                            BorderColor="Gray"
+                            BorderWidth="1"
+                            FontAttributes="Bold"
+                            HeightRequest="45"
+                            CornerRadius="12"
+                            Command="{Binding GoBackCommand}" />
+
+                </VerticalStackLayout>
+                
+            </Frame>
+        </Grid>
+    </ScrollView>
+    
+    
+</ContentPage>

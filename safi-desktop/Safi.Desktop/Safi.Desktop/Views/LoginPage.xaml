@@ -2,10 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Safi.Desktop.Views.LoginPage"
-             Title="Login"
              BackgroundColor="#FAFAFA"
              >
-
+    
+    
+    
     <Grid RowDefinitions="*, Auto, *"
           ColumnDefinitions="*">
 
@@ -15,10 +16,12 @@
             HeightRequest="100"
             HorizontalOptions="Center"
             Margin="0, 0, 0, -145"
+            Aspect="AspectFit"
             Grid.Row="0"
             ZIndex="2"
+            
             />
-
+        
         <Frame Grid.Row="1"
                Margin="30"
                Padding="25"
@@ -53,7 +56,7 @@
 
                 <Entry Placeholder="Senha"
                        IsPassword="True"
-                       Text="{Binding Senha}"
+                       Text="{Binding Password}"
                        BackgroundColor="White"
                        TextColor="Black"
                        PlaceholderColor="#999"
