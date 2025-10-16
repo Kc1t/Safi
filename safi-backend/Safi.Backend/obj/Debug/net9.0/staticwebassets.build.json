@@ -1,1 +1,362 @@
-{"Version":1,"Hash":"QRdEiW/W+qNRmvLUluzukpHMHtCiwRwkGZZs/32U2fs=","Source":"Safi.Backend","BasePath":"_content/Safi.Backend","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[{"Name":"Safi.Backend\\wwwroot","Source":"Safi.Backend","ContentRoot":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\","BasePath":"_content/Safi.Backend","Pattern":"**"}],"Assets":[{"Identity":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz","SourceId":"Safi.Backend","SourceType":"Discovered","ContentRoot":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\","BasePath":"_content/Safi.Backend","RelativePath":"scalar-custom#[.{fingerprint=4l5ua7h1gz}]?.html.gz","AssetKind":"All","AssetMode":"All","AssetRole":"Alternative","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html","AssetTraitName":"Content-Encoding","AssetTraitValue":"gzip","Fingerprint":"v6xyhaxcb9","Integrity":"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html","FileLength":673,"LastWriteTime":"2025-10-05T17:01:13+00:00"},{"Identity":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html","SourceId":"Safi.Backend","SourceType":"Discovered","ContentRoot":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\","BasePath":"_content/Safi.Backend","RelativePath":"scalar-custom#[.{fingerprint}]?.html","AssetKind":"All","AssetMode":"All","AssetRole":"Primary","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"","AssetTraitName":"","AssetTraitValue":"","Fingerprint":"4l5ua7h1gz","Integrity":"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"wwwroot\\scalar-custom.html","FileLength":1837,"LastWriteTime":"2025-10-05T16:31:46+00:00"}],"Endpoints":[{"Route":"scalar-custom.4l5ua7h1gz.html","AssetFile":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz","Selectors":[{"Name":"Content-Encoding","Value":"gzip","Quality":"0.001483679525"}],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"673"},{"Name":"ETag","Value":"\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""},{"Name":"Last-Modified","Value":"Sun, 05 Oct 2025 17:01:13 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Encoding","Value":"gzip"},{"Name":"Vary","Value":"Content-Encoding"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"W/\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""}],"EndpointProperties":[{"Name":"fingerprint","Value":"4l5ua7h1gz"},{"Name":"label","Value":"scalar-custom.html"},{"Name":"integrity","Value":"sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="}]},{"Route":"scalar-custom.4l5ua7h1gz.html","AssetFile":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"1837"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""},{"Name":"Last-Modified","Value":"Sun, 05 Oct 2025 16:31:46 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"}],"EndpointProperties":[{"Name":"fingerprint","Value":"4l5ua7h1gz"},{"Name":"label","Value":"scalar-custom.html"},{"Name":"integrity","Value":"sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="}]},{"Route":"scalar-custom.4l5ua7h1gz.html.gz","AssetFile":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"673"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""},{"Name":"Last-Modified","Value":"Sun, 05 Oct 2025 17:01:13 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Encoding","Value":"gzip"},{"Name":"Vary","Value":"Content-Encoding"}],"EndpointProperties":[{"Name":"fingerprint","Value":"4l5ua7h1gz"},{"Name":"label","Value":"scalar-custom.html.gz"},{"Name":"integrity","Value":"sha256-efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc="}]},{"Route":"scalar-custom.html","AssetFile":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz","Selectors":[{"Name":"Content-Encoding","Value":"gzip","Quality":"0.001483679525"}],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"673"},{"Name":"ETag","Value":"\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""},{"Name":"Last-Modified","Value":"Sun, 05 Oct 2025 17:01:13 GMT"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Encoding","Value":"gzip"},{"Name":"Vary","Value":"Content-Encoding"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"W/\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="}]},{"Route":"scalar-custom.html","AssetFile":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"1837"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""},{"Name":"Last-Modified","Value":"Sun, 05 Oct 2025 16:31:46 GMT"},{"Name":"Cache-Control","Value":"no-cache"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="}]},{"Route":"scalar-custom.html.gz","AssetFile":"C:\\Users\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"673"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""},{"Name":"Last-Modified","Value":"Sun, 05 Oct 2025 17:01:13 GMT"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Encoding","Value":"gzip"},{"Name":"Vary","Value":"Content-Encoding"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc="}]}]}
+{
+  "Version": 1,
+  "Hash": "jWqyKdNeKR/kjlVOZyychX0AwBPBYd5Rs6T17AqvvwI=",
+  "Source": "Safi.Backend",
+  "BasePath": "_content/Safi.Backend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Safi.Backend\\wwwroot",
+      "Source": "Safi.Backend",
+      "ContentRoot": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\",
+      "BasePath": "_content/Safi.Backend",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz",
+      "SourceId": "Safi.Backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Safi.Backend",
+      "RelativePath": "scalar-custom#[.{fingerprint=4l5ua7h1gz}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "v6xyhaxcb9",
+      "Integrity": "efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html"
+    },
+    {
+      "Identity": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html",
+      "SourceId": "Safi.Backend",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\",
+      "BasePath": "_content/Safi.Backend",
+      "RelativePath": "scalar-custom#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "4l5ua7h1gz",
+      "Integrity": "yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\scalar-custom.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "scalar-custom.4l5ua7h1gz.html",
+      "AssetFile": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001483679525"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "673"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 11 Oct 2025 12:48:48 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4l5ua7h1gz"
+        },
+        {
+          "Name": "label",
+          "Value": "scalar-custom.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="
+        }
+      ]
+    },
+    {
+      "Route": "scalar-custom.4l5ua7h1gz.html",
+      "AssetFile": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1837"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 11 Oct 2025 12:48:48 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4l5ua7h1gz"
+        },
+        {
+          "Name": "label",
+          "Value": "scalar-custom.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="
+        }
+      ]
+    },
+    {
+      "Route": "scalar-custom.4l5ua7h1gz.html.gz",
+      "AssetFile": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "673"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 11 Oct 2025 12:48:48 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "4l5ua7h1gz"
+        },
+        {
+          "Name": "label",
+          "Value": "scalar-custom.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc="
+        }
+      ]
+    },
+    {
+      "Route": "scalar-custom.html",
+      "AssetFile": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001483679525"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "673"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 11 Oct 2025 12:48:48 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="
+        }
+      ]
+    },
+    {
+      "Route": "scalar-custom.html",
+      "AssetFile": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1837"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 11 Oct 2025 12:48:48 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="
+        }
+      ]
+    },
+    {
+      "Route": "scalar-custom.html.gz",
+      "AssetFile": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\obj\\Debug\\net9.0\\compressed\\c8ttvxf1uf-4l5ua7h1gz.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "673"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 11 Oct 2025 12:48:48 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-efrt5SxrwQrw9xtx89M+8arxZNi0/OCiwgBEyNNXbCc="
+        }
+      ]
+    }
+  ]
+}

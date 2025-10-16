@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Pim\\Safi\\safi-backend\\Safi.Backend\\wwwroot\\scalar-custom.html",
+      "PackagePath": "staticwebassets\\scalar-custom.html"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.Safi.Backend.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.Safi.Backend.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.Safi.Backend.props",
+      "PackagePath": "build\\Safi.Backend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.Safi.Backend.props",
+      "PackagePath": "buildMultiTargeting\\Safi.Backend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.Safi.Backend.props",
+      "PackagePath": "buildTransitive\\Safi.Backend.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

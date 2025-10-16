@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Safi.Desktop.Views.LoginPage"
+             Title="Login"
+             BackgroundColor="#FAFAFA"
+             >
+
+    <Grid RowDefinitions="*, Auto, *"
+          ColumnDefinitions="*">
+
+
+        <Image Source="logo.png"
+            WidthRequest="100"
+            HeightRequest="100"
+            HorizontalOptions="Center"
+            Margin="0, 0, 0, -145"
+            Grid.Row="0"
+            ZIndex="2"
+            />
+
+        <Frame Grid.Row="1"
+               Margin="30"
+               Padding="25"
+               CornerRadius="20"
+               BackgroundColor="White"
+               BorderColor="Grey"
+               HasShadow="True"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               ZIndex="1">
+
+
+
+            <VerticalStackLayout Spacing="20">
+
+
+
+                <Label Text="Bem-vindo a Safi!"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       HorizontalOptions="Center" />
+
+                <Entry Placeholder="E-mail"
+                       Keyboard="Email"
+                       Text="{Binding Email}"
+                       BackgroundColor="White"
+                       TextColor="Black"
+                       PlaceholderColor="#999"
+                       HeightRequest="45"
+                       />
+
+                <Entry Placeholder="Senha"
+                       IsPassword="True"
+                       Text="{Binding Senha}"
+                       BackgroundColor="White"
+                       TextColor="Black"
+                       PlaceholderColor="#999"
+                       HeightRequest="45"
+                       />
+
+                <Button Text="Entrar"
+                        BackgroundColor="#E91E63"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        CornerRadius="12"
+                        Command="{Binding LoginCommand}"
+                        />
+
+                <Button Text="Registrar"
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        BorderColor="Gray"
+                        BorderWidth="1"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        CornerRadius="12"
+                        Command="{Binding RegisterCommand}"
+                        />
+            </VerticalStackLayout>
+
+        </Frame>
+
+    </Grid>
+    
+</ContentPage>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Safi.Desktop.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Safi.Desktop"
+    xmlns:views="clr-namespace:Safi.Desktop.Views" Shell.FlyoutBehavior="Disabled"
+    Title="Safi.Desktop">
+
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage }"
+        Route="Login" />
+
+</Shell>

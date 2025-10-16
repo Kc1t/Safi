@@ -1,0 +1,16 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/Safi.Backend/scalar-custom.4l5ua7h1gz.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\scalar-custom.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"4l5ua7h1gz"},{"Name":"integrity","Value":"sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="},{"Name":"label","Value":"_content/Safi.Backend/scalar-custom.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1837"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\u0022"},{"Name":"Last-Modified","Value":"Sat, 11 Oct 2025 12:48:48 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Safi.Backend/scalar-custom.html">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\scalar-custom.html'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1837"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022yI3atrqTLEZSivEHwTY5FBVBxL8uMW62UdeLZ2l60n4=\u0022"},{"Name":"Last-Modified","Value":"Sat, 11 Oct 2025 12:48:48 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

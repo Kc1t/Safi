@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Safi.Backend",
+    "\\Safi.Backend\\Controllers",
+    "\\Safi.Backend\\Infrastructure\\Data",
+    "\\Safi.Backend\\Infrastructure\\Data\\Context",
+    "\\Safi.Backend\\Infrastructure\\Data\\Migrations",
+    "\\Safi.Backend\\Infrastructure\\Data\\Repositories"
+  ],
+  "SelectedNode": "\\Safi.Backend\\appsettings.Development.json",
+  "PreviewInSolutionExplorer": false
+}
