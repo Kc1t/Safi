@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Safi.Desktop.Models;
+using Windows.System.UserProfile;
 
 namespace Safi.Desktop.ViewModels
 {
@@ -23,7 +26,7 @@ namespace Safi.Desktop.ViewModels
             get => _password;
             set { _password = value; OnPropertyChanged(); }
         }
-
+  
 
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
@@ -50,7 +53,17 @@ namespace Safi.Desktop.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(json, 
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    Preferences.Set("auth_token", loginResponse.Token);
+                    Preferences.Set("user_id", loginResponse.User.Id);
+                    Preferences.Set("user_name", loginResponse.User.Name);
+                    Preferences.Set("user_email", loginResponse.User.Email);
+
                     await Application.Current.MainPage.DisplayAlert("Sucesso", "Login efetuado com sucesso!", "OK");
+
                 }
                 else
                 {

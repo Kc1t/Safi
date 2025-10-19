@@ -42,14 +42,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="NovaPasta\**" />
-	  <EmbeddedResource Remove="NovaPasta\**" />
-	  <MauiCss Remove="NovaPasta\**" />
-	  <MauiXaml Remove="NovaPasta\**" />
-	  <None Remove="NovaPasta\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
@@ -70,7 +62,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PRIResource Remove="NovaPasta\**" />
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
-
+	
 </Project>
