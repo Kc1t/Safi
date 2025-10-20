@@ -7,15 +7,16 @@
     
     
     
-    <Grid RowDefinitions="*, Auto, *"
+    <Grid RowDefinitions="Auto, Auto, *"
           ColumnDefinitions="*">
 
 
         <Image Source="logo.png"
             WidthRequest="100"
             HeightRequest="100"
+            VerticalOptions="End"
             HorizontalOptions="Center"
-            Margin="0, 0, 0, -145"
+            Margin="0, 0, 0, -10"
             Aspect="AspectFit"
             Grid.Row="0"
             ZIndex="2"
@@ -23,13 +24,13 @@
             />
         
         <Frame Grid.Row="1"
-               Margin="30"
+               Margin="30, 0, 30, 30"
                Padding="25"
                CornerRadius="20"
                BackgroundColor="White"
                BorderColor="Grey"
                HasShadow="True"
-               VerticalOptions="Center"
+               VerticalOptions="Start"
                HorizontalOptions="Center"
                ZIndex="1">
 
@@ -52,6 +53,8 @@
                        TextColor="Black"
                        PlaceholderColor="#999"
                        HeightRequest="45"
+                       TextTransform="None"
+                       IsSpellCheckEnabled="False"
                        />
 
                 <Entry Placeholder="Senha"

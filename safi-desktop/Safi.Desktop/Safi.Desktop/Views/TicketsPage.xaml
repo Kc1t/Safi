@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Safi.Desktop.ViewModels"
+             xmlns:models="clr-namespace:Safi.Desktop.Models.Tickets"
+             x:Class="Safi.Desktop.Views.TicketsPage"
+             Title="Chamados">
+    <ContentPage.BindingContext>
+        <viewModels:TicketListViewModel />
+    </ContentPage.BindingContext>
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
+
+        <CollectionView ItemsSource="{Binding Tickets}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Ticket">
+                    <Frame Margin="0,5"
+                           Padding="15"
+                           CornerRadius="16"
+                           BorderColor="#E0E0E0"
+                           BackgroundColor="White">
+                        <VerticalStackLayout >
+                            <Label Text="{Binding Title}" 
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="Black"/>
+                            
+                            <Label Text="{Binding Description}"
+                                   FontSize="14"
+                                   TextColor="#663"/>
+                            
+                            
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="{Binding Status}" 
+                                       TextColor="Black"
+                                       Padding="5,2"/>
+                                <Label Text="{Binding Priority}" 
+                                       TextColor="Black"
+                                       Padding="5,2"/>
+                                <Label Text="{Binding SupportLevel}" 
+                                       TextColor="Black"
+                                       Padding="5,2"/>
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding CreatedAt, StringFormat='Criado em {0:dd/MM/yyyy HH:mm}'}"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        
+    </RefreshView>
+    
+    
+</ContentPage>

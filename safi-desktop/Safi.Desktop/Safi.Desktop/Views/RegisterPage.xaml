@@ -42,13 +42,19 @@
                            Text="{Binding Name}"
                            TextColor="Black"
                            PlaceholderColor="#999"
-                           HeightRequest="45" />
+                           HeightRequest="45"
+                           TextTransform="None"
+                           IsSpellCheckEnabled="False"
+                           />
 
                     <Entry Placeholder="E-mail"
                            Text="{Binding Email}"
                            TextColor="Black"
                            PlaceholderColor="#999"
-                           HeightRequest="45" />
+                           HeightRequest="45"
+                           TextTransform="None"
+                           IsSpellCheckEnabled="False"
+                           />
 
                     <Entry Placeholder="Senha"
                            Text="{Binding Password}"

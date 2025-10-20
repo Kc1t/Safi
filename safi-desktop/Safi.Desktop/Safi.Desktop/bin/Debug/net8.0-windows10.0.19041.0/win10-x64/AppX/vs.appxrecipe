@@ -30,21 +30,21 @@
     <AppXManifest Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-10-20T13:27:38.510</Modified>
+      <Modified>2025-10-20T17:47:46.483</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2025-10-20T12:21:52.551</Modified>
+      <Modified>2025-10-20T16:46:50.337</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Safi.Desktop.runtimeconfig.json">
       <PackagePath>Safi.Desktop.runtimeconfig.json</PackagePath>
-      <Modified>2025-10-20T12:21:52.115</Modified>
+      <Modified>2025-10-20T16:46:45.733</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Safi.Desktop.dll">
       <PackagePath>Safi.Desktop.dll</PackagePath>
-      <Modified>2025-10-20T13:27:37.877</Modified>
+      <Modified>2025-10-20T17:47:45.914</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\appsettings.json">
       <PackagePath>appsettings.json</PackagePath>
@@ -52,7 +52,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>Safi.Desktop.exe</PackagePath>
-      <Modified>2025-10-20T13:27:37.888</Modified>
+      <Modified>2025-10-20T17:47:45.950</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
@@ -60,227 +60,227 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-100.png">
       <PackagePath>splashSplashScreen.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:19:50.318</Modified>
+      <Modified>2025-10-20T16:45:53.317</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-125.png">
       <PackagePath>splashSplashScreen.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:19:50.318</Modified>
+      <Modified>2025-10-20T16:45:53.334</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-150.png">
       <PackagePath>splashSplashScreen.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:19:50.318</Modified>
+      <Modified>2025-10-20T16:45:53.360</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-200.png">
       <PackagePath>splashSplashScreen.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:19:50.319</Modified>
+      <Modified>2025-10-20T16:45:53.404</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-400.png">
       <PackagePath>splashSplashScreen.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:19:50.320</Modified>
+      <Modified>2025-10-20T16:45:53.524</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Regular.ttf">
       <PackagePath>OpenSans-Regular.ttf</PackagePath>
-      <Modified>2025-10-20T12:19:50.284</Modified>
+      <Modified>2025-10-20T12:19:45.854</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Semibold.ttf">
       <PackagePath>OpenSans-Semibold.ttf</PackagePath>
-      <Modified>2025-10-20T12:19:50.285</Modified>
+      <Modified>2025-10-20T12:19:45.856</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appicon.ico">
       <PackagePath>appicon.ico</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.357</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-100.png">
       <PackagePath>appiconLargeTile.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.468</Modified>
+      <Modified>2025-10-20T16:45:54.343</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-125.png">
       <PackagePath>appiconLargeTile.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.468</Modified>
+      <Modified>2025-10-20T16:45:54.343</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-150.png">
       <PackagePath>appiconLargeTile.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.468</Modified>
+      <Modified>2025-10-20T16:45:54.343</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-200.png">
       <PackagePath>appiconLargeTile.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.468</Modified>
+      <Modified>2025-10-20T16:45:54.343</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-400.png">
       <PackagePath>appiconLargeTile.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.467</Modified>
+      <Modified>2025-10-20T16:45:54.342</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-16.png">
       <PackagePath>appiconLogo.altform-lightunplated_targetsize-16.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.353</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-24.png">
       <PackagePath>appiconLogo.altform-lightunplated_targetsize-24.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.353</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-256.png">
       <PackagePath>appiconLogo.altform-lightunplated_targetsize-256.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.352</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-32.png">
       <PackagePath>appiconLogo.altform-lightunplated_targetsize-32.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.353</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-48.png">
       <PackagePath>appiconLogo.altform-lightunplated_targetsize-48.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.352</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-16.png">
       <PackagePath>appiconLogo.altform-unplated_targetsize-16.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.354</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-24.png">
       <PackagePath>appiconLogo.altform-unplated_targetsize-24.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.354</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-256.png">
       <PackagePath>appiconLogo.altform-unplated_targetsize-256.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.353</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-32.png">
       <PackagePath>appiconLogo.altform-unplated_targetsize-32.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.354</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-48.png">
       <PackagePath>appiconLogo.altform-unplated_targetsize-48.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.353</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-100.png">
       <PackagePath>appiconLogo.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.356</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-125.png">
       <PackagePath>appiconLogo.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.356</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-150.png">
       <PackagePath>appiconLogo.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.356</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-200.png">
       <PackagePath>appiconLogo.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.356</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-400.png">
       <PackagePath>appiconLogo.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.355</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-16.png">
       <PackagePath>appiconLogo.targetsize-16.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.355</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-24.png">
       <PackagePath>appiconLogo.targetsize-24.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.474</Modified>
+      <Modified>2025-10-20T16:45:54.355</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-256.png">
       <PackagePath>appiconLogo.targetsize-256.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.354</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-32.png">
       <PackagePath>appiconLogo.targetsize-32.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.355</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-48.png">
       <PackagePath>appiconLogo.targetsize-48.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.473</Modified>
+      <Modified>2025-10-20T16:45:54.355</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-100.png">
       <PackagePath>appiconMediumTile.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.471</Modified>
+      <Modified>2025-10-20T16:45:54.347</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-125.png">
       <PackagePath>appiconMediumTile.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.470</Modified>
+      <Modified>2025-10-20T16:45:54.346</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-150.png">
       <PackagePath>appiconMediumTile.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.470</Modified>
+      <Modified>2025-10-20T16:45:54.346</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-200.png">
       <PackagePath>appiconMediumTile.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.470</Modified>
+      <Modified>2025-10-20T16:45:54.346</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-400.png">
       <PackagePath>appiconMediumTile.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.470</Modified>
+      <Modified>2025-10-20T16:45:54.345</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-100.png">
       <PackagePath>appiconSmallTile.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.348</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-125.png">
       <PackagePath>appiconSmallTile.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.471</Modified>
+      <Modified>2025-10-20T16:45:54.348</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-150.png">
       <PackagePath>appiconSmallTile.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.471</Modified>
+      <Modified>2025-10-20T16:45:54.348</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-200.png">
       <PackagePath>appiconSmallTile.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.471</Modified>
+      <Modified>2025-10-20T16:45:54.347</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-400.png">
       <PackagePath>appiconSmallTile.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.471</Modified>
+      <Modified>2025-10-20T16:45:54.347</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-100.png">
       <PackagePath>appiconStoreLogo.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.351</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-125.png">
       <PackagePath>appiconStoreLogo.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.350</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-150.png">
       <PackagePath>appiconStoreLogo.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.350</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-200.png">
       <PackagePath>appiconStoreLogo.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.349</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-400.png">
       <PackagePath>appiconStoreLogo.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.472</Modified>
+      <Modified>2025-10-20T16:45:54.349</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-100.png">
       <PackagePath>appiconWideTile.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.470</Modified>
+      <Modified>2025-10-20T16:45:54.345</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-125.png">
       <PackagePath>appiconWideTile.scale-125.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.469</Modified>
+      <Modified>2025-10-20T16:45:54.345</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-150.png">
       <PackagePath>appiconWideTile.scale-150.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.469</Modified>
+      <Modified>2025-10-20T16:45:54.344</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-200.png">
       <PackagePath>appiconWideTile.scale-200.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.469</Modified>
+      <Modified>2025-10-20T16:45:54.344</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-400.png">
       <PackagePath>appiconWideTile.scale-400.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.468</Modified>
+      <Modified>2025-10-20T16:45:54.344</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\logo.scale-100.png">
       <PackagePath>logo.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.467</Modified>
+      <Modified>2025-10-20T16:45:54.342</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\resizetizer\r\safi.scale-100.png">
       <PackagePath>safi.scale-100.png</PackagePath>
-      <Modified>2025-10-20T12:21:19.467</Modified>
+      <Modified>2025-10-20T16:45:54.341</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\Safi.Desktop.deps.json">
       <PackagePath>Safi.Desktop.deps.json</PackagePath>
-      <Modified>2025-10-20T12:21:52.064</Modified>
+      <Modified>2025-10-20T16:46:42.539</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\paulo.miliano\.nuget\packages\microsoft.windows.sdk.net.ref\10.0.19041.57\lib\net8.0\Microsoft.Windows.SDK.NET.dll">
       <PackagePath>Microsoft.Windows.SDK.NET.dll</PackagePath>

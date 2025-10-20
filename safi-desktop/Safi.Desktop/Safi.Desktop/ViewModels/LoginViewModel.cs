@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Safi.Desktop.Helpers;
-using Safi.Desktop.Models;
+using Safi.Desktop.Models.Auth;
 using Safi.Desktop.Services;
 using Windows.System.UserProfile;
 
@@ -62,7 +62,7 @@ namespace Safi.Desktop.ViewModels
                     AppConfigHelper.SaveToken(loginResponse.Token);
 
                     await Application.Current.MainPage.DisplayAlert("Sucesso", "Login efetuado com sucesso!", "OK");
-
+                    await Application.Current.MainPage.Navigation.PushAsync(new Views.TicketsPage());
                 }
                 else
                 {

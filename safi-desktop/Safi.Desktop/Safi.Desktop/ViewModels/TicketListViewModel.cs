@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Web;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Animations;
+using Safi.Desktop.Helpers;
+using Safi.Desktop.Models.Tickets;
+using Safi.Desktop.Services;
+using Windows.Services.Maps;
+
+namespace Safi.Desktop.ViewModels
+{
+    public partial class TicketListViewModel : ObservableObject
+    {
+        private readonly ApiService _apiService;
+        public ObservableCollection<Ticket> Tickets { get; set; } = new();
+        public ICommand RefreshCommand { get; }
+
+
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set { _isRefreshing = value; OnPropertyChanged(); }
+        }
+
+        public TicketFilter Filter { get; set; } = new TicketFilter();
+
+        public TicketListViewModel()
+        {
+            _apiService = new ApiService();
+            RefreshCommand = new Command(async () => await LoadTicketsAsync());
+            _ = LoadTicketsAsync();
+        }
+
+        public IAsyncRelayCommand LoadTicketsCommand { get; }
+
+        private async Task LoadTicketsAsync()
+        {
+            try
+            {
+                IsRefreshing = true;
+
+                var response = await _apiService.GetAsync("Tickets");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var result = JsonSerializer.Deserialize<TicketResponse>(json, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                    Tickets.Clear();
+                    foreach (var ticket in result?.Tickets ?? [])
+                        Tickets.Add(ticket);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível carregar os tickets.", "OK");
+                }
+
+            } 
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao carregar tickets: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsRefreshing = false;
+            }
+        }
+        
+
+        
+
+    }
+}

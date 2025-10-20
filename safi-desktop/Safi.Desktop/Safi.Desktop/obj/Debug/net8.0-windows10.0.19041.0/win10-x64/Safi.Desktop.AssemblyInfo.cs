@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Safi.Desktop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+9b753aac649c9568a4a548d6fe13e09e738f676b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+4289d3834adb218cee40603ff077d8378c3f84d1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Safi.Desktop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Safi.Desktop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
