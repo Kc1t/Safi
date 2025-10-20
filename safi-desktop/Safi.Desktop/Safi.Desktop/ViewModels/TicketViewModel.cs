@@ -18,7 +18,7 @@ namespace Safi.Desktop.ViewModels
 {
     public partial class TicketViewModel : ObservableObject
     {
-        private readonly ApiServices _apiServices;
+        private readonly ApiService _apiServices;
 
         //[ObservableProperty]
         //private ObservableCollection<Ticket> tickets = new();
@@ -28,12 +28,10 @@ namespace Safi.Desktop.ViewModels
 
         public TicketViewModel()
         {
-            var settings = AppSettingsHelper.GetSettings();
-            _apiServices = new ApiServices(settings.Token);
             LoadTicketsCommand = new AsyncRelayCommand(LoadTicketAsync);
         }
 
-        public ICommand LoadTicketsCommand { get; }
+        public IAsyncRelayCommand LoadTicketsCommand { get; }
 
         private async Task LoadTicketAsync()
         {

@@ -6,13 +6,17 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Safi.Desktop.Helpers;
 using Safi.Desktop.Models;
+using Safi.Desktop.Services;
 using Windows.System.UserProfile;
 
 namespace Safi.Desktop.ViewModels
 {
     public partial class LoginViewModel : BindableObject
     {
+        private readonly ApiService _apiService;
+
         private string _email;
         public string Email
         {
@@ -33,6 +37,7 @@ namespace Safi.Desktop.ViewModels
 
         public LoginViewModel()
         {
+            _apiService = new ApiService();
             LoginCommand = new Command(async () => await LoginIn());
             RegisterCommand = new Command(async () => await Registration());
         }
@@ -46,21 +51,15 @@ namespace Safi.Desktop.ViewModels
             }
 
             try
-            {
-                using var client = new HttpClient();
-                var response = await client.PostAsJsonAsync("http://localhost:5080/api/Auth/login",
-                    new { Email, Password });
+            {using var client = new HttpClient();
+                var response = await _apiService.PostAsync("Auth/login", new { Email, Password });
 
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(json, 
-                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(json);
 
-                    Preferences.Set("auth_token", loginResponse.Token);
-                    Preferences.Set("user_id", loginResponse.User.Id);
-                    Preferences.Set("user_name", loginResponse.User.Name);
-                    Preferences.Set("user_email", loginResponse.User.Email);
+                    AppConfigHelper.SaveToken(loginResponse.Token);
 
                     await Application.Current.MainPage.DisplayAlert("Sucesso", "Login efetuado com sucesso!", "OK");
 

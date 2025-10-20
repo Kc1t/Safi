@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Safi.Desktop.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
@@ -10,6 +11,7 @@ namespace Safi.Desktop.ViewModels
 {
     public partial class RegisterViewModel : BindableObject
     {
+        private readonly ApiService _apiService;
 
         private string _name;
         public string Name
@@ -44,6 +46,7 @@ namespace Safi.Desktop.ViewModels
 
         public RegisterViewModel()
         {
+            _apiService = new ApiService();
             RegisterCommand = new Command(async () => await RegisterAsync());
             GoBackCommand = new Command(async () => await Application.Current.MainPage.Navigation.PopAsync());
         }
@@ -67,13 +70,12 @@ namespace Safi.Desktop.ViewModels
 
             try
             {
-                using var client = new HttpClient();
-                var response = await client.PostAsJsonAsync("http://localhost:5080/api/Auth/register", new
+                var response = await _apiService.PostAsync("Auth/register", new
                 {
-                    name = Name,
-                    email = Email,
-                    password = Password,
-                    confirmPassword = ConfirmPassword
+                    Name,
+                    Email,
+                    Password,
+                    ConfirmPassword
                 });
 
                 if (response.IsSuccessStatusCode)
