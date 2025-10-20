@@ -82,8 +82,7 @@
               "RelativeToolTip": "Safi.Desktop\\Models\\Pagination.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T16:33:12.457Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T16:33:12.457Z"
             },
             {
               "$type": "Document",
@@ -95,8 +94,7 @@
               "RelativeToolTip": "Safi.Desktop\\Models\\Tickets\\TicketResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T16:27:49.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T16:27:49.842Z"
             },
             {
               "$type": "Document",
@@ -108,8 +106,7 @@
               "RelativeToolTip": "Safi.Desktop\\Views\\TicketsPage.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T14:22:28.673Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T14:22:28.673Z"
             },
             {
               "$type": "Document",
@@ -121,8 +118,7 @@
               "RelativeToolTip": "Safi.Desktop\\Views\\TicketsPage.xaml",
               "ViewState": "AgIAAAYAAAAAAAAAAAAkwAwAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-20T14:10:37.827Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T14:10:37.827Z"
             },
             {
               "$type": "Document",
@@ -134,8 +130,7 @@
               "RelativeToolTip": "Safi.Desktop\\Models\\Tickets\\Ticket.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:56:22.357Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:56:22.357Z"
             },
             {
               "$type": "Document",
@@ -147,8 +142,7 @@
               "RelativeToolTip": "Safi.Desktop\\Models\\Tickets\\TicketFilter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:39:59.406Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:39:59.406Z"
             },
             {
               "$type": "Document",
@@ -160,8 +154,7 @@
               "RelativeToolTip": "Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
               "ViewState": "AgIAACkAAAAAAAAAAAAiwDEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:32:49.048Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:32:49.048Z"
             },
             {
               "$type": "Document",
@@ -173,8 +166,7 @@
               "RelativeToolTip": "Safi.Desktop\\Views\\RegisterPage.xaml",
               "ViewState": "AgIAAAUAAAAAAAAAAAAAABoAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-20T13:24:46.976Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:24:46.976Z"
             },
             {
               "$type": "Document",
@@ -223,8 +215,7 @@
               "RelativeToolTip": "Safi.Desktop\\Models\\Auth\\UserInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:19:16.999Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:19:16.999Z"
             },
             {
               "$type": "Document",
@@ -236,8 +227,7 @@
               "RelativeToolTip": "Safi.Desktop\\Models\\Auth\\LoginResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:19:11.881Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:19:11.881Z"
             },
             {
               "$type": "Document",
@@ -249,8 +239,7 @@
               "RelativeToolTip": "Safi.Desktop\\ViewModels\\RegisterViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:10:47.698Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:10:47.698Z"
             },
             {
               "$type": "Document",
@@ -262,8 +251,7 @@
               "RelativeToolTip": "Safi.Desktop\\ViewModels\\LoginViewModel.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAAQwDsAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-20T13:10:46.642Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-20T13:10:46.642Z"
             }
           ]
         }
