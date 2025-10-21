@@ -61,7 +61,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Resources\Images\" />
+	  <MauiImage Include="Resources\Images\avatars\avatar1.png" />
+	  <MauiImage Include="Resources\Images\avatars\avatar2.png" />
+	  <MauiImage Include="Resources\Images\avatars\avatar3.png" />
+	  <MauiImage Include="Resources\Images\avatars\avatar4.png" />
+	  <MauiImage Include="Resources\Images\avatars\avatar5.png" />
+	  <MauiImage Include="Resources\Images\avatars\avatar6.png" />
 	</ItemGroup>
 
 	<ItemGroup>

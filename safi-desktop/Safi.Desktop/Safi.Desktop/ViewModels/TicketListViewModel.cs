@@ -43,10 +43,22 @@ namespace Safi.Desktop.ViewModels
 
         public IAsyncRelayCommand LoadTicketsCommand { get; }
 
+
+        private readonly string[] _avatarPaths = new[] 
+        {
+            "avatar1.png", 
+            "avatar2.png", 
+            "avatar3.png", 
+            "avatar4.png", 
+            "avatar5.png", 
+            "avatar6.png" 
+        };
+
         private async Task LoadTicketsAsync()
         {
             try
             {
+
                 IsRefreshing = true;
 
                 var response = await _apiService.GetAsync("Tickets");
@@ -60,8 +72,17 @@ namespace Safi.Desktop.ViewModels
                     });
 
                     Tickets.Clear();
+
+                    var random = new Random();
+
                     foreach (var ticket in result?.Tickets ?? [])
+                    {
+                        var randomAvatar = _avatarPaths[random.Next(_avatarPaths.Length)];
+                        ticket.AvatarPath = randomAvatar;
+
                         Tickets.Add(ticket);
+                    }
+                        
                 }
                 else
                 {

@@ -3,55 +3,136 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Safi.Desktop.ViewModels"
              xmlns:models="clr-namespace:Safi.Desktop.Models.Tickets"
-             x:Class="Safi.Desktop.Views.TicketsPage"
-             Title="Chamados">
+             x:Class="Safi.Desktop.Views.TicketsPage">
     <ContentPage.BindingContext>
         <viewModels:TicketListViewModel />
     </ContentPage.BindingContext>
 
-    <RefreshView IsRefreshing="{Binding IsRefreshing}"
-                 Command="{Binding RefreshCommand}">
+    <ScrollView>
+        <VerticalStackLayout Padding="35" Spacing="20">
 
-        <CollectionView ItemsSource="{Binding Tickets}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Ticket">
-                    <Frame Margin="0,5"
-                           Padding="15"
-                           CornerRadius="16"
-                           BorderColor="#E0E0E0"
-                           BackgroundColor="White">
-                        <VerticalStackLayout >
-                            <Label Text="{Binding Title}" 
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   TextColor="Black"/>
+            <Label Text="Chamados Abertos"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#111"
+                   Margin="0, 10, 0, 0" />
+
+            <SearchBar Placeholder="Procurar Chamado"
+                       Text="{Binding Filter.SearchTerm}"
+                       FontSize="14"
+                       BackgroundColor="#f5f5f5"
+                       CancelButtonColor="#0078D7"
+                       HeightRequest="45" />
+
+            <Frame BackgroundColor="White"
+                   BorderColor="#ddd"
+                   CornerRadius="10"
+                   Padding="0"
+                   HasShadow="False">
+
+                <HorizontalStackLayout>
+                    <Label Text="Todos Tickets"
+                           Style="{StaticResource FilterOptionStyle}" />
+
+                    <BoxView WidthRequest="1" Color="#eee"/>
+                    <Label Text="Novos"
+                           Style="{StaticResource FilterOptionStyle}" />
+                    
+                    <BoxView WidthRequest="1" Color="#eee"/>
+                    <Label Text="Concluídos"
+                           Style="{StaticResource FilterOptionStyle}" />
+                    
+                    <BoxView WidthRequest="1" Color="#eee"/>
+                    <Label Text="Finalizados com IA"
+                           Style="{StaticResource FilterOptionStyle}" />
+
+                </HorizontalStackLayout>
+                
+            </Frame>
+
+            <CollectionView ItemsSource="{Binding Tickets}">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Ticket">
+                        <Frame Margin="0, 10, 0, 0"
+                               Padding="15"
+                               CornerRadius="15"
+                               BorderColor="#ddd"
+                               HasShadow="True"
+                               BackgroundColor="White">
+                            <Grid ColumnDefinitions="*, Auto">
+
+                                <VerticalStackLayout>
+                                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+
+                                        <Label Text="{Binding Id, StringFormat='Ticket# {0}'}"
+                                               TextColor="Black"
+                                               FontAttributes="Bold" />
+
+                                        <Label Text="{Binding Priority}"
+                                               BackgroundColor="#FFEBEE"
+                                               TextColor="#D70000"
+                                               Padding="5,2"
+                                               FontSize="12" />
+
+                                    </HorizontalStackLayout>
+
+                                    <Label Text="{Binding Title}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#222" />
+
+                                    <Label Text="{Binding Status}"
+                                           TextColor="Gray"
+                                           FontSize="13" />
+
+                                    <Label Text="{Binding CreatedAt, StringFormat='Aberto em {0:dd/MM/yyyy HH:mm}'}"
+                                           TextColor="Gray"
+                                           FontSize="12" />
+
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1"
+                                                     Spacing="6"
+                                                     HorizontalOptions="End"
+                                                     VerticalOptions="Center">
+                                    <Grid WidthRequest="40" HeightRequest="40"
+                                          HorizontalOptions="End"
+                                          VerticalOptions="Center">
+                                        <Image Source="{Binding AvatarPath}"
+                                               Aspect="AspectFill"
+                                               WidthRequest="40"
+                                               HeightRequest="40"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Grid>
+
+                                    <Button Text="Acompanhar Chamado"
+                                            FontSize="12"
+                                            CornerRadius="8"
+                                            Padding="10,1"
+                                            HeightRequest="28"
+                                            BackgroundColor="#E91E63"
+                                            TextColor="White"
+                                            />
+
+                                </VerticalStackLayout>
+                                
+                            </Grid>
                             
-                            <Label Text="{Binding Description}"
-                                   FontSize="14"
-                                   TextColor="#663"/>
-                            
-                            
-                            <HorizontalStackLayout Spacing="10">
-                                <Label Text="{Binding Status}" 
-                                       TextColor="Black"
-                                       Padding="5,2"/>
-                                <Label Text="{Binding Priority}" 
-                                       TextColor="Black"
-                                       Padding="5,2"/>
-                                <Label Text="{Binding SupportLevel}" 
-                                       TextColor="Black"
-                                       Padding="5,2"/>
-                            </HorizontalStackLayout>
-                            <Label Text="{Binding CreatedAt, StringFormat='Criado em {0:dd/MM/yyyy HH:mm}'}"
-                                   FontSize="12"
-                                   TextColor="Gray"/>
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        
-    </RefreshView>
+                        </Frame>
+                               
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
     
     
 </ContentPage>

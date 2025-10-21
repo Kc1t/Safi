@@ -7,7 +7,7 @@
 
 
     <ScrollView>
-        <Grid RowDefinitions="*, Auto, *">
+        <Grid RowDefinitions="Auto, Auto, *">
 
 
 
@@ -18,7 +18,7 @@
                    BackgroundColor="White"
                    BorderColor="Gray"
                    HasShadow="True"
-                   VerticalOptions="Center"
+                   VerticalOptions="Start"
                    HorizontalOptions="Center">
 
                 <VerticalStackLayout Spacing="18">

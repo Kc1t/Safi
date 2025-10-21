@@ -18,6 +18,7 @@ namespace Safi.Desktop.Models.Tickets
         public string? CreatedByName { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public string AvatarPath { get; set; }
+        
     }
 }
