@@ -87,6 +87,8 @@ public class TicketsController : ControllerBase
                     status = t.Status.ToString(),
                     priority = t.Priority.ToString(),
                     userName = t.User?.Name ?? "N/A",
+                    userEmail = t.User?.Email ?? "N/A",
+                    userDepartment = t.User?.Department?.Name ?? "Não atribuído",
                     assignedTo = t.AssignedTo?.Name ?? "Não atribuído",
                     createdAt = t.CreatedAt,
                     updatedAt = t.UpdatedAt

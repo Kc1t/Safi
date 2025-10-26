@@ -7,7 +7,6 @@ import {
     Sparkles,
     Bot,
     Loader2,
-    AlertCircle,
     CheckCircle2,
     Clock,
     BarChart3
@@ -136,7 +135,6 @@ export default function FAQSection() {
     const [loadingTickets, setLoadingTickets] = useState(false)
     const [generalFAQ, setGeneralFAQ] = useState<FAQItem[]>([])
     const [ticketsFAQ, setTicketsFAQ] = useState<FAQItem[]>([])
-    const [error, setError] = useState<string | null>(null)
     const [hasGeneratedGeneral, setHasGeneratedGeneral] = useState(false)
     const [hasGeneratedTickets, setHasGeneratedTickets] = useState(false)
     const [analysisMetadata, setAnalysisMetadata] = useState<FAQTicketsResponse['analysisMetadata'] | null>(null)
@@ -145,7 +143,6 @@ export default function FAQSection() {
         if (hasGeneratedGeneral) return // Já carregado
 
         setLoadingGeneral(true)
-        setError(null)
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/faq/generate-general`, {
@@ -172,15 +169,11 @@ export default function FAQSection() {
         } catch (err: any) {
             console.error('Erro ao carregar FAQ geral:', err)
             
-            // Usar dados de fallback em caso de erro
+            // Usar dados de fallback em caso de erro (silenciosamente)
             setGeneralFAQ(FALLBACK_GENERAL_FAQ)
             setHasGeneratedGeneral(true)
             
-            if (err.message?.includes('CORS') || err.message?.includes('network')) {
-                setError('Usando dados offline. Verifique sua conexão e se o backend está rodando.')
-            } else {
-                setError(err.message || 'Usando dados de fallback.')
-            }
+            // Não definir erro, apenas usar fallback
         } finally {
             setLoadingGeneral(false)
         }
@@ -190,7 +183,6 @@ export default function FAQSection() {
         if (hasGeneratedTickets) return // Já carregado
 
         setLoadingTickets(true)
-        setError(null)
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/faq/generate-from-tickets`, {
@@ -224,17 +216,11 @@ export default function FAQSection() {
         } catch (err: any) {
             console.error('Erro ao carregar FAQ de tickets:', err)
             
-            // Usar dados de fallback em caso de erro
+            // Usar dados de fallback em caso de erro (silenciosamente)
             setTicketsFAQ(FALLBACK_TICKETS_FAQ)
             setHasGeneratedTickets(true)
             
-            if (err.message?.includes('CORS') || err.message?.includes('network')) {
-                setError('Usando dados offline. Verifique sua conexão e se o backend está rodando.')
-            } else if (err.message?.includes('tickets')) {
-                setError('Usando dados de fallback para análise de tickets.')
-            } else {
-                setError(err.message || 'Usando dados de fallback.')
-            }
+            // Não definir erro, apenas usar fallback
         } finally {
             setLoadingTickets(false)
         }
@@ -380,23 +366,6 @@ export default function FAQSection() {
                     </div>
                 )}
 
-                {/* Error State */}
-                {error && !loading && (
-                    <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-6 flex items-start gap-3">
-                        <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
-                        <div className="flex-1">
-                            <h3 className="font-semibold text-red-900 mb-1">Erro ao carregar FAQ</h3>
-                            <p className="text-sm text-red-700">{error}</p>
-                        </div>
-                        <button
-                            onClick={() => activeTab === 'general' ? loadGeneralFAQ() : loadTicketsFAQ()}
-                            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
-                        >
-                            Tentar novamente
-                        </button>
-                    </div>
-                )}
-
                 {/* FAQ Items */}
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -476,7 +445,7 @@ export default function FAQSection() {
                         ) : (
                             !loading && (
                                 <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
-                                    <AlertCircle className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                                    <Search className="w-16 h-16 mx-auto text-gray-400 mb-4" />
                                     <p className="text-gray-900 font-semibold text-lg">
                                         {searchQuery ? 'Nenhuma pergunta encontrada' : 'Nenhuma pergunta gerada'}
                                     </p>

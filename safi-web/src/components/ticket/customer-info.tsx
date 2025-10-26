@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Mail, Phone } from "lucide-react"
+import { Mail, Phone, Building2 } from "lucide-react"
 import AvatarPlaceholder from "@/assets/placeholders/avatar-placeholder.png"
 
 import Avatar1 from "@/assets/avatars/avatar-1.png"
@@ -7,10 +7,12 @@ import Avatar2 from "@/assets/avatars/avatar-2.png"
 import Avatar3 from "@/assets/avatars/avatar-3.png"
 import Avatar4 from "@/assets/avatars/avatar-4.png"
 import Avatar5 from "@/assets/avatars/avatar-5.png"
+
 interface CustomerInfoProps {
   name: string
   phone: string
   email: string
+  department?: string
   avatar?: number
   initials: string
 }
@@ -30,7 +32,7 @@ const getAvatarImage = (avatarNumber?: number) => {
   return AVATAR_IMAGES[avatarNumber as keyof typeof AVATAR_IMAGES]
 }
 
-export function CustomerInfo({ name, phone, email, avatar, initials }: CustomerInfoProps) {
+export function CustomerInfo({ name, phone, email, department, avatar, initials }: CustomerInfoProps) {
   const avatarImage = getAvatarImage(avatar)
 
   return (
@@ -44,6 +46,12 @@ export function CustomerInfo({ name, phone, email, avatar, initials }: CustomerI
         <div className="flex-1 min-w-0">
           <h4 className="font-medium text-gray-900 text-sm sm:text-base break-words">{name}</h4>
           <div className="space-y-1 mt-2">
+            {department && (
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-blue-600 font-medium">
+                <Building2 className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="break-all">{department}</span>
+              </div>
+            )}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
               <Phone className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
               <span className="break-all">{phone}</span>

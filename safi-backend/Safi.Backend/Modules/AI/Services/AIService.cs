@@ -799,14 +799,111 @@ Responda APENAS com o JSON, sem texto adicional.
     private string AnalyzeSentimentMock(string message)
     {
         var text = message.ToLower();
-        
+
         if (text.Contains("urgente") || text.Contains("problema") || text.Contains("erro"))
             return "Negative";
         if (text.Contains("obrigado") || text.Contains("obrigada") || text.Contains("agradeço"))
             return "Positive";
-        
+
         return "Neutral";
     }
 
     #endregion
+
+    public async Task<string> SendMessageAsync(string prompt)
+    {
+        try
+        {
+            _logger.LogInformation("Enviando mensagem livre para IA");
+
+            // Verificar se deve usar apenas mock
+            var useMockOnly = _configuration.GetValue<bool>("ExternalServices:GeminiApi:UseMockOnly", false);
+
+            if (!useMockOnly)
+            {
+                // Tentar usar Gemini API real
+                var geminiResponse = await SendToGeminiAsync(prompt);
+                if (!string.IsNullOrEmpty(geminiResponse))
+                {
+                    _logger.LogInformation("Mensagem processada com sucesso pela Gemini API");
+                    return geminiResponse;
+                }
+            }
+
+            // Fallback para resposta mock
+            _logger.LogWarning("Usando resposta mock para mensagem livre");
+            return "Análise gerada com base nos dados fornecidos. Sistema em modo de desenvolvimento.";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao enviar mensagem para IA");
+            return "Erro ao processar análise. Por favor, tente novamente.";
+        }
+    }
+
+    private async Task<string?> SendToGeminiAsync(string prompt)
+    {
+        try
+        {
+            var apiKey = _configuration["ExternalServices:GeminiApi:ApiKey"];
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                _logger.LogWarning("API Key da Gemini não configurada");
+                return null;
+            }
+
+            var requestBody = new
+            {
+                contents = new[]
+                {
+                    new
+                    {
+                        parts = new[]
+                        {
+                            new { text = prompt }
+                        }
+                    }
+                }
+            };
+
+            var jsonContent = JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={apiKey}";
+            var response = await _httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("Gemini API retornou status {StatusCode}", response.StatusCode);
+                return null;
+            }
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseBody);
+
+            if (jsonResponse.TryGetProperty("candidates", out var candidates) &&
+                candidates.GetArrayLength() > 0)
+            {
+                var firstCandidate = candidates[0];
+                if (firstCandidate.TryGetProperty("content", out var contentProp) &&
+                    contentProp.TryGetProperty("parts", out var parts) &&
+                    parts.GetArrayLength() > 0)
+                {
+                    var firstPart = parts[0];
+                    if (firstPart.TryGetProperty("text", out var textProp))
+                    {
+                        return textProp.GetString();
+                    }
+                }
+            }
+
+            _logger.LogWarning("Resposta da Gemini API não contém texto válido");
+            return null;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao chamar Gemini API");
+            return null;
+        }
+    }
 }

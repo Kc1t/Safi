@@ -1,15 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import DailyReportAI from "./daily-report"
-import { ticketsData } from "@/data/tickets-data"
+import { Ticket } from "@/data/tickets-data"
 import Link from "next/link"
 
 import Avatar1 from "@/assets/avatars/avatar-1.png"
@@ -18,6 +18,19 @@ import Avatar3 from "@/assets/avatars/avatar-3.png"
 import Avatar4 from "@/assets/avatars/avatar-4.png"
 import Avatar5 from "@/assets/avatars/avatar-5.png"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
+
+interface ApiTicket {
+  id: number
+  title: string
+  status: string
+  priority: string
+  userName: string
+  userEmail?: string
+  userDepartment?: string
+  assignedTo: string
+  createdAt: string
+  updatedAt: string
+}
 
 const AVATAR_IMAGES = {
   1: Avatar1,
@@ -45,25 +58,99 @@ export function Dashboard() {
   const [activeTab, setActiveTab] = useState("todos")
   const [currentPage, setCurrentPage] = useState(1)
   const [ticketsPerPage] = useState(3)
+  const [tickets, setTickets] = useState<Ticket[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Converter API ticket para formato do dashboard
+  const convertApiTicketToDashboard = (apiTicket: ApiTicket): Ticket => {
+    const assignedToName = apiTicket.assignedTo === 'Não atribuído' ? 'Analista N0 - IA' : apiTicket.assignedTo || 'Não atribuído'
+    const assignedToInitials = assignedToName === 'Analista N0 - IA' ? 'IA' : (apiTicket.assignedTo || 'N/A').split(' ').map(n => n[0]).join('').substring(0, 2)
+    
+    const requesterName = apiTicket.userName || 'Usuário'
+    const requesterInitials = requesterName.split(' ').map(n => n[0]).join('').substring(0, 2)
+    
+    // Mapear departamento do backend
+    const department = apiTicket.userDepartment || 'N/A'
+    
+    return {
+      id: apiTicket.id.toString(),
+      number: `#${apiTicket.id}`,
+      department: department,
+      title: apiTicket.title || 'Sem título',
+      description: apiTicket.title || '',
+      openedAt: apiTicket.createdAt ? new Date(apiTicket.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : 'N/A',
+      triage: apiTicket.status === 'Resolved' ? 'Resolvido' : 'Não Resolvido',
+      complexity: apiTicket.priority || 'N/A',
+      assignedTo: {
+        name: assignedToName,
+        initials: assignedToInitials,
+      },
+      requester: {
+        name: requesterName,
+        initials: requesterInitials,
+      }
+    }
+  }
+
+  // Buscar tickets da API
+  useEffect(() => {
+    const loadTickets = async () => {
+      try {
+        setLoading(true)
+        const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5080'
+        
+        const response = await fetch(`${API_BASE_URL}/api/tickets?pageNumber=1&pageSize=50`)
+        
+        if (!response.ok) {
+          throw new Error('Erro ao carregar tickets')
+        }
+
+        const data = await response.json()
+        const convertedTickets = data.tickets.map(convertApiTicketToDashboard)
+        setTickets(convertedTickets)
+      } catch (err) {
+        console.error('Erro ao carregar tickets:', err)
+        // Em caso de erro, manter lista vazia
+        setTickets([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadTickets()
+  }, [])
 
   const getDepartmentColor = (department: string) => {
-    switch (department) {
-      case "RH":
+    const dept = department.toLowerCase()
+    switch (dept) {
+      case "recursos humanos":
+      case "rh":
         return "bg-pink-100 text-pink-800 hover:bg-pink-100"
-      case "Financeiro":
+      case "financeiro":
         return "bg-amber-100 text-amber-800 hover:bg-amber-100"
-      case "Logística":
+      case "ti":
+      case "tecnologia da informação":
+        return "bg-blue-100 text-blue-800 hover:bg-blue-100"
+      case "comercial":
+      case "vendas":
+        return "bg-green-100 text-green-800 hover:bg-green-100"
+      case "operacoes":
+      case "operações":
         return "bg-orange-100 text-orange-800 hover:bg-orange-100"
+      case "marketing":
+        return "bg-purple-100 text-purple-800 hover:bg-purple-100"
+      case "suporte":
+        return "bg-indigo-100 text-indigo-800 hover:bg-indigo-100"
       default:
         return "bg-gray-100 text-gray-800 hover:bg-gray-100"
     }
   }
 
   // Pagination calculations
-  const totalPages = Math.ceil(ticketsData.length / ticketsPerPage)
+  const totalPages = Math.ceil(tickets.length / ticketsPerPage)
   const startIndex = (currentPage - 1) * ticketsPerPage
   const endIndex = startIndex + ticketsPerPage
-  const currentTickets = ticketsData.slice(startIndex, endIndex)
+  const currentTickets = tickets.slice(startIndex, endIndex)
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -172,7 +259,13 @@ export function Dashboard() {
                 </TabsList>
 
                 <TabsContent value="todos" className="space-y-4">
-                  {currentTickets.map((ticket) => (
+                  {loading ? (
+                    <div className="flex items-center justify-center p-8">
+                      <Loader2 className="w-8 h-8 animate-spin text-pink-600" />
+                    </div>
+                  ) : (
+                    <>
+                      {currentTickets.map((ticket) => (
                     <div key={ticket.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow bg-white">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
                         <div className="flex items-center gap-3 flex-wrap">
@@ -213,10 +306,16 @@ export function Dashboard() {
                     </div>
                   ))}
 
+                  {tickets.length === 0 && !loading && (
+                    <div className="text-center py-8 text-gray-500">Nenhum chamado encontrado.</div>
+                  )}
+                  </>
+                  )}
+
                   {totalPages > 1 && (
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-8">
                       <div className="text-sm text-gray-500 order-2 sm:order-1">
-                        Mostrando {startIndex + 1} a {Math.min(endIndex, ticketsData.length)} de {ticketsData.length} chamados
+                        Mostrando {startIndex + 1} a {Math.min(endIndex, tickets.length)} de {tickets.length} chamados
                       </div>
 
                       <div className="flex items-center justify-center gap-2 order-1 sm:order-2">
@@ -258,9 +357,6 @@ export function Dashboard() {
                     </div>
                   )}
 
-                  {ticketsData.length === 0 && (
-                    <div className="text-center py-8 text-gray-500">Nenhum chamado encontrado.</div>
-                  )}
                 </TabsContent>
 
                 <TabsContent value="novos">

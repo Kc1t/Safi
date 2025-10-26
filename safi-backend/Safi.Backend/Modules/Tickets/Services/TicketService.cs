@@ -160,6 +160,7 @@ public class TicketService : ITicketService
     private readonly IRepository<IssueType> _issueTypeRepository;
     private readonly IRepository<TicketMessage> _messageRepository;
     private readonly IRepository<TicketHistory> _historyRepository;
+    private readonly IRepository<Department> _departmentRepository;
     private readonly ILogger<TicketService> _logger;
     private readonly ApplicationDbContext _context;
 
@@ -169,6 +170,7 @@ public class TicketService : ITicketService
         IRepository<IssueType> issueTypeRepository,
         IRepository<TicketMessage> messageRepository,
         IRepository<TicketHistory> historyRepository,
+        IRepository<Department> departmentRepository,
         ILogger<TicketService> logger,
         ApplicationDbContext context)
     {
@@ -177,6 +179,7 @@ public class TicketService : ITicketService
         _issueTypeRepository = issueTypeRepository;
         _messageRepository = messageRepository;
         _historyRepository = historyRepository;
+        _departmentRepository = departmentRepository;
         _logger = logger;
         _context = context;
     }
@@ -187,18 +190,42 @@ public class TicketService : ITicketService
         {
             _logger.LogInformation("Criando ticket público para: {Email}", request.RequesterEmail);
 
+            // Buscar ou criar departamento
+            var department = await _departmentRepository.FirstOrDefaultAsync(d => d.Name == request.DepartmentName);
+            if (department == null)
+            {
+                _logger.LogInformation("Criando novo departamento: {DepartmentName}", request.DepartmentName);
+                department = new Department
+                {
+                    Name = request.DepartmentName,
+                    Description = $"Departamento criado automaticamente via ticket público",
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow
+                };
+                department = await _departmentRepository.AddAsync(department);
+            }
+
             // Buscar ou criar usuário público
             var user = await _userRepository.FirstOrDefaultAsync(u => u.Email == request.RequesterEmail);
             if (user == null)
             {
+                _logger.LogInformation("Criando novo usuário: {Email} no departamento: {DepartmentName}", request.RequesterEmail, request.DepartmentName);
                 user = new User
                 {
                     Name = request.RequesterName,
                     Email = request.RequesterEmail,
                     UserType = UserType.Common,
+                    DepartmentId = department.Id,
                     CreatedAt = DateTime.UtcNow
                 };
                 user = await _userRepository.AddAsync(user);
+            }
+            else if (user.DepartmentId != department.Id)
+            {
+                // Atualizar departamento do usuário caso tenha mudado
+                _logger.LogInformation("Atualizando departamento do usuário {Email} para: {DepartmentName}", request.RequesterEmail, request.DepartmentName);
+                user.DepartmentId = department.Id;
+                await _userRepository.UpdateAsync(user);
             }
 
             // Buscar tipo de problema padrão

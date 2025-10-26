@@ -149,6 +149,7 @@ public class TicketRepository : Repository<Ticket>, ITicketRepository
 
         var tickets = await query
             .Include(t => t.User)
+                .ThenInclude(u => u.Department)
             .Include(t => t.AssignedTo)
             .Include(t => t.IssueType)
             .OrderByDescending(t => t.CreatedAt)

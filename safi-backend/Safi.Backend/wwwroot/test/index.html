@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFI - Painel de Testes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .test-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 0.9em;
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .badge-user {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-analyst {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-api {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            margin-top: 10px;
+            margin-left: 20px;
+            color: #6c757d;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 SAFI - Painel de Testes</h1>
+            <p>Páginas de teste para o sistema SAFI</p>
+        </div>
+
+        <div class="content">
+            <div class="info-box">
+                <h3>ℹ️ Sobre este Painel</h3>
+                <p>Este painel contém páginas HTML para testar as funcionalidades do sistema SAFI.</p>
+                <p><strong>Servidor:</strong> http://localhost:5080</p>
+                <ul>
+                    <li>As páginas de <strong>Usuário</strong> simulam a experiência do cliente</li>
+                    <li>As páginas de <strong>Analista</strong> simulam a visão do suporte técnico</li>
+                    <li>As páginas de <strong>API</strong> testam endpoints de backend</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span>👤</span>
+                    <span>Testes de Usuário</span>
+                </div>
+                <div class="cards-grid">
+                    <a href="user-create-ticket-chat.html" class="test-card">
+                        <div class="card-icon">🎫</div>
+                        <div class="card-title">Abrir Ticket e Chat com IA</div>
+                        <div class="card-description">
+                            Teste a criação de ticket e chat em tempo real com a IA.
+                            Simula a experiência do usuário final.
+                        </div>
+                        <span class="card-badge badge-user">Cliente</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span>👨‍💼</span>
+                    <span>Testes de Analista</span>
+                </div>
+                <div class="cards-grid">
+                    <a href="analyst-tickets-list-and-chat.html" class="test-card">
+                        <div class="card-icon">📋</div>
+                        <div class="card-title">Lista de Tickets e Chat</div>
+                        <div class="card-description">
+                            Visualize todos os tickets ativos e entre em chats quando necessário.
+                            Interface completa do analista com lista e chat lado a lado.
+                        </div>
+                        <span class="card-badge badge-analyst">Analista</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <span>🔧</span>
+                    <span>Testes de API</span>
+                </div>
+                <div class="cards-grid">
+                    <a href="../api-test-dashboard.html" class="test-card">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Dashboard de APIs</div>
+                        <div class="card-description">
+                            Teste todos os endpoints da API do SAFI com interface visual.
+                            Inclui validação de respostas e histórico de requisições.
+                        </div>
+                        <span class="card-badge badge-api">Backend</span>
+                    </a>
+
+                    <a href="../test-faq-full.html" class="test-card">
+                        <div class="card-icon">❓</div>
+                        <div class="card-title">FAQ Generator (Dual)</div>
+                        <div class="card-description">
+                            Teste os endpoints de geração de FAQ (geral e baseado em tickets).
+                            Layout lado a lado com ambas as opções visíveis.
+                        </div>
+                        <span class="card-badge badge-api">FAQ</span>
+                    </a>
+
+                    <a href="../test-faq.html" class="test-card">
+                        <div class="card-icon">💬</div>
+                        <div class="card-title">FAQ Generator (Tabs)</div>
+                        <div class="card-description">
+                            Teste os endpoints de FAQ com interface em abas.
+                            Uma rota por vez com UI simplificada.
+                        </div>
+                        <span class="card-badge badge-api">FAQ</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>SAFI Support System - Ambiente de Testes</p>
+            <p>Certifique-se de que o backend está rodando em <strong>http://localhost:5080</strong></p>
+        </div>
+    </div>
+</body>
+</html>

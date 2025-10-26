@@ -33,4 +33,11 @@ public interface IAIService
     /// </summary>
     /// <returns>True se disponível</returns>
     Task<bool> IsServiceAvailableAsync();
+
+    /// <summary>
+    /// Envia uma mensagem livre para a IA e retorna a resposta
+    /// </summary>
+    /// <param name="prompt">Prompt/mensagem para a IA</param>
+    /// <returns>Resposta da IA</returns>
+    Task<string> SendMessageAsync(string prompt);
 }

@@ -34,12 +34,36 @@ export default function OpenTicket() {
     setIsLoading(true);
 
     try {
-      // Simulate some processing time
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5080";
+      
+      // Criar ticket via API
+      const response = await fetch(`${API_BASE_URL}/api/tickets/public`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requesterName: ticket.nome,
+          requesterEmail: ticket.contato,
+          departmentName: ticket.setor,
+          title: `[${ticket.tipoProblema}] ${ticket.descricao.substring(0, 100)}...`,
+          description: ticket.descricao
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao criar ticket');
+      }
+
+      const data = await response.json();
+      
+      // Salvar ticket ID no store ou localStorage
+      if (data.ticketId) {
+        localStorage.setItem('currentTicketId', data.ticketId.toString());
+      }
 
       router.push("/client-ticket");
     } catch (error) {
       console.error("Error submitting form:", error);
+      alert('Erro ao criar ticket. Verifique se o backend está rodando.');
     } finally {
       setIsLoading(false);
     }

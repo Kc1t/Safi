@@ -24,12 +24,12 @@ public class PublicTicketRequest
     public string RequesterEmail { get; set; } = string.Empty;
 
     /// <summary>
-    /// Empresa do usuário
+    /// Nome do departamento do usuário
     /// </summary>
-    /// <example>Empresa ABC Ltda</example>
-    [Required(ErrorMessage = "Empresa é obrigatória")]
-    [MinLength(2, ErrorMessage = "Empresa deve ter pelo menos 2 caracteres")]
-    public string CompanyName { get; set; } = string.Empty;
+    /// <example>TI</example>
+    [Required(ErrorMessage = "Departamento é obrigatório")]
+    [MinLength(2, ErrorMessage = "Departamento deve ter pelo menos 2 caracteres")]
+    public string DepartmentName { get; set; } = string.Empty;
 
     /// <summary>
     /// Título do ticket
@@ -357,6 +357,16 @@ public class TicketSummary
     /// Nome do usuário
     /// </summary>
     public string UserName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Email do usuário
+    /// </summary>
+    public string UserEmail { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Departamento do usuário
+    /// </summary>
+    public string? UserDepartment { get; set; }
 
     /// <summary>
     /// Data de criação
