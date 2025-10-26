@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFI - Abrir Ticket e Chat com IA</title>
+    <script src="https://unpkg.com/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .header {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .btn {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #1a5bbd;
+        }
+        .btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        .session-info {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        .session-id {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        .copy-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+        .instructions {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.success {
+            background-color: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+        }
+        .status.error {
+            background-color: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+        }
+
+        /* Chat Interface Styles */
+        .chat-interface {
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .connection-status {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+        }
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .status-indicator.connected { background-color: #4CAF50; }
+        .status-indicator.disconnected { background-color: #f44336; }
+        .status-indicator.connecting { background-color: #ffeb3b; }
+        .chat-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .chat-message.user {
+            background-color: #2575fc;
+            align-self: flex-end;
+            margin-left: 20%;
+        }
+        .chat-message.ai {
+            background-color: #6a11cb;
+            margin-right: 20%;
+        }
+        .chat-message.analyst {
+            background-color: #ff9800;
+            margin-right: 20%;
+        }
+        .chat-message.system {
+            background-color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-style: italic;
+            font-size: 0.8em;
+        }
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            flex-grow: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.9em;
+        }
+        .chat-input-area input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .chat-input-area button {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .chat-input-area button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">🎫 SAFI Support</div>
+        <div class="subtitle">Abrir Ticket e Falar com IA</div>
+
+        <form id="chatForm">
+            <div class="form-group">
+                <label for="userName">Seu Nome:</label>
+                <input type="text" id="userName" placeholder="Digite seu nome" required>
+            </div>
+
+            <div class="form-group">
+                <label for="userEmail">Seu Email:</label>
+                <input type="email" id="userEmail" placeholder="Digite seu email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="problemDescription">Descreva seu problema:</label>
+                <textarea id="problemDescription" placeholder="Descreva detalhadamente o problema que está enfrentando..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn" id="startChatBtn">
+                Abrir Ticket e Iniciar Chat com IA
+            </button>
+        </form>
+
+        <div id="statusMessage"></div>
+
+        <div class="session-info" id="sessionInfo">
+            <h3>✅ Ticket Criado com Sucesso!</h3>
+            <p>ID do Ticket/Sessão:</p>
+            <div class="session-id" id="sessionIdDisplay"></div>
+            <button class="copy-btn" onclick="copySessionId()">📋 Copiar ID</button>
+
+            <div class="instructions">
+                <strong>📋 Informações:</strong><br>
+                • Seu ticket foi criado com sucesso<br>
+                • Você pode conversar com a IA agora<br>
+                • Compartilhe o ID acima com um analista caso precise de ajuda humana<br>
+                • O analista pode entrar no chat a qualquer momento
+            </div>
+
+            <button class="btn" onclick="showChat()" style="margin-top: 15px;">
+                💬 Começar a Conversar com a IA
+            </button>
+        </div>
+
+        <!-- Chat Interface (hidden initially) -->
+        <div class="chat-interface" id="chatInterface" style="display: none;">
+            <div class="chat-header">
+                <h3>💬 Chat com IA</h3>
+                <div class="connection-status">
+                    <span id="wsStatusIndicator" class="status-indicator connecting"></span>
+                    <span id="wsStatusText">Conectando...</span>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="userMessageInput" placeholder="Digite sua mensagem..." disabled>
+                <button id="sendUserMessageBtn" disabled>Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:5080';
+        let sessionId = '';
+        let ticketId = 0;
+        let wsConnection = null;
+
+        const form = document.getElementById('chatForm');
+        const startChatBtn = document.getElementById('startChatBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const sessionInfo = document.getElementById('sessionInfo');
+        const sessionIdDisplay = document.getElementById('sessionIdDisplay');
+        const chatInterface = document.getElementById('chatInterface');
+        const chatMessages = document.getElementById('chatMessages');
+        const userMessageInput = document.getElementById('userMessageInput');
+        const sendUserMessageBtn = document.getElementById('sendUserMessageBtn');
+        const wsStatusIndicator = document.getElementById('wsStatusIndicator');
+        const wsStatusText = document.getElementById('wsStatusText');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await startChat();
+        });
+
+        async function startChat() {
+            try {
+                startChatBtn.disabled = true;
+                startChatBtn.textContent = 'Criando ticket...';
+                showStatus('Criando seu ticket...', 'info');
+
+                const userName = document.getElementById('userName').value;
+                const userEmail = document.getElementById('userEmail').value;
+                const problemDescription = document.getElementById('problemDescription').value;
+
+                // Criar ticket público
+                const ticketResponse = await fetch(`${BASE_URL}/api/tickets/public`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        requesterName: userName,
+                        requesterEmail: userEmail,
+                        companyName: 'Cliente Individual',
+                        title: `Problema: ${problemDescription.substring(0, 50)}...`,
+                        description: problemDescription
+                    })
+                });
+
+                if (!ticketResponse.ok) {
+                    throw new Error('Erro ao criar ticket');
+                }
+
+                const ticketData = await ticketResponse.json();
+                ticketId = ticketData.ticketId;
+
+                // Gerar ID da sessão
+                sessionId = `${ticketId}-${Date.now()}`;
+
+                // Mostrar informações da sessão
+                sessionIdDisplay.textContent = sessionId;
+                sessionInfo.style.display = 'block';
+                form.style.display = 'none';
+
+                showStatus('Ticket criado com sucesso! ID: ' + ticketId, 'success');
+
+                // Conectar ao WebSocket
+                await connectWebSocket(ticketId);
+
+            } catch (error) {
+                console.error('Erro ao criar ticket:', error);
+                showStatus('Erro ao criar ticket: ' + error.message, 'error');
+                startChatBtn.disabled = false;
+                startChatBtn.textContent = 'Abrir Ticket e Iniciar Chat com IA';
+            }
+        }
+
+        async function connectWebSocket(ticketId) {
+            try {
+                wsConnection = new signalR.HubConnectionBuilder()
+                    .withUrl(`${BASE_URL}/chatHub`)
+                    .build();
+
+                wsConnection.on("UserJoined", (data) => {
+                    addChatMessage('system', '👨‍💼 Analista conectado ao chat!');
+                });
+
+                wsConnection.on("UserLeft", (data) => {
+                    addChatMessage('system', '👨‍💼 Analista desconectado do chat');
+                });
+
+                wsConnection.on("ReceiveMessage", (data) => {
+                    addChatMessage(data.type, data.message, data.timestamp);
+                });
+
+                wsConnection.on("ReceiveChatHistory", (data) => {
+                    chatMessages.innerHTML = '';
+                    data.history.forEach(msg => {
+                        addChatMessage(msg.messageType, msg.message, msg.createdAt);
+                    });
+                });
+
+                wsConnection.on("ReceiveError", (data) => {
+                    addChatMessage('system', `❌ Erro: ${data.message}`);
+                });
+
+                wsConnection.onclose(() => {
+                    updateWSStatus('disconnected', 'Desconectado');
+                });
+
+                wsConnection.onreconnecting(() => {
+                    updateWSStatus('connecting', 'Reconectando...');
+                });
+
+                wsConnection.onreconnected(() => {
+                    updateWSStatus('connected', 'Conectado');
+                });
+
+                await wsConnection.start();
+                updateWSStatus('connected', 'Conectado');
+                await wsConnection.invoke("JoinTicketChat", ticketId);
+                await wsConnection.invoke("GetChatHistory", ticketId);
+
+            } catch (error) {
+                console.log('WebSocket erro:', error.message);
+                updateWSStatus('disconnected', 'Erro de conexão');
+            }
+        }
+
+        function showChat() {
+            sessionInfo.style.display = 'none';
+            chatInterface.style.display = 'block';
+            userMessageInput.disabled = false;
+            sendUserMessageBtn.disabled = false;
+            userMessageInput.focus();
+
+            // Mensagem de boas-vindas
+            addChatMessage('system', '🤖 Olá! Sou a IA do SAFI. Como posso ajudá-lo com seu problema?');
+        }
+
+        async function sendUserMessage() {
+            const message = userMessageInput.value.trim();
+            if (!message || !wsConnection) return;
+
+            userMessageInput.value = '';
+            sendUserMessageBtn.disabled = true;
+
+            try {
+                await wsConnection.invoke("SendMessage", ticketId, message);
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                addChatMessage('system', '❌ Erro ao enviar mensagem');
+            } finally {
+                sendUserMessageBtn.disabled = false;
+                userMessageInput.focus();
+            }
+        }
+
+        function addChatMessage(type, content, timestamp) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', type);
+
+            const time = new Date(timestamp || new Date()).toLocaleTimeString('pt-BR');
+            const typeLabel = type === 'user' ? '👤 Você' :
+                             type === 'ai' ? '🤖 IA' :
+                             type === 'analyst' ? '👨‍💼 Analista' : 'ℹ️';
+
+            messageDiv.innerHTML = `
+                <div><strong>${typeLabel}:</strong> ${content}</div>
+                <div style="font-size: 0.7em; opacity: 0.7; margin-top: 3px;">${time}</div>
+            `;
+
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function updateWSStatus(status, text) {
+            wsStatusIndicator.className = `status-indicator ${status}`;
+            wsStatusText.textContent = text;
+        }
+
+        // Event listeners
+        sendUserMessageBtn.addEventListener('click', sendUserMessage);
+        userMessageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendUserMessage();
+            }
+        });
+
+        function copySessionId() {
+            navigator.clipboard.writeText(sessionId).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copiado!';
+                btn.style.backgroundColor = '#45a049';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = '#4CAF50';
+                }, 2000);
+            });
+        }
+
+        function showStatus(message, type) {
+            statusMessage.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+    </script>
+</body>
+</html>

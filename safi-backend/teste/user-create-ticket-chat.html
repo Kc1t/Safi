@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAFI - Iniciar Chat</title>
+    <title>SAFI - Abrir Ticket e Chat com IA</title>
     <script src="https://unpkg.com/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
     <style>
         body {
@@ -133,7 +133,7 @@
             background-color: rgba(244, 67, 54, 0.2);
             border: 1px solid #f44336;
         }
-        
+
         /* Chat Interface Styles */
         .chat-interface {
             margin-top: 20px;
@@ -233,65 +233,65 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">SAFI Support</div>
-        <div class="subtitle">Iniciar Chat com Suporte</div>
-        
+        <div class="header">🎫 SAFI Support</div>
+        <div class="subtitle">Abrir Ticket e Falar com IA</div>
+
         <form id="chatForm">
             <div class="form-group">
                 <label for="userName">Seu Nome:</label>
                 <input type="text" id="userName" placeholder="Digite seu nome" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="userEmail">Seu Email:</label>
                 <input type="email" id="userEmail" placeholder="Digite seu email" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="problemDescription">Descreva seu problema:</label>
                 <textarea id="problemDescription" placeholder="Descreva detalhadamente o problema que está enfrentando..." required></textarea>
             </div>
-            
+
             <button type="submit" class="btn" id="startChatBtn">
-                Iniciar Chat com Suporte
+                Abrir Ticket e Iniciar Chat com IA
             </button>
         </form>
-        
+
         <div id="statusMessage"></div>
-        
+
         <div class="session-info" id="sessionInfo">
-            <h3>✅ Chat Iniciado com Sucesso!</h3>
-            <p>Seu ID de sessão é:</p>
+            <h3>✅ Ticket Criado com Sucesso!</h3>
+            <p>ID do Ticket/Sessão:</p>
             <div class="session-id" id="sessionIdDisplay"></div>
-            <button class="copy-btn" onclick="copySessionId()">Copiar ID</button>
-            
+            <button class="copy-btn" onclick="copySessionId()">📋 Copiar ID</button>
+
             <div class="instructions">
-                <strong>📋 Instruções:</strong><br>
-                1. Copie o ID da sessão acima<br>
-                2. Compartilhe com o analista de suporte<br>
-                3. O analista entrará no chat usando este ID<br>
-                4. Você receberá notificações quando o analista se conectar
+                <strong>📋 Informações:</strong><br>
+                • Seu ticket foi criado com sucesso<br>
+                • Você pode conversar com a IA agora<br>
+                • Compartilhe o ID acima com um analista caso precise de ajuda humana<br>
+                • O analista pode entrar no chat a qualquer momento
             </div>
-            
+
             <button class="btn" onclick="showChat()" style="margin-top: 15px;">
-                Abrir Chat em Tempo Real
+                💬 Começar a Conversar com a IA
             </button>
         </div>
-        
+
         <!-- Chat Interface (hidden initially) -->
         <div class="chat-interface" id="chatInterface" style="display: none;">
             <div class="chat-header">
-                <h3>💬 Chat com Suporte</h3>
+                <h3>💬 Chat com IA</h3>
                 <div class="connection-status">
                     <span id="wsStatusIndicator" class="status-indicator connecting"></span>
                     <span id="wsStatusText">Conectando...</span>
                 </div>
             </div>
-            
+
             <div class="chat-messages" id="chatMessages">
                 <!-- Messages will appear here -->
             </div>
-            
+
             <div class="chat-input-area">
                 <input type="text" id="userMessageInput" placeholder="Digite sua mensagem..." disabled>
                 <button id="sendUserMessageBtn" disabled>Enviar</button>
@@ -325,8 +325,8 @@
         async function startChat() {
             try {
                 startChatBtn.disabled = true;
-                startChatBtn.textContent = 'Iniciando chat...';
-                showStatus('Conectando ao servidor...', 'info');
+                startChatBtn.textContent = 'Criando ticket...';
+                showStatus('Criando seu ticket...', 'info');
 
                 const userName = document.getElementById('userName').value;
                 const userEmail = document.getElementById('userEmail').value;
@@ -359,17 +359,17 @@
                 sessionIdDisplay.textContent = sessionId;
                 sessionInfo.style.display = 'block';
                 form.style.display = 'none';
-                
-                showStatus('Chat iniciado com sucesso!', 'success');
+
+                showStatus('Ticket criado com sucesso! ID: ' + ticketId, 'success');
 
                 // Conectar ao WebSocket
                 await connectWebSocket(ticketId);
 
             } catch (error) {
-                console.error('Erro ao iniciar chat:', error);
-                showStatus('Erro ao iniciar chat: ' + error.message, 'error');
+                console.error('Erro ao criar ticket:', error);
+                showStatus('Erro ao criar ticket: ' + error.message, 'error');
                 startChatBtn.disabled = false;
-                startChatBtn.textContent = 'Iniciar Chat com Suporte';
+                startChatBtn.textContent = 'Abrir Ticket e Iniciar Chat com IA';
             }
         }
 
@@ -380,12 +380,11 @@
                     .build();
 
                 wsConnection.on("UserJoined", (data) => {
-                    showStatus('Analista conectado ao chat!', 'success');
-                    addChatMessage('system', 'Analista conectado ao chat!');
+                    addChatMessage('system', '👨‍💼 Analista conectado ao chat!');
                 });
 
                 wsConnection.on("UserLeft", (data) => {
-                    addChatMessage('system', 'Analista desconectado do chat');
+                    addChatMessage('system', '👨‍💼 Analista desconectado do chat');
                 });
 
                 wsConnection.on("ReceiveMessage", (data) => {
@@ -400,7 +399,7 @@
                 });
 
                 wsConnection.on("ReceiveError", (data) => {
-                    addChatMessage('system', `Erro: ${data.message}`);
+                    addChatMessage('system', `❌ Erro: ${data.message}`);
                 });
 
                 wsConnection.onclose(() => {
@@ -419,9 +418,9 @@
                 updateWSStatus('connected', 'Conectado');
                 await wsConnection.invoke("JoinTicketChat", ticketId);
                 await wsConnection.invoke("GetChatHistory", ticketId);
-                
+
             } catch (error) {
-                console.log('WebSocket não conectado:', error.message);
+                console.log('WebSocket erro:', error.message);
                 updateWSStatus('disconnected', 'Erro de conexão');
             }
         }
@@ -432,6 +431,9 @@
             userMessageInput.disabled = false;
             sendUserMessageBtn.disabled = false;
             userMessageInput.focus();
+
+            // Mensagem de boas-vindas
+            addChatMessage('system', '🤖 Olá! Sou a IA do SAFI. Como posso ajudá-lo com seu problema?');
         }
 
         async function sendUserMessage() {
@@ -444,8 +446,8 @@
             try {
                 await wsConnection.invoke("SendMessage", ticketId, message);
             } catch (error) {
-                console.error('Send Message Error:', error);
-                addChatMessage('system', 'Erro ao enviar mensagem');
+                console.error('Erro ao enviar:', error);
+                addChatMessage('system', '❌ Erro ao enviar mensagem');
             } finally {
                 sendUserMessageBtn.disabled = false;
                 userMessageInput.focus();
@@ -455,17 +457,17 @@
         function addChatMessage(type, content, timestamp) {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('chat-message', type);
-            
-            const time = new Date(timestamp || new Date()).toLocaleTimeString();
-            const typeLabel = type === 'user' ? '👤 Você' : 
-                             type === 'ai' ? '🤖 IA' : 
-                             type === 'analyst' ? '👨‍💼 Analista' : 'ℹ️ Sistema';
-            
+
+            const time = new Date(timestamp || new Date()).toLocaleTimeString('pt-BR');
+            const typeLabel = type === 'user' ? '👤 Você' :
+                             type === 'ai' ? '🤖 IA' :
+                             type === 'analyst' ? '👨‍💼 Analista' : 'ℹ️';
+
             messageDiv.innerHTML = `
                 <div><strong>${typeLabel}:</strong> ${content}</div>
                 <div style="font-size: 0.7em; opacity: 0.7; margin-top: 3px;">${time}</div>
             `;
-            
+
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -487,9 +489,9 @@
             navigator.clipboard.writeText(sessionId).then(() => {
                 const btn = document.querySelector('.copy-btn');
                 const originalText = btn.textContent;
-                btn.textContent = 'Copiado!';
+                btn.textContent = '✅ Copiado!';
                 btn.style.backgroundColor = '#45a049';
-                
+
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.style.backgroundColor = '#4CAF50';

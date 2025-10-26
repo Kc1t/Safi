@@ -138,6 +138,7 @@ public class ChatController : ControllerBase
     /// Lista todas as salas de chat ativas
     /// </summary>
     [HttpGet("rooms/active")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetActiveChatRooms()
     {
         try

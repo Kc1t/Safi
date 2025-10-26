@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFI - Analista: Tickets e Chat</title>
+    <script src="https://unpkg.com/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+
+        .panel {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .refresh-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .refresh-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Tickets List Panel */
+        .tickets-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .ticket-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .ticket-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .ticket-card.active {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .ticket-id {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.9em;
+        }
+
+        .ticket-title {
+            font-size: 1em;
+            font-weight: 600;
+            color: #333;
+            margin: 5px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ticket-info {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-top: 8px;
+        }
+
+        .ticket-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-open { background: #d4edda; color: #155724; }
+        .badge-in-progress { background: #fff3cd; color: #856404; }
+        .badge-resolved { background: #cce5ff; color: #004085; }
+        .badge-high { background: #f8d7da; color: #721c24; }
+        .badge-medium { background: #fff3cd; color: #856404; }
+        .badge-low { background: #d1ecf1; color: #0c5460; }
+        .badge-level1 { background: #e2e3e5; color: #383d41; }
+        .badge-level2 { background: #cce5ff; color: #004085; }
+        .badge-level3 { background: #f8d7da; color: #721c24; }
+
+        .unread-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        .no-tickets {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+        }
+
+        /* Chat Panel */
+        .chat-panel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-info {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .chat-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .chat-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .chat-info-label {
+            font-size: 0.85em;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .chat-info-value {
+            font-size: 0.9em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .ai-toggle-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .ai-toggle-btn.ai-active {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .ai-toggle-btn.ai-inactive {
+            background: #f44336;
+            color: white;
+        }
+
+        .ai-toggle-btn:hover {
+            opacity: 0.8;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-indicator.connected { background: #28a745; }
+        .status-indicator.connecting { background: #ffc107; }
+        .status-indicator.disconnected { background: #dc3545; }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s;
+        }
+
+        .chat-message.user {
+            background: #2575fc;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .chat-message.ai {
+            background: #6a11cb;
+            color: white;
+        }
+
+        .chat-message.analyst {
+            background: #ff9800;
+            color: white;
+        }
+
+        .chat-message.system {
+            background: rgba(0,0,0,0.05);
+            color: #6c757d;
+            text-align: center;
+            font-style: italic;
+            font-size: 0.9em;
+            max-width: 100%;
+        }
+
+        .message-header {
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 4px;
+            opacity: 0.9;
+        }
+
+        .message-content {
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .message-time {
+            font-size: 0.75em;
+            opacity: 0.7;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            background: white;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-area input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 0.95em;
+            outline: none;
+        }
+
+        .input-area input:focus {
+            border-color: #667eea;
+        }
+
+        .input-area button {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .input-area button:hover {
+            background: #5568d3;
+        }
+
+        .input-area button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .empty-chat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #6c757d;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-chat-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 300px 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Tickets List Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">📋 Tickets Ativos</div>
+                <button id="refreshTicketsBtn" class="refresh-btn">🔄 Atualizar</button>
+            </div>
+
+            <div id="ticketsList" class="tickets-list">
+                <div class="loading">
+                    <p>Carregando tickets...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Panel -->
+        <div class="panel chat-panel">
+            <div class="panel-header">
+                <div class="panel-title">💬 Chat do Analista</div>
+                <div class="connection-status">
+                    <span id="wsStatusIndicator" class="status-indicator connecting"></span>
+                    <span id="wsStatusText">Conectando...</span>
+                </div>
+            </div>
+
+            <div id="chatInfo" class="chat-info" style="display: none;">
+                <div class="chat-info-row">
+                    <span class="chat-info-label">Ticket:</span>
+                    <span class="chat-info-value" id="currentTicketId">-</span>
+                </div>
+                <div class="chat-info-row">
+                    <span class="chat-info-label">Cliente:</span>
+                    <span class="chat-info-value" id="currentUserName">-</span>
+                </div>
+                <div class="chat-info-row">
+                    <span class="chat-info-label">Email:</span>
+                    <span class="chat-info-value" id="currentUserEmail">-</span>
+                </div>
+                <div class="chat-info-row">
+                    <span class="chat-info-label">IA Assistente:</span>
+                    <button id="aiToggleBtn" class="ai-toggle-btn ai-active" onclick="toggleAI()">
+                        <span id="aiStatusIcon">🤖</span>
+                        <span id="aiStatusText">Ativa</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="chatMessagesContainer" class="chat-messages">
+                <div class="empty-chat">
+                    <div class="empty-chat-icon">💬</div>
+                    <h3>Selecione um Ticket</h3>
+                    <p>Clique em um ticket da lista para visualizar e participar do chat</p>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <div class="input-area">
+                    <input type="text" id="messageInput" placeholder="Digite sua mensagem como analista..." disabled>
+                    <button id="sendBtn" disabled>Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:5080';
+        let wsConnection = null;
+        let currentTicketId = null;
+        let tickets = [];
+        let aiEnabled = true; // IA começa ativada por padrão
+
+        // DOM Elements
+        const ticketsList = document.getElementById('ticketsList');
+        const refreshTicketsBtn = document.getElementById('refreshTicketsBtn');
+        const chatMessagesContainer = document.getElementById('chatMessagesContainer');
+        const chatInfo = document.getElementById('chatInfo');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const wsStatusIndicator = document.getElementById('wsStatusIndicator');
+        const wsStatusText = document.getElementById('wsStatusText');
+        const currentTicketIdEl = document.getElementById('currentTicketId');
+        const currentUserNameEl = document.getElementById('currentUserName');
+        const currentUserEmailEl = document.getElementById('currentUserEmail');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTickets();
+            connectWebSocket();
+        });
+
+        refreshTicketsBtn.addEventListener('click', loadTickets);
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Load Tickets
+        async function loadTickets() {
+            try {
+                refreshTicketsBtn.disabled = true;
+                refreshTicketsBtn.textContent = '⏳';
+
+                const response = await fetch(`${BASE_URL}/api/ai/chat/rooms/active`);
+                if (!response.ok) throw new Error('Erro ao carregar tickets');
+
+                const data = await response.json();
+                tickets = data.rooms || [];
+                displayTickets(tickets);
+            } catch (error) {
+                console.error('Erro:', error);
+                ticketsList.innerHTML = '<div class="no-tickets"><p>❌ Erro ao carregar tickets</p></div>';
+            } finally {
+                refreshTicketsBtn.disabled = false;
+                refreshTicketsBtn.textContent = '🔄';
+            }
+        }
+
+        function displayTickets(ticketsData) {
+            if (ticketsData.length === 0) {
+                ticketsList.innerHTML = '<div class="no-tickets"><p>Nenhum ticket ativo</p></div>';
+                return;
+            }
+
+            ticketsList.innerHTML = '';
+
+            ticketsData.forEach(ticket => {
+                const card = createTicketCard(ticket);
+                ticketsList.appendChild(card);
+            });
+        }
+
+        function createTicketCard(ticket) {
+            const card = document.createElement('div');
+            card.className = 'ticket-card';
+            if (currentTicketId === ticket.ticketId) {
+                card.classList.add('active');
+            }
+
+            card.onclick = () => selectTicket(ticket);
+
+            const statusBadge = getStatusBadge(ticket.ticketStatus);
+            const priorityBadge = getPriorityBadge(ticket.ticketPriority);
+            const levelBadge = getLevelBadge(ticket.supportLevel);
+
+            card.innerHTML = `
+                ${ticket.unreadCount > 0 ? `<div class="unread-indicator">${ticket.unreadCount}</div>` : ''}
+                <div class="ticket-header">
+                    <div class="ticket-id">#${ticket.ticketId}</div>
+                </div>
+                <div class="ticket-title">${escapeHtml(ticket.ticketTitle)}</div>
+                <div class="ticket-info">
+                    👤 ${escapeHtml(ticket.userName)}<br>
+                    📧 ${escapeHtml(ticket.userEmail)}
+                </div>
+                <div class="ticket-badges">
+                    <span class="badge ${statusBadge}">${ticket.ticketStatus}</span>
+                    <span class="badge ${priorityBadge}">${ticket.ticketPriority}</span>
+                    <span class="badge ${levelBadge}">${ticket.supportLevel}</span>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function getStatusBadge(status) {
+            const map = {
+                'Open': 'badge-open',
+                'InProgress': 'badge-in-progress',
+                'Resolved': 'badge-resolved'
+            };
+            return map[status] || 'badge-open';
+        }
+
+        function getPriorityBadge(priority) {
+            const map = {
+                'High': 'badge-high',
+                'Medium': 'badge-medium',
+                'Low': 'badge-low'
+            };
+            return map[priority] || 'badge-medium';
+        }
+
+        function getLevelBadge(level) {
+            const map = {
+                'Level1': 'badge-level1',
+                'Level2': 'badge-level2',
+                'Level3': 'badge-level3'
+            };
+            return map[level] || 'badge-level1';
+        }
+
+        // Select Ticket
+        async function selectTicket(ticket) {
+            currentTicketId = ticket.ticketId;
+
+            // Reset AI status to default (enabled)
+            aiEnabled = true;
+            updateAIButton();
+
+            // Update UI
+            document.querySelectorAll('.ticket-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Update chat info
+            currentTicketIdEl.textContent = `#${ticket.ticketId}`;
+            currentUserNameEl.textContent = ticket.userName;
+            currentUserEmailEl.textContent = ticket.userEmail;
+            chatInfo.style.display = 'block';
+
+            // Clear messages
+            chatMessagesContainer.innerHTML = '';
+
+            // Enable input
+            messageInput.disabled = false;
+            sendBtn.disabled = false;
+
+            // Join chat via WebSocket
+            if (wsConnection) {
+                try {
+                    await wsConnection.invoke("JoinTicketChat", currentTicketId);
+                    await wsConnection.invoke("GetChatHistory", currentTicketId);
+                } catch (error) {
+                    console.error('Erro ao entrar no chat:', error);
+                }
+            }
+        }
+
+        // WebSocket
+        async function connectWebSocket() {
+            try {
+                wsConnection = new signalR.HubConnectionBuilder()
+                    .withUrl(`${BASE_URL}/chatHub`)
+                    .build();
+
+                wsConnection.on("ReceiveMessage", (data) => {
+                    addMessage(data.type, data.message, data.timestamp);
+                });
+
+                wsConnection.on("ReceiveChatHistory", (data) => {
+                    chatMessagesContainer.innerHTML = '';
+                    data.history.forEach(msg => {
+                        addMessage(msg.messageType, msg.message, msg.createdAt);
+                    });
+                });
+
+                wsConnection.on("UserJoined", (data) => {
+                    addMessage('system', 'Usuário conectado ao chat', new Date());
+                });
+
+                wsConnection.on("UserLeft", (data) => {
+                    addMessage('system', 'Usuário desconectou', new Date());
+                });
+
+                wsConnection.on("ReceiveError", (data) => {
+                    addMessage('system', `Erro: ${data.message}`, new Date());
+                });
+
+                // Listener para atualizações em tempo real da lista de tickets
+                wsConnection.on("ReceiveActiveRooms", (data) => {
+                    console.log('📡 Atualização em tempo real de tickets:', data.rooms.length);
+                    tickets = data.rooms || [];
+                    displayTickets(tickets);
+                });
+
+                // Listener para mudanças no status da IA
+                wsConnection.on("AIStatusChanged", (data) => {
+                    console.log('🤖 Status da IA alterado:', data);
+                    aiEnabled = data.aiEnabled;
+                    updateAIButton();
+                    addMessage('system', data.message, data.timestamp);
+                });
+
+                wsConnection.onclose(() => updateWSStatus('disconnected', 'Desconectado'));
+                wsConnection.onreconnecting(() => updateWSStatus('connecting', 'Reconectando...'));
+                wsConnection.onreconnected(async () => {
+                    updateWSStatus('connected', 'Conectado');
+                    // Reconectar ao grupo de monitoramento
+                    await wsConnection.invoke("JoinAnalystMonitoring");
+                });
+
+                await wsConnection.start();
+                updateWSStatus('connected', 'Conectado');
+
+                // Conectar ao grupo de monitoramento de analistas
+                await wsConnection.invoke("JoinAnalystMonitoring");
+                console.log('✅ Conectado ao monitoramento de chats em tempo real');
+            } catch (error) {
+                console.error('WebSocket erro:', error);
+                updateWSStatus('disconnected', 'Erro');
+            }
+        }
+
+        function updateWSStatus(status, text) {
+            wsStatusIndicator.className = `status-indicator ${status}`;
+            wsStatusText.textContent = text;
+        }
+
+        // Send Message
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || !wsConnection || !currentTicketId) return;
+
+            messageInput.value = '';
+            sendBtn.disabled = true;
+
+            try {
+                await wsConnection.invoke("SendAnalystMessage", currentTicketId, message);
+            } catch (error) {
+                console.error('Erro ao enviar:', error);
+                addMessage('system', 'Erro ao enviar mensagem', new Date());
+            } finally {
+                sendBtn.disabled = false;
+                messageInput.focus();
+            }
+        }
+
+        function addMessage(type, content, timestamp) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', type);
+
+            const time = new Date(timestamp).toLocaleTimeString('pt-BR');
+            const typeLabel = getTypeLabel(type);
+
+            messageDiv.innerHTML = `
+                <div class="message-header">${typeLabel}</div>
+                <div class="message-content">${escapeHtml(content)}</div>
+                <div class="message-time">${time}</div>
+            `;
+
+            chatMessagesContainer.appendChild(messageDiv);
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+        }
+
+        function getTypeLabel(type) {
+            const map = {
+                'user': '👤 Cliente',
+                'ai': '🤖 IA',
+                'analyst': '👨‍💼 Você (Analista)',
+                'system': 'ℹ️ Sistema'
+            };
+            return map[type] || '💬 Mensagem';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Toggle AI Status
+        async function toggleAI() {
+            if (!wsConnection || !currentTicketId) {
+                console.warn('Não é possível alterar status da IA sem ticket selecionado');
+                return;
+            }
+
+            try {
+                const newStatus = !aiEnabled;
+                await wsConnection.invoke("SetAIStatus", currentTicketId, newStatus);
+                console.log(`🤖 IA ${newStatus ? 'ativada' : 'desativada'} para ticket ${currentTicketId}`);
+            } catch (error) {
+                console.error('Erro ao alterar status da IA:', error);
+                addMessage('system', 'Erro ao alterar status da IA', new Date());
+            }
+        }
+
+        // Update AI Toggle Button Appearance
+        function updateAIButton() {
+            const aiToggleBtn = document.getElementById('aiToggleBtn');
+            if (!aiToggleBtn) return;
+
+            if (aiEnabled) {
+                aiToggleBtn.classList.remove('ai-inactive');
+                aiToggleBtn.classList.add('ai-active');
+                aiToggleBtn.innerHTML = '🤖 IA Ativa <span style="font-size: 0.8em;">(Clique para Desativar)</span>';
+            } else {
+                aiToggleBtn.classList.remove('ai-active');
+                aiToggleBtn.classList.add('ai-inactive');
+                aiToggleBtn.innerHTML = '🚫 IA Desativada <span style="font-size: 0.8em;">(Clique para Ativar)</span>';
+            }
+        }
+
+        // Desconectar do monitoramento ao sair
+        window.addEventListener('beforeunload', () => {
+            if (wsConnection) {
+                wsConnection.invoke("LeaveAnalystMonitoring");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@ import Link from "next/link"
 
 export default function FeaturesDemo() {
     return (
-        <div className="min-h-screen py-8 sm:py-16 px-4 bg-white">
+        <div className="min-h-screen pt-8 sm:pt-16 px-4 bg-white">
             <div className="container mx-auto max-w-6xl">
                 <div className="text-center mb-8 sm:mb-12">
                     <p className="text-pink-500 text-sm font-semibold mb-2">Demonstrações</p>

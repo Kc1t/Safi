@@ -95,9 +95,13 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAIService, AIService>();
 builder.Services.AddScoped<IChatService, ChatService>();
+// FAQ Service - Geração de FAQ com IA Gemini
+builder.Services.AddScoped<IFaqService, Safi.Backend.Modules.FAQ.Services.FaqService>();
 
 // Add HttpClient for AI Service
 builder.Services.AddHttpClient<IAIService, AIService>();
+// Add HttpClient for FAQ Service - timeout de 30 segundos
+builder.Services.AddHttpClient<IFaqService, Safi.Backend.Modules.FAQ.Services.FaqService>();
 
 // Add CORS
 builder.Services.AddCors(options =>
@@ -109,10 +113,15 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
     
-    // CORS específico para SignalR
+    // CORS específico para SignalR e frontend local
     options.AddPolicy("SignalRCors", policy =>
     {
-        policy.WithOrigins("http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:3000")
+        policy.WithOrigins(
+                "http://localhost:5500",
+                "http://127.0.0.1:5500",
+                "http://localhost:3000",
+                "http://localhost:5080",
+                "https://localhost:5080")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();

@@ -99,23 +99,33 @@ public class ChatHub : Hub
                 ticketId = ticketId
             });
 
-            // Processar mensagem através do ChatService (apenas se não for analista)
-            var aiResponse = await _chatService.SendMessageAsync(ticketId.ToString(), message, userId);
-            
-            if (aiResponse != null)
+            // Processar mensagem através da IA APENAS se a IA estiver ativada
+            if (IsAIEnabled(ticketId))
             {
-                // Enviar resposta da IA para todos no grupo
-                await Clients.Group(groupName).SendAsync("ReceiveMessage", new
-                {
-                    type = "ai",
-                    userId = userId,
-                    message = aiResponse.Message,
-                    timestamp = DateTime.UtcNow,
-                    ticketId = ticketId
-                });
+                var aiResponse = await _chatService.SendMessageAsync(ticketId.ToString(), message, userId);
 
-                _logger.LogInformation("Mensagem processada e enviada via WebSocket para ticket {TicketId}", ticketId);
+                if (aiResponse != null)
+                {
+                    // Enviar resposta da IA para todos no grupo
+                    await Clients.Group(groupName).SendAsync("ReceiveMessage", new
+                    {
+                        type = "ai",
+                        userId = userId,
+                        message = aiResponse.Message,
+                        timestamp = DateTime.UtcNow,
+                        ticketId = ticketId
+                    });
+
+                    _logger.LogInformation("Mensagem processada e enviada via WebSocket para ticket {TicketId}", ticketId);
+                }
             }
+            else
+            {
+                _logger.LogInformation("IA desativada para ticket {TicketId}, mensagem não processada", ticketId);
+            }
+
+            // Notificar analistas sobre atualização nas salas ativas
+            await BroadcastActiveRoomsUpdate();
         }
         catch (Exception ex)
         {
@@ -152,6 +162,9 @@ public class ChatHub : Hub
             });
 
             _logger.LogInformation("Mensagem de analista enviada via WebSocket para ticket {TicketId}", ticketId);
+
+            // Notificar analistas sobre atualização nas salas ativas
+            await BroadcastActiveRoomsUpdate();
         }
         catch (Exception ex)
         {
@@ -284,12 +297,12 @@ public class ChatHub : Hub
         try
         {
             var userId = GetUserId();
-            
+
             _logger.LogInformation("Lista de salas ativas solicitada pelo usuário {UserId}", userId);
 
             // Obter todas as salas ativas do ChatService
             var activeRooms = await _chatService.GetActiveChatRoomsAsync();
-            
+
             await Clients.Caller.SendAsync("ReceiveActiveRooms", new
             {
                 rooms = activeRooms,
@@ -302,12 +315,126 @@ public class ChatHub : Hub
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao obter lista de salas ativas");
-            
+
             await Clients.Caller.SendAsync("ReceiveError", new
             {
                 message = "Erro ao obter lista de salas",
                 timestamp = DateTime.UtcNow
             });
+        }
+    }
+
+    /// <summary>
+    /// Conecta o analista ao grupo de monitoramento de chats
+    /// </summary>
+    public async Task JoinAnalystMonitoring()
+    {
+        try
+        {
+            var userId = GetUserId();
+            var groupName = "analyst-monitoring";
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+            _logger.LogInformation("Analista {UserId} conectado ao monitoramento de chats", userId);
+
+            // Enviar lista inicial de salas ativas
+            await GetActiveChatRooms();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao conectar analista ao monitoramento");
+        }
+    }
+
+    /// <summary>
+    /// Desconecta o analista do grupo de monitoramento
+    /// </summary>
+    public async Task LeaveAnalystMonitoring()
+    {
+        try
+        {
+            var userId = GetUserId();
+            var groupName = "analyst-monitoring";
+
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+            _logger.LogInformation("Analista {UserId} desconectado do monitoramento de chats", userId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao desconectar analista do monitoramento");
+        }
+    }
+
+    /// <summary>
+    /// Notifica todos os analistas sobre atualização nas salas ativas
+    /// </summary>
+    public async Task BroadcastActiveRoomsUpdate()
+    {
+        try
+        {
+            var activeRooms = await _chatService.GetActiveChatRoomsAsync();
+
+            await Clients.Group("analyst-monitoring").SendAsync("ReceiveActiveRooms", new
+            {
+                rooms = activeRooms,
+                totalRooms = activeRooms.Count(),
+                timestamp = DateTime.UtcNow
+            });
+
+            _logger.LogInformation("Atualização de salas ativas transmitida para analistas: {Count} salas", activeRooms.Count());
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao transmitir atualização de salas ativas");
+        }
+    }
+
+    // Dicionário em memória para controlar status da IA por ticket
+    private static readonly Dictionary<int, bool> _aiEnabledByTicket = new();
+
+    /// <summary>
+    /// Ativa ou desativa a IA para um ticket específico
+    /// </summary>
+    public async Task SetAIStatus(int ticketId, bool enabled)
+    {
+        try
+        {
+            var userId = GetUserId();
+            var groupName = $"ticket-{ticketId}";
+
+            lock (_aiEnabledByTicket)
+            {
+                _aiEnabledByTicket[ticketId] = enabled;
+            }
+
+            _logger.LogInformation("IA {Status} para ticket {TicketId} pelo usuário {UserId}",
+                enabled ? "ativada" : "desativada", ticketId, userId);
+
+            // Notificar todos no grupo sobre mudança de status da IA
+            await Clients.Group(groupName).SendAsync("AIStatusChanged", new
+            {
+                ticketId = ticketId,
+                aiEnabled = enabled,
+                message = enabled ? "IA foi ativada" : "IA foi desativada - Analista assumiu o atendimento",
+                timestamp = DateTime.UtcNow
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao alterar status da IA para ticket {TicketId}", ticketId);
+        }
+    }
+
+    /// <summary>
+    /// Verifica se a IA está ativada para um ticket
+    /// </summary>
+    private bool IsAIEnabled(int ticketId)
+    {
+        lock (_aiEnabledByTicket)
+        {
+            return !_aiEnabledByTicket.ContainsKey(ticketId) || _aiEnabledByTicket[ticketId];
         }
     }
 

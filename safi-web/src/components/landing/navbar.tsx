@@ -28,6 +28,7 @@ export default function Navbar() {
     const navigationItems = [
         { name: "Funcionalidades", href: "#features" },
         { name: "Pilares", href: "#pillars" },
+        { name: "FAQ", href: "#faq" },
         { name: "Abrir Chamado", href: "#support" },
     ]
 
