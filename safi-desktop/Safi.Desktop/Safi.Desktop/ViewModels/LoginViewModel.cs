@@ -51,23 +51,36 @@ namespace Safi.Desktop.ViewModels
             }
 
             try
-            {using var client = new HttpClient();
+            {
+                using var client = new HttpClient();
                 var response = await _apiService.PostAsync("Auth/login", new { Email, Password });
 
-                if (response.IsSuccessStatusCode)
+                var json = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
                 {
-                    var json = await response.Content.ReadAsStringAsync();
-                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(json);
-
-                    AppConfigHelper.SaveToken(loginResponse.Token);
-
-                    await Application.Current.MainPage.DisplayAlert("Sucesso", "Login efetuado com sucesso!", "OK");
-                    await Application.Current.MainPage.Navigation.PushAsync(new Views.TicketsPage());
+                    await Application.Current.MainPage.DisplayAlert("Erro", "Falha ao conectar ao servidor.", "OK");
+                    return;
                 }
-                else
+
+                var loginResponse = JsonSerializer.Deserialize<LoginResponse>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                if (loginResponse == null || loginResponse.User == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Credenciais inválidas.", "OK");
+                    return;
                 }
+
+                AppConfigHelper.SaveToken(loginResponse.Token);
+                UserSession.SetUser(loginResponse.User);
+
+                await Application.Current.MainPage.DisplayAlert("Sucesso", "Login efetuado com sucesso!", "OK");
+
+                await Shell.Current.GoToAsync("//TicketsPage");
+
             } 
             catch (Exception ex)
             {

@@ -1,25 +1,53 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\",
+  "WorkspaceRootPath": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\paulo.miliano\\desktop\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\views\\ticketspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\views\\ticketspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\paulo.miliano\\desktop\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\paulo.miliano\\desktop\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\views\\components\\usertopbar.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\views\\components\\usertopbar.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\views\\components\\usertopbar.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\views\\components\\usertopbar.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\views\\ticketspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\views\\ticketspage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\views\\ticketspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\views\\ticketspage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\services\\usersession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\services\\usersession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\models\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\models\\auth\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\appshell.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\paulo.miliano\\desktop\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\viewmodels\\ticketlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\viewmodels\\ticketlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\viewmodels\\ticketlistviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\paulo.miliano\\desktop\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\safi.desktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|c:\\users\\phmil\\onedrive\\\u00E1rea de trabalho\\safi\\safi-desktop\\safi.desktop\\safi.desktop\\safi.desktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{0B1C9B14-0AF0-4C9A-BC09-2DA769111E2A}|Safi.Desktop\\Safi.Desktop.csproj|solutionrelative:safi.desktop\\safi.desktop.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
@@ -30,72 +58,161 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AppShell.xaml",
-              "DocumentMoniker": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\AppShell.xaml",
-              "RelativeDocumentMoniker": "Safi.Desktop\\AppShell.xaml",
-              "ToolTip": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\AppShell.xaml",
-              "RelativeToolTip": "Safi.Desktop\\AppShell.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-21T16:22:31.399Z",
+              "DocumentIndex": 0,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\App.xaml.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\App.xaml.cs",
+              "RelativeToolTip": "Safi.Desktop\\App.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T23:18:26.226Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "UserTopBar.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\Components\\UserTopBar.xaml.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\Views\\Components\\UserTopBar.xaml.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\Components\\UserTopBar.xaml.cs",
+              "RelativeToolTip": "Safi.Desktop\\Views\\Components\\UserTopBar.xaml.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T22:24:29.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "TicketsPage.xaml",
-              "DocumentMoniker": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\TicketsPage.xaml",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\TicketsPage.xaml",
               "RelativeDocumentMoniker": "Safi.Desktop\\Views\\TicketsPage.xaml",
-              "ToolTip": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\TicketsPage.xaml",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\TicketsPage.xaml",
               "RelativeToolTip": "Safi.Desktop\\Views\\TicketsPage.xaml",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAAAHMAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAA0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-10-21T15:54:51.942Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TicketListViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
-              "RelativeDocumentMoniker": "Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
-              "ToolTip": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
-              "RelativeToolTip": "Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAqwDUAAAAaAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\ViewModels\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\ViewModels\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\ViewModels\\LoginViewModel.cs",
+              "RelativeToolTip": "Safi.Desktop\\ViewModels\\LoginViewModel.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAcwFEAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T14:57:23.365Z",
+              "WhenOpened": "2025-10-27T22:34:58.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UserSession.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Services\\UserSession.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\Services\\UserSession.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Services\\UserSession.cs",
+              "RelativeToolTip": "Safi.Desktop\\Services\\UserSession.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T23:08:01.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LoginResponse.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Models\\Auth\\LoginResponse.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\Models\\Auth\\LoginResponse.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Models\\Auth\\LoginResponse.cs",
+              "RelativeToolTip": "Safi.Desktop\\Models\\Auth\\LoginResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T23:07:36.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AppShell.xaml",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\AppShell.xaml",
+              "RelativeDocumentMoniker": "Safi.Desktop\\AppShell.xaml",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\AppShell.xaml",
+              "RelativeToolTip": "Safi.Desktop\\AppShell.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-21T16:22:31.399Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Safi.Desktop",
-              "DocumentMoniker": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
-              "RelativeDocumentMoniker": "Safi.Desktop\\Safi.Desktop.csproj",
-              "ToolTip": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
-              "RelativeToolTip": "Safi.Desktop\\Safi.Desktop.csproj",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-21T14:56:19.745Z",
+              "Title": "UserTopBar.xaml",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\Components\\UserTopBar.xaml",
+              "RelativeDocumentMoniker": "Safi.Desktop\\Views\\Components\\UserTopBar.xaml",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\Components\\UserTopBar.xaml",
+              "RelativeToolTip": "Safi.Desktop\\Views\\Components\\UserTopBar.xaml",
+              "ViewState": "AgIAACcAAAAAAAAAAAD4vz4AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-27T22:15:34.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\App.xaml",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\App.xaml",
               "RelativeDocumentMoniker": "Safi.Desktop\\App.xaml",
-              "ToolTip": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\App.xaml",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\App.xaml",
               "RelativeToolTip": "Safi.Desktop\\App.xaml",
               "ViewState": "AgIAABYAAAAAAAAAAAAmwCcAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-10-21T14:31:51.714Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TicketsPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\TicketsPage.xaml.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\Views\\TicketsPage.xaml.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Views\\TicketsPage.xaml.cs",
+              "RelativeToolTip": "Safi.Desktop\\Views\\TicketsPage.xaml.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAYwCwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T22:32:03.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TicketListViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
+              "RelativeDocumentMoniker": "Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
+              "RelativeToolTip": "Safi.Desktop\\ViewModels\\TicketListViewModel.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAqwDUAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T14:57:23.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Safi.Desktop.csproj",
+              "DocumentMoniker": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
+              "RelativeDocumentMoniker": "Safi.Desktop\\Safi.Desktop.csproj",
+              "ToolTip": "C:\\Users\\phmil\\OneDrive\\\u00C1rea de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
+              "RelativeToolTip": "Safi.Desktop\\Safi.Desktop.csproj",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-21T14:56:19.745Z"
             }
           ]
         }

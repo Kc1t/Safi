@@ -15,7 +15,7 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Safi.Desktop
-build_property.ProjectDir = C:\Users\paulo.miliano\Desktop\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\
+build_property.ProjectDir = C:\Users\phmil\OneDrive\Área de Trabalho\Safi\safi-desktop\Safi.Desktop\Safi.Desktop\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTAotExportsEnabled = 
@@ -27,49 +27,55 @@ build_property.CsWinRTUseWindowsUIXamlProjections = false
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/App.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/App.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.App.xaml
 build_metadata.AdditionalFiles.TargetPath = App.xaml
 build_metadata.AdditionalFiles.RelativePath = App.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/AppShell.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/AppShell.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.AppShell.xaml
 build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
 build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/MainPage.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/MainPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Resources/Styles/Colors.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Resources/Styles/Colors.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.Resources.Styles.Colors.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Colors.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Colors.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Resources/Styles/Styles.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Resources/Styles/Styles.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.Resources.Styles.Styles.xaml
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/LoginPage.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/Components/UserTopBar.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.Views.Components.UserTopBar.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\Components\UserTopBar.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\Components\UserTopBar.xaml
+
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/LoginPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.Views.LoginPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\LoginPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\LoginPage.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/RegisterPage.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/RegisterPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.Views.RegisterPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\RegisterPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Views\RegisterPage.xaml
 
-[C:/Users/paulo.miliano/Desktop/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/TicketsPage.xaml]
+[C:/Users/phmil/OneDrive/Área de Trabalho/Safi/safi-desktop/Safi.Desktop/Safi.Desktop/Views/TicketsPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Safi.Desktop.Views.TicketsPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Views\TicketsPage.xaml

@@ -3420,24 +3420,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\paulo.miliano\\.nuget\\packages\\": {},
+    "C:\\Users\\phmil\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
+      "projectUniqueName": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
       "projectName": "Safi.Desktop",
-      "projectPath": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
-      "packagesPath": "C:\\Users\\paulo.miliano\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\obj\\",
+      "projectPath": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\Safi.Desktop.csproj",
+      "packagesPath": "C:\\Users\\phmil\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\phmil\\OneDrive\\Área de Trabalho\\Safi\\safi-desktop\\Safi.Desktop\\Safi.Desktop\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\paulo.miliano\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\phmil\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3465,7 +3465,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0-windows10.0.19041": {
@@ -3513,7 +3513,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201\\RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
