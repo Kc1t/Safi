@@ -21,21 +21,18 @@
                        TextColor="#333"
                        HorizontalTextAlignment="End" />
 
-                <Label x:Name="UserEmailLabel"
-                       FontSize="13"
-                       TextColor="#777"
-                       HorizontalTextAlignment="End" />
-
             </VerticalStackLayout>
 
             <Grid Grid.Column="1">
 
                 <ImageButton x:Name="AvatarButton"
-                             Source="avatar1.png"
+                             Source="avatar4.png"
                              WidthRequest="40"
                              HeightRequest="40"
                              CornerRadius="20"
-                             BackgroundColor="Transparent" />
+                             BackgroundColor="Transparent"
+                             Clicked="OnAvatarClicked"
+                             />
 
             </Grid>
 
