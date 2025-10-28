@@ -5,48 +5,54 @@ namespace Safi.Desktop.Views.Components;
 
 public partial class UserTopBar : ContentView
 {
-    public event EventHandler LogoutClicked;
-
-
+    private bool _isPopupVisible = false;
 
     public UserTopBar()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+        var tapOutside = new TapGestureRecognizer();
+        tapOutside.Tapped += (s, e) => HidePopup();
+        this.GestureRecognizers.Add(tapOutside);
+    }
 
-	public void SetUserInfo(string name, string email)
-	{
-		UserNameLabel.Text = name;
-		PopupUserName.Text = name;
-		PopupUserEmail.Text = email;
+    private void OnArrowButtonClicked(object sender, EventArgs e)
+    {
+        _isPopupVisible = !_isPopupVisible;
+        PopupFrame.IsVisible = _isPopupVisible;
+    }
 
-	}
-
-
-	private void OnAvatarClicked(object sender, EventArgs e)
-	{
-		PopupMenu.IsVisible = !PopupMenu.IsVisible;
-	}
+    private void HidePopup()
+    {
+        if (_isPopupVisible)
+        {
+            PopupFrame.IsVisible = false;
+            _isPopupVisible = false;
+        }
+    }
 
     private async void OnLogoutClicked(object sender, EventArgs e)
     {
-		try
-		{
-			PopupMenu.IsVisible = false;
-
-            AppConfigHelper.SaveToken(null);
-
-			await Application.Current.MainPage.DisplayAlert("Logout", "Sessão encerrada com sucesso!", "OK");
-
-			Application.Current.MainPage = new AppShell();
-			await Shell.Current.GoToAsync("//Login");
-        }
-        catch (Exception ex)
+        bool confirm = await Application.Current.MainPage.DisplayAlert("Sair", "Deseja realmente sair?", "Sim", "Cancelar");
+        if (confirm)
         {
-            await Application.Current.MainPage.DisplayAlert("Erro", $"Erro ao sair: {ex.Message}", "OK");
+            try
+            {
+                AppConfigHelper.SaveToken(null);
+                await Application.Current.MainPage.DisplayAlert("Logout", "Sessão encerrada com sucesso!", "OK");
+                Application.Current.MainPage = new AppShell();
+                await Shell.Current.GoToAsync("//Login");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Erro", $"Erro ao sair: {ex.Message}", "OK");
+            }
         }
-
-
     }
 
+    public void SetUserInfo(string nome, string email)
+    {
+        UserNameLabel.Text = nome;
+        PopupUserName.Text = nome;
+        PopupUserEmail.Text = email;
+    }
 }

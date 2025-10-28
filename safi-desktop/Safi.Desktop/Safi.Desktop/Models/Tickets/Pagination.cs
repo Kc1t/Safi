@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Safi.Desktop.Models
+namespace Safi.Desktop.Models.Tickets
 {
     public class Pagination
     {

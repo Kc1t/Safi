@@ -23,13 +23,22 @@ namespace Safi.Desktop.ViewModels
         private readonly ApiService _apiService;
         public ObservableCollection<Ticket> Tickets { get; set; } = new();
         public ICommand RefreshCommand { get; }
+        public IAsyncRelayCommand NextPageCommand { get; }
+        public IAsyncRelayCommand PreviousPageCommand { get; }
 
 
         private bool _isRefreshing;
         public bool IsRefreshing
         {
             get => _isRefreshing;
-            set { _isRefreshing = value; OnPropertyChanged(); }
+            set => SetProperty(ref _isRefreshing, value);
+        }
+
+        private Pagination _pagination = new();
+        public Pagination Pagination
+        {
+            get => _pagination;
+            set => SetProperty(ref _pagination, value);
         }
 
         public TicketFilter Filter { get; set; } = new TicketFilter();
@@ -37,11 +46,16 @@ namespace Safi.Desktop.ViewModels
         public TicketListViewModel()
         {
             _apiService = new ApiService();
-            RefreshCommand = new Command(async () => await LoadTicketsAsync());
-            _ = LoadTicketsAsync();
-        }
 
-        public IAsyncRelayCommand LoadTicketsCommand { get; }
+
+            RefreshCommand = new Command(async () => await LoadTicketsAsync());
+            NextPageCommand = new AsyncRelayCommand(async () => await LoadTicketsAsync(Pagination.CurrentPage + 1));
+            PreviousPageCommand = new AsyncRelayCommand(async () => await LoadTicketsAsync(Pagination.CurrentPage - 1));
+
+
+
+            _ = LoadTicketsAsync(1);
+        }
 
 
         private readonly string[] _avatarPaths = new[] 
@@ -54,14 +68,15 @@ namespace Safi.Desktop.ViewModels
             "avatar6.png" 
         };
 
-        private async Task LoadTicketsAsync()
+        private async Task LoadTicketsAsync(int page = 1)
         {
             try
             {
 
                 IsRefreshing = true;
 
-                var response = await _apiService.GetAsync("Tickets");
+                var url = $"Tickets?page={page}&pageSize=5";
+                var response = await _apiService.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -83,6 +98,8 @@ namespace Safi.Desktop.ViewModels
                         Tickets.Add(ticket);
                     }
                         
+                    Pagination = result?.Pagination ?? new Pagination();
+
                 }
                 else
                 {

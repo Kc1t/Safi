@@ -2,10 +2,13 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Safi.Desktop"
-             x:Class="Safi.Desktop.App">
+             x:Class="Safi.Desktop.App"
+             xmlns:helpers="clr-namespace:Safi.Desktop.Helpers"
+             >
 
     <Application.Resources>
         <ResourceDictionary>
+
 
 
             <ResourceDictionary.MergedDictionaries>
@@ -40,12 +43,10 @@
                             </VisualState>
                         </VisualStateGroup>
                     </VisualStateGroupList>
-
-
-
                 </Setter>
             </Style>
 
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

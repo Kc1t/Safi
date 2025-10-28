@@ -1,69 +1,82 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Safi.Desktop.Views.Components.UserTopBar">
-    <Grid Padding="10" BackgroundColor="White"
-          RowDefinitions="Auto"
-          ColumnDefinitions="*,Auto">
+             x:Class="Safi.Desktop.Views.Components.UserTopBar"
+             x:Name="UserTopBarControl">
 
-        <Label Text=""
-               FontSize="18"
-               FontAttributes="Bold"
-               VerticalOptions="Center" />
+    <AbsoluteLayout Padding="10" HorizontalOptions="End" VerticalOptions="Start">
 
-        <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto" VerticalOptions="Center">
+       
+        <Grid ColumnDefinitions="Auto, *, Auto"
+              BackgroundColor="Transparent"
+              VerticalOptions="Start"
+              HorizontalOptions="End">
 
-            <VerticalStackLayout Spacing="2" Padding="0,0,10,0">
+            <Image x:Name="UserAvatar"
+                   Source="avatar4.png"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Aspect="AspectFill"
+                   VerticalOptions="Center"
+                   HorizontalOptions="End"
+                   Margin="0,0,10,0" />
 
+            <StackLayout Orientation="Horizontal"
+                         Grid.Column="1"
+                         VerticalOptions="Center"
+                         Spacing="5">
                 <Label x:Name="UserNameLabel"
                        FontSize="16"
                        FontAttributes="Bold"
                        TextColor="#333"
-                       HorizontalTextAlignment="End" />
+                       VerticalOptions="Center" />
 
-            </VerticalStackLayout>
-
-            <Grid Grid.Column="1">
-
-                <ImageButton x:Name="AvatarButton"
-                             Source="avatar4.png"
-                             WidthRequest="40"
-                             HeightRequest="40"
-                             CornerRadius="20"
-                             BackgroundColor="Transparent"
-                             Clicked="OnAvatarClicked"
-                             />
-
-            </Grid>
-
-            <Border x:Name="PopupMenu"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    BackgroundColor="White"
-                    Stroke="#ddd"
-                    Padding="10"
-                    HorizontalOptions="End"
-                    VerticalOptions="Start"
-                    IsVisible="False"
-                    WidthRequest="200"
-                    Margin="0,50,10,0">
-
-                <VerticalStackLayout Spacing="10">
-
-                    <Label x:Name="PopupUserName" FontAttributes="Bold" FontSize="15" />
-                    <Label x:Name="PopupUserEmail" FontSize="13" TextColor="#777" />
-                    <BoxView HeightRequest="1" BackgroundColor="#ddd" />
-                    <Label Text="Ajuda e Suporte" FontSize="14" />
-                    <Button Text="Sair"
-                        BackgroundColor="#e74c3c"
-                        TextColor="White"
-                        Clicked="OnLogoutClicked" />
-
-                </VerticalStackLayout>
-                
-            </Border>
-            
+                <Button x:Name="ArrowButton"
+                        Text="▼"
+                        TextColor="Black"
+                        WidthRequest="20"
+                        HeightRequest="20"
+                        BackgroundColor="Transparent"
+                        VerticalOptions="Center"
+                        BorderColor="Transparent"
+                        Padding="0"
+                        Margin="0"
+                        Clicked="OnArrowButtonClicked"/>
+            </StackLayout>
         </Grid>
 
-    </Grid>
+        
+        <Frame x:Name="PopupFrame"
+               IsVisible="False"
+               BackgroundColor="White"
+               BorderColor="#ddd"
+               CornerRadius="10"
+               Padding="10"
+               HasShadow="True"
+               WidthRequest="180"
+               AbsoluteLayout.LayoutBounds="1,1,AutoSize,AutoSize"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               Margin="0,50,10,0">
+
+            <VerticalStackLayout Spacing="5">
+
+                <Label x:Name="PopupUserName" FontAttributes="Bold" FontSize="15" />
+                <Label x:Name="PopupUserEmail" FontSize="13" TextColor="#777" />
+
+                <Button Text="Ajuda e Suporte"
+                        BackgroundColor="#f5f5f5"
+                        TextColor="#333"
+                        FontSize="14"
+                        CornerRadius="5"
+                        HeightRequest="35" />
+
+                <Button Text="Sair"
+                        BackgroundColor="Transparent"
+                        TextColor="Red"
+                        FontSize="14"
+                        CornerRadius="5"
+                        HeightRequest="35"
+                        Clicked="OnLogoutClicked" />
+            </VerticalStackLayout>
+        </Frame>
+    </AbsoluteLayout>
 </ContentView>

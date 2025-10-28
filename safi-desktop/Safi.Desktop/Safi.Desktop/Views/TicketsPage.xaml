@@ -132,6 +132,38 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,15,0,25" Spacing="10">
+                <Button Text="⟨"
+                        Command="{Binding PreviousPageCommand}"
+                        IsEnabled="{Binding Pagination.CurrentPage, Converter={StaticResource GreaterThanOneConverter}}"
+                        BackgroundColor="#eee"
+                        CornerRadius="10"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        FontSize="18"
+                        TextColor="Black"/>
+
+                <Label Text="{Binding Pagination.CurrentPage}" 
+                       FontSize="16"
+                       VerticalOptions="Center"/>
+
+                <Label Text="de" VerticalOptions="Center"/>
+
+                <Label Text="{Binding Pagination.TotalPages}" 
+                       FontSize="16"
+                       VerticalOptions="Center"/>
+
+                <Button Text="⟩"
+                        Command="{Binding NextPageCommand}"
+                        IsEnabled="{Binding Pagination, Converter={StaticResource HasNextPageConverter}}"
+                        BackgroundColor="#eee"
+                        CornerRadius="10"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        FontSize="18"
+                        TextColor="Black"/>
+            </HorizontalStackLayout>
+
         </VerticalStackLayout>
     </ScrollView>
     
