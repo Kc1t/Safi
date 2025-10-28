@@ -6593,29 +6593,32 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kauam\\.nuget\\packages\\": {},
+    "C:\\Users\\paulo.miliano\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
+      "projectUniqueName": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
       "projectName": "Safi.Backend",
-      "projectPath": "D:\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
-      "packagesPath": "C:\\Users\\kauam\\.nuget\\packages\\",
-      "outputPath": "D:\\kauam\\Documents\\Github\\Unip\\Safi\\safi-backend\\Safi.Backend\\obj\\",
+      "projectPath": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-backend\\Safi.Backend\\Safi.Backend.csproj",
+      "packagesPath": "C:\\Users\\paulo.miliano\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\paulo.miliano\\Desktop\\Safi\\safi-backend\\Safi.Backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\kauam\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+        "C:\\Users\\paulo.miliano\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -6728,7 +6731,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
