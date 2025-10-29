@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Safi.Desktop"
              x:Class="Safi.Desktop.App"
-             xmlns:helpers="clr-namespace:Safi.Desktop.Helpers"
              >
 
     <Application.Resources>

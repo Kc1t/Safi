@@ -30,17 +30,18 @@
                        TextColor="#333"
                        VerticalOptions="Center" />
 
-                <Button x:Name="ArrowButton"
-                        Text="▼"
-                        TextColor="Black"
-                        WidthRequest="20"
-                        HeightRequest="20"
-                        BackgroundColor="Transparent"
-                        VerticalOptions="Center"
-                        BorderColor="Transparent"
-                        Padding="0"
-                        Margin="0"
-                        Clicked="OnArrowButtonClicked"/>
+                <ImageButton x:Name="ArrowButton"
+                             Source="arrow_down.png"
+                             WidthRequest="20"
+                             HeightRequest="20"
+                             Scale=".6"
+                             Aspect="AspectFit"  
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Center"
+                             BorderColor="Transparent"
+                             Padding="0"
+                             Margin="0"
+                             Clicked="OnArrowButtonClicked"/>
             </StackLayout>
         </Grid>
 
@@ -52,10 +53,10 @@
                CornerRadius="10"
                Padding="10"
                HasShadow="True"
-               WidthRequest="180"
+               WidthRequest="160"
                AbsoluteLayout.LayoutBounds="1,1,AutoSize,AutoSize"
                AbsoluteLayout.LayoutFlags="PositionProportional"
-               Margin="0,50,10,0">
+               Margin="0,65,0,0">
 
             <VerticalStackLayout Spacing="5">
 

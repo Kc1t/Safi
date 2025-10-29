@@ -21,62 +21,57 @@ namespace Safi.Desktop.ViewModels
     public partial class TicketListViewModel : ObservableObject
     {
         private readonly ApiService _apiService;
+
+        private List<Ticket> _allTickets = new();
         public ObservableCollection<Ticket> Tickets { get; set; } = new();
         public ICommand RefreshCommand { get; }
         public IAsyncRelayCommand NextPageCommand { get; }
         public IAsyncRelayCommand PreviousPageCommand { get; }
 
 
-        private bool _isRefreshing;
-        public bool IsRefreshing
-        {
-            get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
-        }
+        [ObservableProperty]
+        private bool isRefreshing;
 
-        private Pagination _pagination = new();
-        public Pagination Pagination
-        {
-            get => _pagination;
-            set => SetProperty(ref _pagination, value);
-        }
+        [ObservableProperty]
+        private int currentPage = 1;
 
-        public TicketFilter Filter { get; set; } = new TicketFilter();
+        [ObservableProperty]
+        private int totalPages = 1;
+
+        private const int PageSize = 5;
+
+        
 
         public TicketListViewModel()
         {
             _apiService = new ApiService();
 
+            NextPageCommand = new AsyncRelayCommand(NextPageAsync);
+            PreviousPageCommand = new AsyncRelayCommand(PreviousPageAsync);
+            RefreshCommand = new AsyncRelayCommand(LoadTicketsAsync);
 
-            RefreshCommand = new Command(async () => await LoadTicketsAsync());
-            NextPageCommand = new AsyncRelayCommand(async () => await LoadTicketsAsync(Pagination.CurrentPage + 1));
-            PreviousPageCommand = new AsyncRelayCommand(async () => await LoadTicketsAsync(Pagination.CurrentPage - 1));
-
-
-
-            _ = LoadTicketsAsync(1);
+            _ = LoadTicketsAsync();
         }
 
 
-        private readonly string[] _avatarPaths = new[] 
+        private readonly string[] _avatarPaths = new[]
         {
-            "avatar1.png", 
-            "avatar2.png", 
-            "avatar3.png", 
-            "avatar4.png", 
-            "avatar5.png", 
-            "avatar6.png" 
+            "avatar1.png",
+            "avatar2.png",
+            "avatar3.png",
+            "avatar4.png",
+            "avatar5.png",
+            "avatar6.png"
         };
 
-        private async Task LoadTicketsAsync(int page = 1)
+        private async Task LoadTicketsAsync()
         {
             try
             {
 
                 IsRefreshing = true;
 
-                var url = $"Tickets?page={page}&pageSize=5";
-                var response = await _apiService.GetAsync(url);
+                var response = await _apiService.GetAsync("Tickets");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -86,7 +81,6 @@ namespace Safi.Desktop.ViewModels
                         PropertyNameCaseInsensitive = true
                     });
 
-                    Tickets.Clear();
 
                     var random = new Random();
 
@@ -97,8 +91,12 @@ namespace Safi.Desktop.ViewModels
 
                         Tickets.Add(ticket);
                     }
-                        
-                    Pagination = result?.Pagination ?? new Pagination();
+
+                    _allTickets = result?.Tickets?.ToList() ?? new List<Ticket>();
+
+                    TotalPages = (int)Math.Ceiling((double)_allTickets.Count / PageSize);
+
+                    UpdateCurrentPageTickets();
 
                 }
                 else
@@ -106,7 +104,7 @@ namespace Safi.Desktop.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível carregar os tickets.", "OK");
                 }
 
-            } 
+            }
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Erro", $"Falha ao carregar tickets: {ex.Message}", "OK");
@@ -116,9 +114,38 @@ namespace Safi.Desktop.ViewModels
                 IsRefreshing = false;
             }
         }
-        
 
-        
+        private void UpdateCurrentPageTickets()
+        {
+            Tickets.Clear();
+
+            var startIndex = (CurrentPage - 1) * PageSize;
+            var currentTickets = _allTickets.Skip(startIndex).Take(PageSize).ToList();
+
+            foreach (var ticket in currentTickets)
+            {
+                Tickets.Add(ticket);
+            }
+        }
+
+        private async Task NextPageAsync()
+        {
+            if (CurrentPage < TotalPages)
+            {
+                CurrentPage++;
+                UpdateCurrentPageTickets();
+            }
+        }
+
+        private async Task PreviousPageAsync()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+                UpdateCurrentPageTickets();
+            }
+        }
+
 
     }
 }
