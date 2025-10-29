@@ -24,10 +24,11 @@ namespace Safi.Desktop.ViewModels
 
         private List<Ticket> _allTickets = new();
         public ObservableCollection<Ticket> Tickets { get; set; } = new();
-        public ICommand RefreshCommand { get; }
+
+        public IAsyncRelayCommand RefreshCommand { get; }
         public IAsyncRelayCommand NextPageCommand { get; }
         public IAsyncRelayCommand PreviousPageCommand { get; }
-
+        public IAsyncRelayCommand<int> ChangePageCommand { get; }
 
         [ObservableProperty]
         private bool isRefreshing;
@@ -38,23 +39,15 @@ namespace Safi.Desktop.ViewModels
         [ObservableProperty]
         private int totalPages = 1;
 
+        [ObservableProperty]
+        private string paginationSummary = string.Empty;
+
+        [ObservableProperty]
+        private ObservableCollection<int> pageNumbers = new();
+
         private const int PageSize = 5;
 
-        
-
-        public TicketListViewModel()
-        {
-            _apiService = new ApiService();
-
-            NextPageCommand = new AsyncRelayCommand(NextPageAsync);
-            PreviousPageCommand = new AsyncRelayCommand(PreviousPageAsync);
-            RefreshCommand = new AsyncRelayCommand(LoadTicketsAsync);
-
-            _ = LoadTicketsAsync();
-        }
-
-
-        private readonly string[] _avatarPaths = new[]
+        private readonly string[] _avatarPaths =
         {
             "avatar1.png",
             "avatar2.png",
@@ -64,11 +57,22 @@ namespace Safi.Desktop.ViewModels
             "avatar6.png"
         };
 
+        public TicketListViewModel()
+        {
+            _apiService = new ApiService();
+
+            RefreshCommand = new AsyncRelayCommand(LoadTicketsAsync);
+            NextPageCommand = new AsyncRelayCommand(NextPageAsync);
+            PreviousPageCommand = new AsyncRelayCommand(PreviousPageAsync);
+            ChangePageCommand = new AsyncRelayCommand<int>(ChangePageAsync);
+
+            _ = LoadTicketsAsync();
+        }
+
         private async Task LoadTicketsAsync()
         {
             try
             {
-
                 IsRefreshing = true;
 
                 var response = await _apiService.GetAsync("Tickets");
@@ -81,29 +85,25 @@ namespace Safi.Desktop.ViewModels
                         PropertyNameCaseInsensitive = true
                     });
 
-
                     var random = new Random();
 
+                    _allTickets.Clear();
                     foreach (var ticket in result?.Tickets ?? [])
                     {
                         var randomAvatar = _avatarPaths[random.Next(_avatarPaths.Length)];
                         ticket.AvatarPath = randomAvatar;
-
-                        Tickets.Add(ticket);
+                        _allTickets.Add(ticket);
                     }
 
-                    _allTickets = result?.Tickets?.ToList() ?? new List<Ticket>();
-
                     TotalPages = (int)Math.Ceiling((double)_allTickets.Count / PageSize);
+                    CurrentPage = 1;
 
                     UpdateCurrentPageTickets();
-
                 }
                 else
                 {
                     await Application.Current.MainPage.DisplayAlert("Erro", "Não foi possível carregar os tickets.", "OK");
                 }
-
             }
             catch (Exception ex)
             {
@@ -123,9 +123,9 @@ namespace Safi.Desktop.ViewModels
             var currentTickets = _allTickets.Skip(startIndex).Take(PageSize).ToList();
 
             foreach (var ticket in currentTickets)
-            {
                 Tickets.Add(ticket);
-            }
+
+            UpdatePaginationUI();
         }
 
         private async Task NextPageAsync()
@@ -146,6 +146,44 @@ namespace Safi.Desktop.ViewModels
             }
         }
 
+        private async Task ChangePageAsync(int page)
+        {
+            if (page >= 1 && page <= TotalPages)
+            {
+                CurrentPage = page;
+                UpdateCurrentPageTickets();
+            }
+        }
 
+        private void UpdatePaginationUI()
+        {
+            
+            int start = (_allTickets.Count == 0) ? 0 : (CurrentPage - 1) * PageSize + 1;
+            int end = Math.Min(CurrentPage * PageSize, _allTickets.Count);
+            PaginationSummary = $"Mostrando {start} a {end} de {_allTickets.Count} chamados";
+
+            var pages = new List<int>();
+            int maxVisible = 4;
+
+            if (TotalPages <= maxVisible)
+            {
+                for (int i = 1; i <= TotalPages; i++)
+                    pages.Add(i);
+            }
+            else if (CurrentPage <= 2)
+            {
+                pages.AddRange(new[] { 1, 2, 3, 4 });
+            }
+            else if (CurrentPage >= TotalPages - 1)
+            {
+                pages.AddRange(Enumerable.Range(TotalPages - 3, 4));
+            }
+            else
+            {
+                pages.AddRange(new[] { CurrentPage - 1, CurrentPage, CurrentPage + 1, CurrentPage + 2 });
+            }
+
+            PageNumbers = new ObservableCollection<int>(pages);
+        }
     }
 }

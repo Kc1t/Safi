@@ -79,7 +79,7 @@ namespace Safi.Desktop.ViewModels
 
                 await Application.Current.MainPage.DisplayAlert("Sucesso", "Login efetuado com sucesso!", "OK");
 
-                await Shell.Current.GoToAsync("//TicketsPage");
+                await Application.Current.MainPage.Navigation.PushAsync(new Views.TicketsPage());
 
             } 
             catch (Exception ex)

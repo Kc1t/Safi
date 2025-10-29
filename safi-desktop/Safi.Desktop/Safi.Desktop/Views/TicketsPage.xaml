@@ -132,37 +132,43 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,15,0,25" Spacing="10">
-                <Button Text="⟨"
-                        Command="{Binding PreviousPageCommand}"
-                        IsEnabled="{Binding CurrentPage, Converter={StaticResource GreaterThanOneConverter}}"
-                        BackgroundColor="#eee"
-                        CornerRadius="10"
-                        WidthRequest="40"
-                        HeightRequest="40"
-                        FontSize="18"
-                        TextColor="Black"/>
+            <HorizontalStackLayout Spacing="6" Padding="10" HorizontalOptions="Center">
+                <Button Text="◀" 
+                        Command="{Binding PreviousPageCommand}" 
+                        IsEnabled="{Binding CurrentPage}"
+                        BackgroundColor="#E91E63"
+                        />
 
-                <Label Text="{Binding CurrentPage}" 
-                       FontSize="16"
-                       VerticalOptions="Center"/>   
+                <CollectionView ItemsSource="{Binding PageNumbers}"
+                                SelectionMode="None"
+                                ItemsLayout="HorizontalList">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Button Text="{Binding .}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:TicketListViewModel}}, Path=ChangePageCommand}"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="35" HeightRequest="35"
+                                    CornerRadius="8"
+                                    BorderWidth="1"
+                                    BorderColor="{Binding .}"
+                                    BackgroundColor="{Binding .}"
+                                    TextColor="{Binding .}"
+                                    FontSize="13"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
-                <Label Text="de" VerticalOptions="Center"/>
+                <Button Text="▶" 
+                        Command="{Binding NextPageCommand}" 
+                        IsEnabled="{Binding CurrentPage, Converter={StaticResource NotLastPageConverter}, ConverterParameter={Binding TotalPages}}"
+                        BackgroundColor="#E91E63"
+                        />
+            </HorizontalStackLayout>
 
-                <Label Text="{Binding TotalPages}" 
-                       FontSize="16"
-                       VerticalOptions="Center"/>
-
-                <Button Text="⟩"
-                        Command="{Binding NextPageCommand}"
-                        IsEnabled="{Binding CurrentPage, Converter={StaticResource HasNextPageConverter}}"
-                        BackgroundColor="#eee"
-                        CornerRadius="10"
-                        WidthRequest="40"
-                        HeightRequest="40"
-                        FontSize="18"
-                        TextColor="Black"/> 
-                    </HorizontalStackLayout>
+            <Label Text="{Binding PaginationSummary}" 
+                   FontSize="13" 
+                   HorizontalOptions="Center" 
+                   TextColor="#555"/>
 
         </VerticalStackLayout>
     </ScrollView>
