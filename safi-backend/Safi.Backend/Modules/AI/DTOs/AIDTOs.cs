@@ -134,3 +134,66 @@ public class AISentimentAnalysis
     /// </summary>
     public int ProcessingTimeMs { get; set; }
 }
+
+/// <summary>
+/// Mensagem no histórico do chat público
+/// </summary>
+public class PublicChatMessage
+{
+    /// <summary>
+    /// Papel da mensagem (user ou ai)
+    /// </summary>
+    public string Role { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Conteúdo da mensagem
+    /// </summary>
+    public string Content { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Request para chat público com contexto
+/// </summary>
+public class PublicChatRequest
+{
+    /// <summary>
+    /// Nome do usuário
+    /// </summary>
+    public string Nome { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Email do usuário
+    /// </summary>
+    public string Email { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Setor do usuário
+    /// </summary>
+    public string Setor { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Histórico de mensagens
+    /// </summary>
+    public List<PublicChatMessage> Historico { get; set; } = new();
+}
+
+/// <summary>
+/// Response do chat público
+/// </summary>
+public class PublicChatResponse
+{
+    /// <summary>
+    /// Resultado da resposta da IA
+    /// </summary>
+    public string Result { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Timestamp da resposta
+    /// </summary>
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Tempo de processamento em milissegundos
+    /// </summary>
+    public int ProcessingTimeMs { get; set; }
+}

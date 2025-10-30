@@ -306,6 +306,44 @@ public class AIController : ControllerBase
             _ => $"📋 Analisei sua solicitação. Com base na análise, sugiro uma abordagem personalizada para seu caso. Prioridade: {analysis.SuggestedPriority}"
         };
     }
+
+    /// <summary>
+    /// Chat público com contexto estruturado
+    /// </summary>
+    /// <param name="request">Dados do chat público</param>
+    /// <returns>Resposta da IA</returns>
+    [HttpPost("public-assistant")]
+    [IsPublic]
+    public async Task<IActionResult> PublicAssistant([FromBody] PublicChatRequest request)
+    {
+        try
+        {
+            _logger.LogInformation("Chat público solicitado por: {Nome} ({Email})", request.Nome, request.Email);
+
+            var response = await _aiService.ProcessPublicChatAsync(request);
+
+            if (response != null)
+            {
+                _logger.LogInformation("Chat público processado com sucesso em {ProcessingTime}ms", response.ProcessingTimeMs);
+                return Ok(response);
+            }
+            else
+            {
+                _logger.LogWarning("Falha ao processar chat público");
+                return Ok(new PublicChatResponse
+                {
+                    Result = "Desculpe, não consegui processar sua mensagem no momento. Por favor, tente novamente.",
+                    Timestamp = DateTime.UtcNow,
+                    ProcessingTimeMs = 0
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro no chat público");
+            return StatusCode(500, new { message = "Erro interno do servidor" });
+        }
+    }
 }
 
 /// <summary>

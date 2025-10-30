@@ -906,4 +906,202 @@ Responda APENAS com o JSON, sem texto adicional.
             return null;
         }
     }
+
+    public async Task<PublicChatResponse?> ProcessPublicChatAsync(PublicChatRequest request)
+    {
+        try
+        {
+            var startTime = DateTime.UtcNow;
+            _logger.LogInformation("Processando chat público para usuário: {Nome} ({Email})", request.Nome, request.Email);
+
+            // Construir o prompt completo com as regras e o histórico
+            var prompt = BuildStructuredPrompt(request);
+
+            // Verificar se deve usar apenas mock
+            var useMockOnly = _configuration.GetValue<bool>("ExternalServices:GeminiApi:UseMockOnly", false);
+
+            string? aiResponse = null;
+
+            if (!useMockOnly)
+            {
+                // Tentar usar Gemini API real
+                aiResponse = await SendToGeminiAsync(prompt);
+            }
+
+            // Fallback para resposta básica se a IA falhar ou estiver em modo mock
+            if (string.IsNullOrEmpty(aiResponse))
+            {
+                _logger.LogWarning("Usando resposta fallback para chat público");
+                aiResponse = GenerateFallbackResponse(request);
+            }
+
+            var processingTime = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+
+            var response = new PublicChatResponse
+            {
+                Result = aiResponse,
+                Timestamp = DateTime.UtcNow,
+                ProcessingTimeMs = processingTime
+            };
+
+            _logger.LogInformation("Chat público processado em {ProcessingTime}ms", processingTime);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao processar chat público");
+            return null;
+        }
+    }
+
+    private string BuildStructuredPrompt(PublicChatRequest request)
+    {
+        var promptBuilder = new StringBuilder();
+
+        // Cabeçalho com instruções e contexto
+        promptBuilder.AppendLine(@"Você é um assistente virtual N0 da NeoPharma, operando no sistema SAFI (Sistema de Apoio Farmacêutico Inteligente). Seu papel é realizar a triagem automatizada de chamados para suporte técnico interno.");
+        promptBuilder.AppendLine(@"Este ambiente é uma **demonstração**: todos os nomes, setores e informações aqui utilizados são **hipotéticos e destinados à apresentação do produto**.");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("📌 **COMO RESPONDER**");
+        promptBuilder.AppendLine("- Seja receptivo, empático e cordial.");
+        promptBuilder.AppendLine("- **PRIMEIRO**: Entenda completamente o problema antes de sugerir soluções.");
+        promptBuilder.AppendLine("- Se o problema não estiver claro, faça perguntas específicas para obter mais informações.");
+        promptBuilder.AppendLine("- Apenas sugira soluções quando tiver informações suficientes.");
+        promptBuilder.AppendLine("- **IMPORTANTE**: Só use *\"Resolvido?\"* quando fornecer uma solução específica e executável.");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("🔍 **ESTRATÉGIA DE ATENDIMENTO**");
+        promptBuilder.AppendLine("1. **PRIMEIRA PRIORIDADE**: Compreender o problema");
+        promptBuilder.AppendLine("   - Se a descrição for vaga, pergunte detalhes específicos");
+        promptBuilder.AppendLine("   - Identifique o sistema/aplicação afetado");
+        promptBuilder.AppendLine("   - Entenda quando o problema começou");
+        promptBuilder.AppendLine("   - Determine se há mensagens de erro específicas");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("2. **SEGUNDA PRIORIDADE**: Classificar urgência e impacto");
+        promptBuilder.AppendLine("   - Quantos usuários são afetados?");
+        promptBuilder.AppendLine("   - O problema impede o trabalho completamente?");
+        promptBuilder.AppendLine("   - Há workarounds disponíveis?");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("3. **TERCEIRA PRIORIDADE**: Fornecer soluções progressivas");
+        promptBuilder.AppendLine("   - Comece com soluções simples e rápidas");
+        promptBuilder.AppendLine("   - Escalecione gradualmente a complexidade");
+        promptBuilder.AppendLine("   - Ofereça múltiplas alternativas quando possível");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("👤 **DADOS DO SOLICITANTE**");
+        promptBuilder.AppendLine($"- Nome: {(string.IsNullOrEmpty(request.Nome) ? "[nome não informado]" : request.Nome)}");
+        promptBuilder.AppendLine($"- Email: {(string.IsNullOrEmpty(request.Email) ? "[email não informado]" : request.Email)}");
+        promptBuilder.AppendLine($"- Setor: {(string.IsNullOrEmpty(request.Setor) ? "[setor não informado]" : request.Setor)}");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("**CRÍTICO**: Os dados acima JÁ estão disponíveis no sistema. NUNCA peça nome, email ou setor novamente.");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("⚖️ **PRIORIDADES POR SETOR (critério interno de atendimento)**");
+        promptBuilder.AppendLine("- Qualidade: 5");
+        promptBuilder.AppendLine("- Pronto Atendimento: 4");
+        promptBuilder.AppendLine("- TI / Produção: 3");
+        promptBuilder.AppendLine("- Logística: 2");
+        promptBuilder.AppendLine("- Administração / Marketing / Comercial: 1");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("📈 **REGRAS INTERNAS DE TRIAGEM E ESCALONAMENTO**");
+        promptBuilder.AppendLine("- **IMPORTANTE**: Colete informações suficientes antes de propor soluções.");
+        promptBuilder.AppendLine("- Tente resolver com **PELO MENOS 3-4 soluções diferentes** antes de escalar.");
+        promptBuilder.AppendLine("- Chamados urgentes: **mínimo 3 tentativas** de resolução antes do escalonamento (N0 → N1 → N2 → N3).");
+        promptBuilder.AppendLine("- Chamados gerais: **mínimo 5 tentativas** de resolução antes do escalonamento.");
+        promptBuilder.AppendLine("- **Progressão de soluções**: Comece com soluções simples, depois intermediárias, e por último as mais complexas.");
+        promptBuilder.AppendLine("- Clientes Terceiros só recebem suporte remoto (não é permitido solicitar manutenção física de hardware).");
+        promptBuilder.AppendLine("- Chamados duplicados em 24h são agrupados automaticamente.");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("🎯 **REGRAS DE ENCERRAMENTO DE CHAMADO**");
+        promptBuilder.AppendLine("- **Quando o usuário confirmar que o problema foi resolvido** (ex: \"resolveu\", \"obrigado\", \"funcionou\"):");
+        promptBuilder.AppendLine("  1. Responda: \"Vou encerrar esse chamado. Tem certeza que deseja encerrar?\"");
+        promptBuilder.AppendLine("  2. **NÃO use \"Resolvido?\" após confirmação de resolução**");
+        promptBuilder.AppendLine("- **Se o usuário confirmar o encerramento**: Responda apenas \"Finalizando Chamado!\"");
+        promptBuilder.AppendLine("- **Se o usuário não quiser encerrar**: Continue o atendimento normalmente");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("💡 **PERGUNTAS PARA COLETA DE INFORMAÇÕES**");
+        promptBuilder.AppendLine("Use essas perguntas quando o problema não estiver claro:");
+        promptBuilder.AppendLine("- \"Qual sistema ou aplicação está apresentando o problema?\"");
+        promptBuilder.AppendLine("- \"Quando esse problema começou a acontecer?\"");
+        promptBuilder.AppendLine("- \"Há alguma mensagem de erro específica aparecendo?\"");
+        promptBuilder.AppendLine("- \"O problema acontece sempre ou esporadicamente?\"");
+        promptBuilder.AppendLine("- \"Você consegue reproduzir o erro? Se sim, quais passos?\"");
+        promptBuilder.AppendLine("- \"Outros colegas estão enfrentando o mesmo problema?\"");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("🔧 **ESTRATÉGIA DE RESOLUÇÃO PROGRESSIVA** (após coletar informações)");
+        promptBuilder.AppendLine("1. **Primeira tentativa**: Solução mais comum/simples");
+        promptBuilder.AppendLine("2. **Segunda tentativa**: Verificação de configurações básicas");
+        promptBuilder.AppendLine("3. **Terceira tentativa**: Limpeza de cache/dados temporários");
+        promptBuilder.AppendLine("4. **Quarta tentativa**: Verificação de conectividade/permissões");
+        promptBuilder.AppendLine("5. **Quinta tentativa**: Reinstalação/reset de configurações");
+        promptBuilder.AppendLine("6. **Após 5 tentativas**: Escalar para N1");
+        promptBuilder.AppendLine();
+        promptBuilder.AppendLine("📝 *Importante:* Este é um ambiente demonstrativo. Todas as informações aqui simuladas são **fictícias e não representam dados reais de clientes, usuários ou operações da NeoPharma.*");
+        promptBuilder.AppendLine();
+
+        // Histórico de mensagens
+        if (request.Historico != null && request.Historico.Count > 0)
+        {
+            promptBuilder.AppendLine("**Histórico da conversa:**");
+            foreach (var message in request.Historico)
+            {
+                var role = message.Role == "user" ? "Usuário" : "IA";
+                promptBuilder.AppendLine($"{role}: {message.Content}");
+            }
+            promptBuilder.AppendLine();
+        }
+
+        promptBuilder.AppendLine("**Responda de forma natural, seguindo as regras acima. Seja útil e empático.**");
+
+        return promptBuilder.ToString();
+    }
+
+    private string GenerateFallbackResponse(PublicChatRequest request)
+    {
+        // Pegar a última mensagem do usuário
+        var lastUserMessage = request.Historico
+            .Where(m => m.Role == "user")
+            .LastOrDefault();
+
+        if (lastUserMessage == null)
+        {
+            return "Olá! Sou o assistente virtual do SAFI. Como posso ajudá-lo hoje?";
+        }
+
+        var messageContent = lastUserMessage.Content.ToLower();
+
+        // Detecção de saudações
+        if (messageContent.Contains("olá") || messageContent.Contains("ola") ||
+            messageContent.Contains("oi") || messageContent.Contains("bom dia") ||
+            messageContent.Contains("boa tarde") || messageContent.Contains("boa noite"))
+        {
+            return $"Olá, {request.Nome}! Sou o assistente virtual N0 do SAFI. Estou aqui para ajudar com problemas técnicos e dúvidas. Como posso auxiliá-lo hoje?";
+        }
+
+        // Detecção de agradecimento/confirmação de resolução
+        if (messageContent.Contains("obrigado") || messageContent.Contains("obrigada") ||
+            messageContent.Contains("resolveu") || messageContent.Contains("funcionou") ||
+            messageContent.Contains("consegui"))
+        {
+            return "Que ótimo que conseguimos resolver! Vou encerrar esse chamado. Tem certeza que deseja encerrar?";
+        }
+
+        // Detecção de confirmação de encerramento
+        if ((messageContent.Contains("sim") || messageContent.Contains("pode") ||
+             messageContent.Contains("encerrar") || messageContent.Contains("fechar")) &&
+            request.Historico.Count > 2)
+        {
+            return "Finalizando Chamado!";
+        }
+
+        // Resposta padrão para coleta de informações
+        if (request.Historico.Count <= 1)
+        {
+            return $"Olá, {request.Nome}! Entendi que você está com um problema. Para que eu possa ajudá-lo da melhor forma possível, preciso de mais informações:\n\n" +
+                   "- Qual sistema ou aplicação está apresentando o problema?\n" +
+                   "- Quando esse problema começou a acontecer?\n" +
+                   "- Há alguma mensagem de erro específica aparecendo?\n\n" +
+                   "Com essas informações, poderei oferecer uma solução mais adequada.";
+        }
+
+        // Resposta genérica de continuação
+        return "Entendo sua situação. Vou fazer o possível para ajudá-lo. Pode me fornecer mais detalhes sobre o problema que está enfrentando?";
+    }
 }

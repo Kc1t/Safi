@@ -40,4 +40,11 @@ public interface IAIService
     /// <param name="prompt">Prompt/mensagem para a IA</param>
     /// <returns>Resposta da IA</returns>
     Task<string> SendMessageAsync(string prompt);
+
+    /// <summary>
+    /// Processa mensagem do chat público com contexto completo
+    /// </summary>
+    /// <param name="request">Dados do chat público</param>
+    /// <returns>Resposta estruturada da IA</returns>
+    Task<PublicChatResponse?> ProcessPublicChatAsync(PublicChatRequest request);
 }
