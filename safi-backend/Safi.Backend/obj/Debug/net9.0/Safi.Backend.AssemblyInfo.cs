@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Safi.Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+387ac6fbeb5c57fb84683913bca4c6779e82db08")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+162bc9686f6baeb8b04d01a1cd4a6937bfeb2fa1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Safi.Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Safi.Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -59,7 +59,7 @@ export default function ChatbotWidget() {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="fixed inset-0 bg-[#252525]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-hidden"
+                        className="fixed inset-0 translate-y-1/2 bg-[#252525]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-hidden"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

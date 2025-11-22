@@ -125,7 +125,7 @@ export default function Ticket() {
                 <Card className="w-full mx-auto shadow-none bg-transparent border-none">
                     <CardContent className="px-2 sm:px-4 flex flex-col gap-4">
 
-                        <TicketHeader ticketNumber={`#${ticket.id}`} department={ticket.user?.department?.name || 'N/A'} />
+                        <TicketHeader ticketNumber={`#${ticket.id}`} department={ticket.user?.department || 'TI'} />
 
                         {/* Main Grid Layout */}
                         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 lg:gap-6">

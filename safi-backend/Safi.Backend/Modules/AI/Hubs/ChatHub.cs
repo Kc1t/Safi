@@ -148,8 +148,11 @@ public class ChatHub : Hub
         {
             var userId = GetUserId();
             var groupName = $"ticket-{ticketId}";
-            
+
             _logger.LogInformation("Mensagem de analista recebida via WebSocket para ticket {TicketId}: {Message}", ticketId, message);
+
+            // Salvar mensagem no banco de dados
+            var savedMessage = await _chatService.SaveAnalystMessageAsync(ticketId, message, userId);
 
             // Enviar mensagem do analista para todos no grupo
             await Clients.Group(groupName).SendAsync("ReceiveMessage", new
@@ -157,7 +160,7 @@ public class ChatHub : Hub
                 type = "analyst",
                 userId = userId,
                 message = message,
-                timestamp = DateTime.UtcNow,
+                timestamp = savedMessage?.CreatedAt ?? DateTime.UtcNow,
                 ticketId = ticketId
             });
 
@@ -169,7 +172,7 @@ public class ChatHub : Hub
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao enviar mensagem de analista via WebSocket para ticket {TicketId}", ticketId);
-            
+
             await Clients.Caller.SendAsync("ReceiveError", new
             {
                 message = "Erro interno do servidor",

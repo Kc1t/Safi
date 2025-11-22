@@ -48,6 +48,15 @@ public interface IChatService
     /// </summary>
     /// <returns>Lista de salas ativas</returns>
     Task<IEnumerable<ActiveChatRoom>> GetActiveChatRoomsAsync();
+
+    /// <summary>
+    /// Salva uma mensagem de analista no histórico do chat
+    /// </summary>
+    /// <param name="ticketId">ID do ticket</param>
+    /// <param name="message">Mensagem do analista</param>
+    /// <param name="userId">ID do analista</param>
+    /// <returns>Resposta da mensagem salva</returns>
+    Task<ChatMessageResponse?> SaveAnalystMessageAsync(int ticketId, string message, int userId);
 }
 
 /// <summary>
@@ -245,9 +254,22 @@ public class ChatService : IChatService
                 .ToList();
 
             var result = new List<ChatMessageResponse>();
+            var seenMessages = new HashSet<string>();
 
             foreach (var chat in ticketChats)
             {
+                // Criar uma chave única baseada em timestamp, tipo e mensagem para evitar duplicatas
+                var messageKey = $"{chat.CreatedAt:yyyy-MM-dd HH:mm:ss}_{chat.MessageType}_{chat.Message}";
+
+                // Pular mensagens duplicadas (mesmo timestamp, tipo e conteúdo)
+                if (seenMessages.Contains(messageKey))
+                {
+                    _logger.LogDebug("Mensagem duplicada ignorada para ticket {TicketId}: {MessageKey}", ticketId, messageKey);
+                    continue;
+                }
+
+                seenMessages.Add(messageKey);
+
                 var user = await _userRepository.GetByIdAsync(chat.UserId);
                 result.Add(new ChatMessageResponse
                 {
@@ -332,6 +354,52 @@ public class ChatService : IChatService
         {
             _logger.LogError(ex, "Erro ao obter salas de chat ativas");
             return Enumerable.Empty<ActiveChatRoom>();
+        }
+    }
+
+    public async Task<ChatMessageResponse?> SaveAnalystMessageAsync(int ticketId, string message, int userId)
+    {
+        try
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                _logger.LogWarning("Usuário não encontrado para salvar mensagem de analista: {UserId}", userId);
+                return null;
+            }
+
+            var analystMessage = new TicketChatHistory
+            {
+                TicketId = ticketId,
+                UserId = userId,
+                Message = message,
+                MessageType = "analyst",
+                CreatedAt = DateTime.UtcNow,
+                IsInternal = false
+            };
+
+            await _chatRepository.AddAsync(analystMessage);
+
+            _logger.LogInformation("Mensagem de analista salva para ticket: {TicketId}", ticketId);
+
+            return new ChatMessageResponse
+            {
+                Id = analystMessage.Id,
+                TicketId = ticketId,
+                UserId = userId,
+                UserName = user.Name,
+                UserEmail = user.Email,
+                UserType = "Analyst",
+                Message = message,
+                MessageType = "analyst",
+                CreatedAt = analystMessage.CreatedAt,
+                IsInternal = false
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao salvar mensagem de analista para ticket: {TicketId}", ticketId);
+            return null;
         }
     }
 

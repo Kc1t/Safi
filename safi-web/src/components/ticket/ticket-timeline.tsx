@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import AvatarPlaceholder from "@/assets/placeholders/avatar-placeholder.png"
+import AvatarPlaceholder from "@/assets/avatars/avatar-3.png"
 import SafiBubble from "@/assets/ai/safi-bubble.png"
 
 import Avatar1 from "@/assets/avatars/avatar-1.png"

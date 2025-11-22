@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Mail, Phone, Building2 } from "lucide-react"
-import AvatarPlaceholder from "@/assets/placeholders/avatar-placeholder.png"
+import AvatarPlaceholder from "@/assets/avatars/avatar-3.png"
 
 import Avatar1 from "@/assets/avatars/avatar-1.png"
 import Avatar2 from "@/assets/avatars/avatar-2.png"

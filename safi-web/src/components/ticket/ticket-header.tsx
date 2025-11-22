@@ -36,7 +36,7 @@ export function TicketHeader({ ticketNumber, department }: TicketHeaderProps) {
             <span className="hidden sm:inline">Voltar</span>
           </Button>
         </Link>
-        <h1 className="text-base sm:text-lg font-medium text-gray-900 break-words">Ticket# {ticketNumber}</h1>
+        <h1 className="text-base sm:text-lg font-medium text-gray-900 break-words">Ticket {ticketNumber}</h1>
         <Badge variant="secondary" className="bg-orange-100 text-orange-800 hover:bg-orange-100 text-xs sm:text-sm">
           {department}
         </Badge>

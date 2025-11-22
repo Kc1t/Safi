@@ -35,7 +35,7 @@ import AvatarKc1t from "@/assets/avatars/avatar-kc1t.png"
 export function Topbar() {
   const [userName, setUserName] = useState("Usuário")
   const [contact, setContact] = useState("usuario@gmail.com")
-  const [userAvatar, setUserAvatar] = useState(Avatar1.src)
+  const [userAvatar, setUserAvatar] = useState(Avatar3.src)
   const router = useRouter()
 
   const getAvatarByName = (name: string) => {

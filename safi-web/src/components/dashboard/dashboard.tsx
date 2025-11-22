@@ -273,7 +273,7 @@ export function Dashboard() {
                             <span
                               className={`h-2 w-2 rounded-full ${ticket.department === "RH" ? "bg-pink-500" : ticket.department === "Financeiro" ? "bg-amber-500" : "bg-orange-500"}`}
                             ></span>
-                            <span className="font-medium text-gray-900 text-sm sm:text-base">Ticket# {ticket.number}</span>
+                            <span className="font-medium text-gray-900 text-sm sm:text-base">Ticket {ticket.number}</span>
                           </div>
                           <Badge className={getDepartmentColor(ticket.department)}>{ticket.department}</Badge>
                         </div>
